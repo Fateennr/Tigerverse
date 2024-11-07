@@ -22,7 +22,7 @@ model Player{
   ICCRanking      Int
   IntDebut        DateTime
   Profile         String
-  CaptainStatus   Boolean
+  CaptainStatus   Boolean @default(false)
   PlayerRole      String 
 }
 
