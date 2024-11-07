@@ -9,6 +9,60 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+
+model Player{
+  ID              Int @id @default(autoincrement())
+  Name            String
+  DOB             DateTime
+  BattingStyle    String
+  ICCRanking      Int
+  IntDebut        DateTime
+  Profile         String
+  CaptainStatus   Boolean
+  PlayerRole      String 
+}
+
+
+//model Head2head {
+  //Format_Type String
+  //Played int
+  //Won Int
+  //Lost Int
+  //Tied Int
+  //No_Result Int
+  //Capped Int
+  //Highest_Inn 
+  //Lowest_Inn Key
+  //Best_Bowling Key
+  //Best_Batting Key
+  //OpponentID Country
+//}
+
+//model Hall_Of_Fame
+//{
+  //Title Key
+  //Year Key
+  //Description Key
+  //Imgsrc Key
+  //Player_ID Player 
+//}
+
+//model Bowling_Career
+//{
+  //ID PK_FK
+  //Match Key
+  //Innings Key
+  //Runs Key
+ // Average Key
+  //High_Score Key
+  //B_F Key
+  //S_R Key
+  //"100s" Key
+  //"50s" Key
+  //Format Key
+//}
+
