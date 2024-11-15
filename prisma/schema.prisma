@@ -26,6 +26,67 @@ model Player{
   PlayerRole      String 
 }
 
+model Squad
+{
+  Player_ID Int[]
+  Coach_ID Int[]
+  Match_ID Int
+  players Player @relation(fields: [Player_ID], references: [ID])
+  coaches Coach @relation(fields: [Coach_ID], references: [ID])
+
+}
+
+
+model Coach
+{
+  ID Int @id @default(autoincrement())
+  Name String
+  Nationality String
+  Teams String[] //for now putting it as dummy
+}
+
+model Batting_Career
+{
+  ID         Int 
+  Matches    Int
+  Innings    Int
+  Runs       Int
+  Average    Float
+  High_Score Int
+  B_F        Float
+  S_R        Float
+  "100s"     Int
+  "50s"      Int
+  Format     String
+  players PLayer @relation(fields: [ID], references: [ID])
+}
+
+model Bowling_Career
+{
+  ID Int
+  Match Int
+  Innings Int
+  Runs Int
+  Wkts Int
+  BBI String
+  BBM String
+  Econ Float
+  Average Float
+  "5Ws" Int 
+  "10Ws" Int 
+  Format String
+  players PLayer @relation(fields: [ID], references: [ID])
+}
+
+model Hall_Of_Fame
+{
+  Title String
+  Year Int
+  Description String
+  Imgsrc String
+  Player_ID Int
+  players Player @relation(fields: [Player_ID], references: [ID]) 
+}
 
 //model Head2head {
   //Format_Type String
@@ -42,27 +103,7 @@ model Player{
   //OpponentID Country
 //}
 
-//model Hall_Of_Fame
-//{
-  //Title Key
-  //Year Key
-  //Description Key
-  //Imgsrc Key
-  //Player_ID Player 
-//}
 
-//model Bowling_Career
-//{
-  //ID PK_FK
-  //Match Key
-  //Innings Key
-  //Runs Key
- // Average Key
-  //High_Score Key
-  //B_F Key
-  //S_R Key
-  //"100s" Key
-  //"50s" Key
-  //Format Key
-//}
+
+
 

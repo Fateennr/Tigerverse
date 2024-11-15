@@ -27,12 +27,12 @@ fs.createReadStream(filePath)
 })
 .on('end', async () =>
 {
-        console.log(players); 
-        for (const player of players) {
-            await prisma.player.create( { data: player } ); //parsing from csv, to prisma
-        }
+    console.log(players); 
+    // for (const player of players) {
+    //     await prisma.player.create( { data: player } ); //parsing from csv, to prisma
+    // }
 
-        await prisma.$disconnect();
+    // await prisma.$disconnect();
 })
 .on('error', (err) =>{
     console.error('Error while parsing CSV', err);
