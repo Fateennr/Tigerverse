@@ -23,46 +23,56 @@ model Player{
   IntDebut        DateTime
   Profile         String
   CaptainStatus   Boolean @default(false)
-  PlayerRole      String 
+  PlayerRole      String
+  Squad_ID        Int //For handling one - to - many relations 
+  squads          Squad @relation(fields: [Squad_ID], references: [Squad_ID]) 
+} 
+
+model Coach {
+  ID           Int @id @default(autoincrement())
+  Name         String
+  Nationality  String
+  Current_Team Int
+  Squad_ID     Int
+  squad        Squad @relation(fields: [Squad_ID], references: [Squad_ID])
 }
 
-model Squad
-{
-  Player_ID Int[]
-  Coach_ID Int[]
+model Matches {
+
+  Match_ID     Int @id @default(autoincrement())
+  Match_Format String
+  Runs         String // it will be like '115/10' etc
+  Opponent_ID  Int
+  Match_Date   DateTime
+  Stadium      String
+  Squad_ID     Squad[]
+}
+
+model Squad {
+  Squad_ID Int @id @default(autoincrement())
   Match_ID Int
-  players Player @relation(fields: [Player_ID], references: [ID])
-  coaches Coach @relation(fields: [Coach_ID], references: [ID])
-
+  players  Player[] // to make one to many relation, keep the player array into the squad and connect it
+  coaches  Coach[] // Keeping the Coaach instance as a list
+  matches  Matches @relation(fields: [Match_ID], references: [Match_ID]) 
 }
 
 
-model Coach
-{
-  ID Int @id @default(autoincrement())
-  Name String
-  Nationality String
-  Teams String[] //for now putting it as dummy
-}
-
-model Batting_Career
-{
-  ID         Int 
-  Matches    Int
+model Batting_Career {
+  ID         Int @unique
+  Matches    Int // number of matches played
   Innings    Int
   Runs       Int
-  Average    Float
+  Average    Float //batting average
   High_Score Int
-  B_F        Float
-  S_R        Float
-  "100s"     Int
-  "50s"      Int
-  Format     String
-  players PLayer @relation(fields: [ID], references: [ID])
+  B_F        Float 
+  S_R        Float //strike rate
+  Hundreds     Int 
+  Fifties      Int
+  Format     String // test, odi or t20
+  players Player @relation(fields: [ID], references: [ID])
 }
 
-model Bowling_Career
-{
+model Bowling_Career{
   ID Int
   Match Int
   Innings Int
@@ -72,14 +82,13 @@ model Bowling_Career
   BBM String
   Econ Float
   Average Float
-  "5Ws" Int 
-  "10Ws" Int 
+  FiveWkts Int 
+  TenWkts Int 
   Format String
-  players PLayer @relation(fields: [ID], references: [ID])
+  players Player @relation(fields: [ID], references: [ID])
 }
 
-model Hall_Of_Fame
-{
+model Hall_Of_Fame {
   Title String
   Year Int
   Description String
@@ -87,6 +96,7 @@ model Hall_Of_Fame
   Player_ID Int
   players Player @relation(fields: [Player_ID], references: [ID]) 
 }
+
 
 //model Head2head {
   //Format_Type String

@@ -4,6 +4,7 @@ const fs = require('fs');
 
 const csv = require('csv-parser');
 const players = [];
+const 
 
 const filePath = 'players.csv';
 
@@ -37,3 +38,5 @@ fs.createReadStream(filePath)
 .on('error', (err) =>{
     console.error('Error while parsing CSV', err);
 });
+
+
