@@ -11,9 +11,16 @@ const SquadInfo = () =>
 
         const fetchPlayers = async () => {
             try{
-                const response = await fetch('/api/players/');
+                const response = await fetch('/api/players');
+                
+                if (!response.ok)
+                {
+                    throw new Error('Network response was not ok');
+                }
+
                 const data = await response.json();
                 setPlayers(data);
+                console.log(players);
             }
             catch(err)
             {
@@ -31,7 +38,7 @@ const SquadInfo = () =>
             { players.length > 0 ? (
                 <ul>
                     {players.map((player, index) => (
-                        <li key={index}> {player} </li>
+                        <li key={index}> {player.Name} </li>
                     ))}
                 </ul>
             ) : (

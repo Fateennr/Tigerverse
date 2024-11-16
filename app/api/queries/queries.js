@@ -1,12 +1,12 @@
-// import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 
-const { PrismaClient } = require('@prisma/client'); // to test individually with node js, i need to use require cz import is under ES module, to run with import 
+// const { PrismaClient } = require('@prisma/client'); // to test individually with node js, i need to use require cz import is under ES module, to run with import 
 // I have to make the file extension to .mjs
 
 const prisma = new PrismaClient();
 
-// export const getAllPlayers = async () => {
-const getAllPlayers = async () => {
+export const getAllPlayers = async () => {
+// const getAllPlayers = async () => {
     return await prisma.player.findMany();
 }
 
@@ -26,3 +26,5 @@ const getAllPlayers = async () => {
 // };
 
 // testPlayers();
+
+// module.exports = { getAllPlayers }; // to export in nodejs
