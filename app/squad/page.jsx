@@ -5,7 +5,7 @@ import handleGetAllPlayersRequest from "../api/services/getPlayers";
 
 const SquadInfo = () => 
 {
-    const [players, setPlayers] = useState([]);
+    const [players, setPlayers] = useState([]); // setting the players list as blank
 
     useEffect( () => {
 

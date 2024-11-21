@@ -10,6 +10,30 @@ export const getAllPlayers = async () => {
     return await prisma.player.findMany();
 }
 
+
+
+export const getHeadtohead = async (opponentCountry, matchType) => {
+    try{
+        const matches = await prisma.matches.findMany();
+
+        if(!matches || matches.length === 0){ 
+            throw new Error("No matches found in database. ");
+        }
+
+        const stats = {}; // initialising blank json
+
+
+
+        let bangladeshWins = 0;
+        let opponentWins = 0;
+
+        for(const match of matches) {
+            if(match.)
+        }
+    }
+}
+
+
 // const list = getAllPlayers(); // this will return Promise{ <pending> } as the function returns a promise without getting the resolve or answer first,
 // console.log(list.Name); // i have to fetch and test it with another asynchronous function 
 
