@@ -136,116 +136,535 @@ const players = [
 ];
 
 const matches = [
-    {
-        "ID": 1,
-        "Opponent": "Afghanistan",
-        "Type": "ODI",
-        "Date": "2024-11-06T00:00:00Z",
-        "Venue": "Sharjah Cricket Stadium, Sharjah",
-        "Result": "Afghanistan",
-        "Wonbywicket": false,
-        "Wonbyrun": true,
-        "Winrun": 92,
-        "Winwicket": 0,
-        "Score_BD": "143 all out in 34.3 overs",
-        "Score_Opponent": "235 all out in 49.4 overs"
-    },
-    
-    {
-        "ID": 2,
-        "Opponent": "South Africa",
-        "Type": "Test",
-        "Date": "2024-10-29T00:00:00Z", 
-        "Venue": "Zahur Ahmed Chowdhury Stadium, Chattogram",
-        "Result": "South Africa",
-        "Wonbywicket": false,
-        "Wonbyrun": true,
-        "Winrun": 273,
-        "Winwicket": 0,
-        "Score_BD": "159 f/o & 143 all out in 43.4 overs",
-        "Score_Opponent": "575/6 declared"
-    },
-    
-    {
-        "ID": 3,
-        "Opponent": "South Africa",
-            "Type": "Test",
-            "Date": "2024-10-21T00:00:00Z",
-            "Venue": "Sher-e-Bangla National Stadium, Mirpur, Dhaka",
-            "Result": "South Africa",
-            "Wonbywicket": true,
-            "Wonbyrun": false,
-            "Winrun": 0,
-            "Winwicket": 7,
-            "Score_BD": "106 & 307 all out in 89.5 overs",
-            "Score_Opponent": "308 & 106/3 in 22 overs"
-        },
+            {
+                "ID": 2,
+                "Opponent": "India",
+                "Type": "ODI",
+                "Date": "2024-10-15T00:00:00Z",
+                "Venue": "Eden Gardens, Kolkata",
+                "Result": "India",
+                "Wonbywicket": true,
+                "Wonbyrun": false,
+                "Winrun": 0,
+                "Winwicket": 6,
+                "Score_BD_Run": 220,
+                "Score_BD_Over_Played": 50,
+                "Score_BD_wicket": 9,
+                "Score_Opp_Run": 221,
+                "Score_Opp_Over_Played": 44.2,
+                "Score_Opp_wicket": 4
+            },
+            {
+                "ID": 3,
+                "Opponent": "India",
+                "Type": "Test",
+                "Date": "2024-09-21T00:00:00Z",
+                "Venue": "M. Chinnaswamy Stadium, Bengaluru",
+                "Result": "India",
+                "Wonbywicket": true,
+                "Wonbyrun": false,
+                "Winrun": 0,
+                "Winwicket": 3,
+                "Score_BD_Run": 310,
+                "Score_BD_Over_Played": 98.5,
+                "Score_BD_wicket": 10,
+                "Score_Opp_Run": 312,
+                "Score_Opp_Over_Played": 95.2,
+                "Score_Opp_wicket": 7
+            },
+            {
+                "ID": 4,
+                "Opponent": "India",
+                "Type": "ODI",
+                "Date": "2024-08-11T00:00:00Z",
+                "Venue": "Sher-e-Bangla National Stadium, Dhaka",
+                "Result": "Bangladesh",
+                "Wonbywicket": false,
+                "Wonbyrun": true,
+                "Winrun": 25,
+                "Winwicket": 0,
+                "Score_BD_Run": 250,
+                "Score_BD_Over_Played": 47.5,
+                "Score_BD_wicket": 8,
+                "Score_Opp_Run": 225,
+                "Score_Opp_Over_Played": 50,
+                "Score_Opp_wicket": 10
+            },
+            {
+                "ID": 5,
+                "Opponent": "India",
+                "Type": "ODI",
+                "Date": "2024-07-18T00:00:00Z",
+                "Venue": "Rajiv Gandhi International Cricket Stadium, Hyderabad",
+                "Result": "Bangladesh",
+                "Wonbywicket": true,
+                "Wonbyrun": false,
+                "Winrun": 0,
+                "Winwicket": 2,
+                "Score_BD_Run": 290,
+                "Score_BD_Over_Played": 49.4,
+                "Score_BD_wicket": 8,
+                "Score_Opp_Run": 289,
+                "Score_Opp_Over_Played": 50,
+                "Score_Opp_wicket": 9
+            },
+            {
+                "ID": 6,
+                "Opponent": "India",
+                "Type": "Test",
+                "Date": "2024-06-02T00:00:00Z",
+                "Venue": "Wankhede Stadium, Mumbai",
+                "Result": "India",
+                "Wonbywicket": false,
+                "Wonbyrun": true,
+                "Winrun": 120,
+                "Winwicket": 0,
+                "Score_BD_Run": 280,
+                "Score_BD_Over_Played": 89.4,
+                "Score_BD_wicket": 10,
+                "Score_Opp_Run": 400,
+                "Score_Opp_Over_Played": 120.2,
+                "Score_Opp_wicket": 10
+            },
+            {
+                "ID": 7,
+                "Opponent": "India",
+                "Type": "ODI",
+                "Date": "2024-05-25T00:00:00Z",
+                "Venue": "Narendra Modi Stadium, Ahmedabad",
+                "Result": "Bangladesh",
+                "Wonbywicket": false,
+                "Wonbyrun": true,
+                "Winrun": 35,
+                "Winwicket": 0,
+                "Score_BD_Run": 270,
+                "Score_BD_Over_Played": 50,
+                "Score_BD_wicket": 7,
+                "Score_Opp_Run": 235,
+                "Score_Opp_Over_Played": 48.5,
+                "Score_Opp_wicket": 10
+            },
+            {
+                "ID": 8,
+                "Opponent": "India",
+                "Type": "Test",
+                "Date": "2024-03-14T00:00:00Z",
+                "Venue": "MA Chidambaram Stadium, Chennai",
+                "Result": "India",
+                "Wonbywicket": false,
+                "Wonbyrun": true,
+                "Winrun": 180,
+                "Winwicket": 0,
+                "Score_BD_Run": 210,
+                "Score_BD_Over_Played": 75.4,
+                "Score_BD_wicket": 10,
+                "Score_Opp_Run": 390,
+                "Score_Opp_Over_Played": 110.3,
+                "Score_Opp_wicket": 10
+            },
+            {
+                "ID": 9,
+                "Opponent": "India",
+                "Type": "ODI",
+                "Date": "2024-02-19T00:00:00Z",
+                "Venue": "Holkar Cricket Stadium, Indore",
+                "Result": "India",
+                "Wonbywicket": true,
+                "Wonbyrun": false,
+                "Winrun": 0,
+                "Winwicket": 5,
+                "Score_BD_Run": 200,
+                "Score_BD_Over_Played": 47.3,
+                "Score_BD_wicket": 10,
+                "Score_Opp_Run": 202,
+                "Score_Opp_Over_Played": 44.1,
+                "Score_Opp_wicket": 5
+            },
+            {
+                "ID": 10,
+                "Opponent": "India",
+                "Type": "ODI",
+                "Date": "2024-01-07T00:00:00Z",
+                "Venue": "Barabati Stadium, Cuttack",
+                "Result": "Bangladesh",
+                "Wonbywicket": true,
+                "Wonbyrun": false,
+                "Winrun": 0,
+                "Winwicket": 3,
+                "Score_BD_Run": 280,
+                "Score_BD_Over_Played": 48.2,
+                "Score_BD_wicket": 8,
+                "Score_Opp_Run": 278,
+                "Score_Opp_Over_Played": 50,
+                "Score_Opp_wicket": 10
+            },
+            {
+                "ID": 11,
+                "Opponent": "India",
+                "Type": "T20",
+                "Date": "2024-11-10T00:00:00Z",
+                "Venue": "Arun Jaitley Stadium, Delhi",
+                "Result": "India",
+                "Wonbywicket": true,
+                "Wonbyrun": false,
+                "Winrun": 0,
+                "Winwicket": 4,
+                "Score_BD_Run": 145,
+                "Score_BD_Over_Played": 19.5,
+                "Score_BD_wicket": 10,
+                "Score_Opp_Run": 146,
+                "Score_Opp_Over_Played": 18.3,
+                "Score_Opp_wicket": 6
+            },
+            {
+                "ID": 12,
+                "Opponent": "India",
+                "Type": "T20",
+                "Date": "2024-10-28T00:00:00Z",
+                "Venue": "Sylhet International Cricket Stadium, Sylhet",
+                "Result": "Bangladesh",
+                "Wonbywicket": false,
+                "Wonbyrun": true,
+                "Winrun": 15,
+                "Winwicket": 0,
+                "Score_BD_Run": 170,
+                "Score_BD_Over_Played": 20,
+                "Score_BD_wicket": 7,
+                "Score_Opp_Run": 155,
+                "Score_Opp_Over_Played": 19.4,
+                "Score_Opp_wicket": 10
+            },
+            {
+                "ID": 13,
+                "Opponent": "India",
+                "Type": "T20",
+                "Date": "2024-09-05T00:00:00Z",
+                "Venue": "Saurashtra Cricket Association Stadium, Rajkot",
+                "Result": "India",
+                "Wonbywicket": false,
+                "Wonbyrun": true,
+                "Winrun": 35,
+                "Winwicket": 0,
+                "Score_BD_Run": 135,
+                "Score_BD_Over_Played": 18.5,
+                "Score_BD_wicket": 10,
+                "Score_Opp_Run": 170,
+                "Score_Opp_Over_Played": 20,
+                "Score_Opp_wicket": 6
+            },
+            {
+                "ID": 14,
+                "Opponent": "India",
+                "Type": "T20",
+                "Date": "2024-07-22T00:00:00Z",
+                "Venue": "Greenfield International Stadium, Thiruvananthapuram",
+                "Result": "Bangladesh",
+                "Wonbywicket": true,
+                "Wonbyrun": false,
+                "Winrun": 0,
+                "Winwicket": 2,
+                "Score_BD_Run": 175,
+                "Score_BD_Over_Played": 19.4,
+                "Score_BD_wicket": 8,
+                "Score_Opp_Run": 174,
+                "Score_Opp_Over_Played": 20,
+                "Score_Opp_wicket": 9
+            },
+            {
+                "ID": 15,
+                "Opponent": "India",
+                "Type": "T20",
+                "Date": "2024-06-30T00:00:00Z",
+                "Venue": "Zahur Ahmed Chowdhury Stadium, Chattogram",
+                "Result": "India",
+                "Wonbywicket": false,
+                "Wonbyrun": true,
+                "Winrun": 25,
+                "Winwicket": 0,
+                "Score_BD_Run": 160,
+                "Score_BD_Over_Played": 19.3,
+                "Score_BD_wicket": 10,
+                "Score_Opp_Run": 185,
+                "Score_Opp_Over_Played": 20,
+                "Score_Opp_wicket": 6
+            },
         
-        {
-            "ID": 4,
-            "Opponent": "India",
-            "Type": "T20",
-            "Date": "2024-10-09T00:00:00Z",
-            "Venue": "Arun Jaitley Stadium, Delhi",
-            "Result": "India",
-            "Wonbywicket": false,
-            "Wonbyrun": true,
-            "Winrun": 133,
-            "Winwicket": 0,
-            "Score_BD": "164/7 in 20 overs",
-            "Score_Opponent": "297/6 in 20 overs"
-        },
-        
-        {
-            "ID": 5,
-            "Opponent": "India",
-            "Type": "T20",
-            "Date": "2024-10-06T00:00:00Z",
-            "Venue": "Shrimant Madhavrao Scindia Cricket Stadium, Gwalior",
-            "Result": "India",
-            "Wonbywicket": false,
-            "Wonbyrun": true,
-            "Winrun": 86,
-            "Winwicket": 0,
-            "Score_BD": "135/9 in 20 overs",
-            "Score_Opponent": "221/9 in 20 overs"
-        },
-        
-        {
-            "ID": 6,
-            "Opponent": "Pakistan",
-            "Type": "Test",
-            "Date": "2024-08-30T00:00:00Z",
-            "Venue": "Rawalpindi Cricket Stadium, Rawalpindi",
-            "Result": "Bangladesh",
-            "Wonbywicket": true,
-            "Wonbyrun": false,
-            "Winrun": 0,
-            "Winwicket": 6,
-            "Score_BD": "262 & 185/4 in 56 overs",
-            "Score_Opponent": "274 & 172 all out in 46.4 overs"
-        },
-        {
-            "ID": 7,
-            "Opponent": "Pakistan",
-            "Type": "Test",
-            "Date": "2024-08-21T00:00:00Z",
-            "Venue": "Rawalpindi Cricket Stadium, Rawalpindi",
-            "Result": "Bangladesh",
-            "Wonbywicket": true,
-            "Wonbyrun": false,
-            "Winrun": 0,
-            "Winwicket": 10,
-            "Score_BD": "565 & 30/0 in 6.3 overs",
-            "Score_Opponent": "448/6 declared & 146 all out in 55.5 overs"
-        }
-        
-        
-    ]
+            {
+                "ID": 16,
+                "Opponent": "Zimbabwe",
+                "Type": "ODI",
+                "Date": "2024-10-02T00:00:00Z",
+                "Venue": "Queens Sports Club, Bulawayo",
+                "Result": "Bangladesh",
+                "Wonbywicket": true,
+                "Wonbyrun": false,
+                "Winrun": 0,
+                "Winwicket": 5,
+                "Score_BD_Run": 220,
+                "Score_BD_Over_Played": 47.2,
+                "Score_BD_wicket": 5,
+                "Score_Opp_Run": 219,
+                "Score_Opp_Over_Played": 50,
+                "Score_Opp_wicket": 10
+            },
+            {
+                "ID": 17,
+                "Opponent": "Zimbabwe",
+                "Type": "Test",
+                "Date": "2024-09-15T00:00:00Z",
+                "Venue": "Harare Sports Club, Harare",
+                "Result": "Zimbabwe",
+                "Wonbywicket": false,
+                "Wonbyrun": true,
+                "Winrun": 80,
+                "Winwicket": 0,
+                "Score_BD_Run": 310,
+                "Score_BD_Over_Played": 95.4,
+                "Score_BD_wicket": 10,
+                "Score_Opp_Run": 390,
+                "Score_Opp_Over_Played": 98.2,
+                "Score_Opp_wicket": 8
+            },
+            {
+                "ID": 18,
+                "Opponent": "Zimbabwe",
+                "Type": "T20",
+                "Date": "2024-08-28T00:00:00Z",
+                "Venue": "Sher-e-Bangla National Stadium, Dhaka",
+                "Result": "Bangladesh",
+                "Wonbywicket": true,
+                "Wonbyrun": false,
+                "Winrun": 0,
+                "Winwicket": 6,
+                "Score_BD_Run": 165,
+                "Score_BD_Over_Played": 18.4,
+                "Score_BD_wicket": 4,
+                "Score_Opp_Run": 164,
+                "Score_Opp_Over_Played": 20,
+                "Score_Opp_wicket": 9
+            },
+            {
+                "ID": 19,
+                "Opponent": "Zimbabwe",
+                "Type": "ODI",
+                "Date": "2024-07-19T00:00:00Z",
+                "Venue": "Zahur Ahmed Chowdhury Stadium, Chattogram",
+                "Result": "Bangladesh",
+                "Wonbywicket": false,
+                "Wonbyrun": true,
+                "Winrun": 45,
+                "Winwicket": 0,
+                "Score_BD_Run": 260,
+                "Score_BD_Over_Played": 50,
+                "Score_BD_wicket": 6,
+                "Score_Opp_Run": 215,
+                "Score_Opp_Over_Played": 48.1,
+                "Score_Opp_wicket": 10
+            },
+            {
+                "ID": 20,
+                "Opponent": "Zimbabwe",
+                "Type": "T20",
+                "Date": "2024-06-23T00:00:00Z",
+                "Venue": "Queens Sports Club, Bulawayo",
+                "Result": "Zimbabwe",
+                "Wonbywicket": false,
+                "Wonbyrun": true,
+                "Winrun": 10,
+                "Winwicket": 0,
+                "Score_BD_Run": 150,
+                "Score_BD_Over_Played": 19.5,
+                "Score_BD_wicket": 10,
+                "Score_Opp_Run": 160,
+                "Score_Opp_Over_Played": 19.2,
+                "Score_Opp_wicket": 8
+            },
+            {
+                "ID": 21,
+                "Opponent": "Zimbabwe",
+                "Type": "ODI",
+                "Date": "2024-05-10T00:00:00Z",
+                "Venue": "Sylhet International Cricket Stadium, Sylhet",
+                "Result": "Bangladesh",
+                "Wonbywicket": true,
+                "Wonbyrun": false,
+                "Winrun": 0,
+                "Winwicket": 8,
+                "Score_BD_Run": 185,
+                "Score_BD_Over_Played": 39.2,
+                "Score_BD_wicket": 2,
+                "Score_Opp_Run": 184,
+                "Score_Opp_Over_Played": 47.5,
+                "Score_Opp_wicket": 10
+            },
+            {
+                "ID": 22,
+                "Opponent": "Zimbabwe",
+                "Type": "Test",
+                "Date": "2024-04-05T00:00:00Z",
+                "Venue": "Harare Sports Club, Harare",
+                "Result": "Bangladesh",
+                "Wonbywicket": true,
+                "Wonbyrun": false,
+                "Winrun": 0,
+                "Winwicket": 2,
+                "Score_BD_Run": 350,
+                "Score_BD_Over_Played": 110.2,
+                "Score_BD_wicket": 8,
+                "Score_Opp_Run": 340,
+                "Score_Opp_Over_Played": 115.1,
+                "Score_Opp_wicket": 10
+            },
+            {
+                "ID": 23,
+                "Opponent": "Zimbabwe",
+                "Type": "T20",
+                "Date": "2024-03-18T00:00:00Z",
+                "Venue": "Sher-e-Bangla National Stadium, Dhaka",
+                "Result": "Bangladesh",
+                "Wonbywicket": false,
+                "Wonbyrun": true,
+                "Winrun": 22,
+                "Winwicket": 0,
+                "Score_BD_Run": 175,
+                "Score_BD_Over_Played": 20,
+                "Score_BD_wicket": 7,
+                "Score_Opp_Run": 153,
+                "Score_Opp_Over_Played": 19.3,
+                "Score_Opp_wicket": 10
+            },
+            {
+                "ID": 24,
+                "Opponent": "Zimbabwe",
+                "Type": "ODI",
+                "Date": "2024-02-15T00:00:00Z",
+                "Venue": "Zahur Ahmed Chowdhury Stadium, Chattogram",
+                "Result": "Bangladesh",
+                "Wonbywicket": false,
+                "Wonbyrun": true,
+                "Winrun": 62,
+                "Winwicket": 0,
+                "Score_BD_Run": 255,
+                "Score_BD_Over_Played": 49.3,
+                "Score_BD_wicket": 9,
+                "Score_Opp_Run": 193,
+                "Score_Opp_Over_Played": 47.4,
+                "Score_Opp_wicket": 10
+            },
+            {
+                "ID": 25,
+                "Opponent": "Zimbabwe",
+                "Type": "T20",
+                "Date": "2024-01-22T00:00:00Z",
+                "Venue": "Queens Sports Club, Bulawayo",
+                "Result": "Zimbabwe",
+                "Wonbywicket": true,
+                "Wonbyrun": false,
+                "Winrun": 0,
+                "Winwicket": 4,
+                "Score_BD_Run": 140,
+                "Score_BD_Over_Played": 19.1,
+                "Score_BD_wicket": 10,
+                "Score_Opp_Run": 143,
+                "Score_Opp_Over_Played": 18.3,
+                "Score_Opp_wicket": 6
+            },
+            {
+                "ID": 26,
+                "Opponent": "Zimbabwe",
+                "Type": "Test",
+                "Date": "2023-12-30T00:00:00Z",
+                "Venue": "Harare Sports Club, Harare",
+                "Result": "Bangladesh",
+                "Wonbywicket": false,
+                "Wonbyrun": true,
+                "Winrun": 135,
+                "Winwicket": 0,
+                "Score_BD_Run": 400,
+                "Score_BD_Over_Played": 120.5,
+                "Score_BD_wicket": 10,
+                "Score_Opp_Run": 265,
+                "Score_Opp_Over_Played": 80.4,
+                "Score_Opp_wicket": 10
+            },
+            {
+                "ID": 27,
+                "Opponent": "Zimbabwe",
+                "Type": "ODI",
+                "Date": "2023-12-10T00:00:00Z",
+                "Venue": "Sylhet International Cricket Stadium, Sylhet",
+                "Result": "Zimbabwe",
+                "Wonbywicket": false,
+                "Wonbyrun": true,
+                "Winrun": 12,
+                "Winwicket": 0,
+                "Score_BD_Run": 188,
+                "Score_BD_Over_Played": 48.1,
+                "Score_BD_wicket": 10,
+                "Score_Opp_Run": 200,
+                "Score_Opp_Over_Played": 49.2,
+                "Score_Opp_wicket": 8
+            },
+            {
+                "ID": 28,
+                "Opponent": "Zimbabwe",
+                "Type": "T20",
+                "Date": "2023-11-20T00:00:00Z",
+                "Venue": "Sher-e-Bangla National Stadium, Dhaka",
+                "Result": "Bangladesh",
+                "Wonbywicket": true,
+                "Wonbyrun": false,
+                "Winrun": 0,
+                "Winwicket": 3,
+                "Score_BD_Run": 170,
+                "Score_BD_Over_Played": 19.2,
+                "Score_BD_wicket": 7,
+                "Score_Opp_Run": 169,
+                "Score_Opp_Over_Played": 20,
+                "Score_Opp_wicket": 9
+            },
+            {
+                "ID": 29,
+                "Opponent": "Zimbabwe",
+                "Type": "ODI",
+                "Date": "2023-10-05T00:00:00Z",
+                "Venue": "Queens Sports Club, Bulawayo",
+                "Result": "Bangladesh",
+                "Wonbywicket": true,
+                "Wonbyrun": false,
+                "Winrun": 0,
+                "Winwicket": 6,
+                "Score_BD_Run": 200,
+                "Score_BD_Over_Played": 42.4,
+                "Score_BD_wicket": 4,
+                "Score_Opp_Run": 198,
+                "Score_Opp_Over_Played": 50,
+                "Score_Opp_wicket": 10
+            },
+            {
+                "ID": 30,
+                "Opponent": "Zimbabwe",
+                "Type": "Test",
+                "Date": "2023-09-15T00:00:00Z",
+                "Venue": "Zahur Ahmed Chowdhury Stadium, Chattogram",
+                "Result": "Zimbabwe",
+                "Wonbywicket": false,
+                "Wonbyrun": true,
+                "Winrun": 45,
+                "Winwicket": 0,
+                "Score_BD_Run": 250,
+                "Score_BD_Over_Played": 85.3,
+                "Score_BD_wicket": 10,
+                "Score_Opp_Run": 295,
+                "Score_Opp_Over_Played": 90.1,
+                "Score_Opp_wicket": 7
+            }
+
+        ];
     
     
     
-    const batting_career = []
+const batting_career = [];
     
     
     
@@ -274,21 +693,6 @@ const prisma = new PrismaClient();
 //   }
 // }
 
-// model Matches {
-//     ID              Int       @id @default(autoincrement())
-//     Opponent        String
-//     Type            String
-//     Date            DateTime
-//     Venue           String
-//     Result          String
-//     Wonbywicket     Boolean @default(false) 
-//     Wonbyrun        Boolean @default(false) 
-//     Winrun          Float
-//     Winwicket       Float
-//     Score_BD        String
-//     Score_Opponent  String
-//   }
-
 async function main() {
     // Batch insertion for matches
     for (const match of matches) {
@@ -304,16 +708,39 @@ async function main() {
             Wonbyrun: match.Wonbyrun,
             Winrun: match.Winrun,
             Winwicket: match.Winwicket,
-            Score_BD: match.Score_BD,
-            Score_Opponent: match.Score_Opponent,
-          },
+            Score_BD_Run: match.Score_BD_Run,
+            Score_BD_Over_Played: match.Score_BD_Over_Played,
+            Score_BD_wicket: match.Score_BD_wicket,
+            Score_Opp_Run: match.Score_Opp_Run,
+            Score_Opp_Over_Played: match.Score_Opp_Over_Played,
+            Score_Opp_wicket: match.Score_Opp_wicket,
+          }
         });
-  
         console.log("Match Created:", createdMatch);
       } catch (error) {
         console.error("Error creating match:", error);
       }
     }
+    for (const player of players) {
+    try {
+        const createdPlayer = await prisma.player.create({
+        data: {
+            Name: player.Name,
+            DOB: new Date(player.DOB),
+            BattingStyle: player.BattingStyle,
+            ICCRanking: player.ICCRanking,
+            IntDebut: new Date(player.IntDebut),
+            Profile: player.Profile,
+            CaptainStatus: player.CaptainStatus,
+            PlayerRole: player.PlayerRole
+        },
+        });
+
+        console.log("Player Created:", createdPlayer);
+    } catch (error) {
+        console.error("Error creating player:", error);
+    }
+}
 }
   
 main()

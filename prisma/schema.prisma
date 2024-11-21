@@ -40,9 +40,13 @@ model Matches {
   Wonbywicket     Boolean @default(false) 
   Wonbyrun        Boolean @default(false) 
   Winrun          Int
-  Winwicket       Float
-  Score_BD        String
-  Score_Opponent  String
+  Winwicket       Int
+  Score_BD_Run    Float
+  Score_BD_Over_Played  Float
+  Score_BD_wicket  Int
+  Score_Opp_Run Float
+  Score_Opp_Over_Played  Float
+  Score_Opp_wicket  Int
 }
 
 // model Coach {
