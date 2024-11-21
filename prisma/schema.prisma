@@ -10,39 +10,45 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
+  url      = "mysql://root:monethakena@localhost:3306/tigerverse"
+
 }
 
 
-model Player{
-  ID              Int @id @default(autoincrement())
-  Name            String
-  DOB             DateTime
-  BattingStyle    String
-  ICCRanking      Int
-  IntDebut        DateTime
-  Profile         String  
-  CaptainStatus   Boolean @default(false)
-  PlayerRole      String
-  // Squad_ID        Int //For handling one - to - many relations 
-  // squads          Squad @relation(fields: [Squad_ID], references: [Squad_ID]) 
-  BattingCareer   Batting_Career ?
-  // BowlingCareer   Bowling_Career ? //question mark indicates it is required
-} 
+// model Player{
+//   ID              Int @id @default(autoincrement())
+//   Name            String
+//   DOB             DateTime
+//   BattingStyle    String
+//   ICCRanking      Int
+//   IntDebut        DateTime
+//   Profile         String  
+//   CaptainStatus   Boolean @default(false)
+//   PlayerRole      String
+//   // Squad_ID        Int //For handling one - to - many relations 
+//   // squads          Squad @relation(fields: [Squad_ID], references: [Squad_ID]) 
+//   BattingCareer   Batting_Career ?
+//   // BowlingCareer   Bowling_Career ? //question mark indicates it is required
+// } 
 
 model Matches {
-  ID              Int       @id @default(autoincrement())
+   ID              Int             @id @default(autoincrement())
   Opponent        String
   Type            String
   Date            DateTime
   Venue           String
   Result          String
-  Wonbywicket     Boolean @default(false) 
-  Wonbyrun        Boolean @default(false) 
-  Winrun          Int
+  Wonbywicket     Boolean @default(false)
+  Wonbyrun        Boolean @default(false)
+  Winrun          Float
   Winwicket       Float
-  Score_BD        String
-  Score_Opponent  String
+  Score_BD_Run    Float   
+  Score_BD_Over_Played Float 
+  Score_BD_wicket Int
+  Score_Opp_Run    Float   
+  Score_Opp_Over_Played Float 
+  Score_Opp_wicket Int
+
 }
 
 // model Coach {
@@ -97,26 +103,26 @@ model Matches {
 // }
 
 
-model Batting_Career {
-  player_id  Int  @id
-  Type       String //format of the match
-  Country    String //country 
-  Span       String 
-  Mat    Int // number of matches played
-  Inns    Int
-  NO Int
-  Runs       Int
-  HS Int
-  Avg    Float //batting average
-  BF        Int // balls faced apparently
-  SR        Float //strike rate
-  Hundred   Int 
-  Fifty   Int
-  Duck Int
-  Fours Int
-  Sixes Int
-  batting_careers Player @relation(fields: [player_id], references:[ID])
-}
+// model Batting_Career {
+//   player_id  Int  @id
+//   Type       String //format of the match
+//   Country    String //country 
+//   Span       String 
+//   Mat    Int // number of matches played
+//   Inns    Int
+//   NO Int
+//   Runs       Int
+//   HS Int
+//   Avg    Float //batting average
+//   BF        Int // balls faced apparently
+//   SR        Float //strike rate
+//   Hundred   Int 
+//   Fifty   Int
+//   Duck Int
+//   Fours Int
+//   Sixes Int
+//   batting_careers Player @relation(fields: [player_id], references:[ID])
+// }
 
 // model Bowling_Career{
 //   ID Int @unique

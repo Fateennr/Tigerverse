@@ -5,14 +5,14 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const getAllPlayers = async () => {
+/* export const getAllPlayers = async () => {
 // const getAllPlayers = async () => {
     return await prisma.player.findMany();
-}
+} */
 
 
 
-export const getHeadtohead = async (opponentCountry, matchType) => {
+/* export const getHeadtohead = async (opponentCountry, matchType) => {
     try{
         const matches = await prisma.matches.findMany();
 
@@ -31,7 +31,7 @@ export const getHeadtohead = async (opponentCountry, matchType) => {
             if(match.)
         }
     }
-}
+} */
 
 
 // const list = getAllPlayers(); // this will return Promise{ <pending> } as the function returns a promise without getting the resolve or answer first,
