@@ -253,26 +253,7 @@ const prisma = new PrismaClient();
     
     
     // Batch insertion for players
-// for (const player of players) {
-//   try {
-//     const createdPlayer = await prisma.player.create({
-//       data: {
-//         Name: player.Name,
-//         DOB: new Date(player.DOB),
-//         BattingStyle: player.BattingStyle,
-//         ICCRanking: player.ICCRanking,
-//         IntDebut: new Date(player.IntDebut),
-//         Profile: player.Profile,
-//         CaptainStatus: player.CaptainStatus,
-//         PlayerRole: player.PlayerRole
-//       },
-//     });
 
-//     console.log("Player Created:", createdPlayer);
-//   } catch (error) {
-//     console.error("Error creating player:", error);
-//   }
-// }
 
 // model Matches {
 //     ID              Int       @id @default(autoincrement())
@@ -290,30 +271,51 @@ const prisma = new PrismaClient();
 //   }
 
 async function main() {
-    // Batch insertion for matches
-    for (const match of matches) {
-      try {
-        const createdMatch = await prisma.matches.create({
-          data: {
-            Opponent: match.Opponent,
-            Type: match.Type,
-            Date: new Date(match.Date),
-            Venue: match.Venue,
-            Result: match.Result,
-            Wonbywicket: match.Wonbywicket,
-            Wonbyrun: match.Wonbyrun,
-            Winrun: match.Winrun,
-            Winwicket: match.Winwicket,
-            Score_BD: match.Score_BD,
-            Score_Opponent: match.Score_Opponent,
-          },
-        });
-  
-        console.log("Match Created:", createdMatch);
-      } catch (error) {
-        console.error("Error creating match:", error);
+
+    for (const player of players) {
+        try {
+          const createdPlayer = await prisma.player.create({
+            data: {
+              Name: player.Name,
+              DOB: new Date(player.DOB),
+              BattingStyle: player.BattingStyle,
+              ICCRanking: player.ICCRanking,
+              IntDebut: new Date(player.IntDebut),
+              Profile: player.Profile,
+              CaptainStatus: player.CaptainStatus,
+              PlayerRole: player.PlayerRole
+            },
+          });
+      
+          console.log("Player Created:", createdPlayer);
+        } catch (error) {
+          console.error("Error creating player:", error);
+        }
       }
-    }
+    // // Batch insertion for matches
+    // for (const match of matches) {
+    //   try {
+    //     const createdMatch = await prisma.matches.create({
+    //       data: {
+    //         Opponent: match.Opponent,
+    //         Type: match.Type,
+    //         Date: new Date(match.Date),
+    //         Venue: match.Venue,
+    //         Result: match.Result,
+    //         Wonbywicket: match.Wonbywicket,
+    //         Wonbyrun: match.Wonbyrun,
+    //         Winrun: match.Winrun,
+    //         Winwicket: match.Winwicket,
+    //         Score_BD: match.Score_BD,
+    //         Score_Opponent: match.Score_Opponent,
+    //       },
+    //     });
+  
+    //     console.log("Match Created:", createdMatch);
+    //   } catch (error) {
+    //     console.error("Error creating match:", error);
+    //   }
+    // }
 }
   
 main()

@@ -1,0 +1,195 @@
+/* Container to hold everything */
+.Container {
+  display: flex;
+  height: 100vh;
+  /* Full screen height */
+  position: relative;
+}
+
+/* Sidebar Styles (Drawer) */
+.Sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  /* Hidden by default */
+  width: 250px;
+  background-color: #003300;
+  color: white;
+  height: 100vh;
+  padding: 20px;
+  transition: left 0.3s ease;
+  /* Smooth transition when toggling */
+  z-index: 1000;
+  /* Ensure it's above other content */
+  display: flex;
+  flex-direction: column;
+}
+
+.Sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  /* Stack the items vertically */
+}
+
+.Sidebar li {
+  margin-bottom: 15px;
+}
+
+.Sidebar a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.Sidebar a:hover {
+  text-decoration: underline;
+}
+
+/* When the drawer is open, slide it to the left */
+.Sidebar.Open {
+  left: 0;
+  /* Drawer slides in */
+}
+
+/* Title Styles for 'Tigerverse' */
+.Title {
+  text-align: center;
+  margin-bottom: 20px;
+  /* Space between title and spacer */
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+}
+
+/* Grey Spacer */
+.Spacer {
+  background-color: #808080;
+  height: 1px;
+  margin-bottom: 20px;
+  /* Space between the spacer and the links */
+}
+
+/* Main Content Styles */
+.MainContent {
+  flex: 1;
+  /* Fill remaining space */
+  padding: 20px;
+  width: 100%;
+  transition: margin-left 0.3s ease;
+  /* Smooth transition for the content */
+}
+
+/* Navigation Bar Styles */
+.NavigationBar {
+  background: linear-gradient(to right, green, #003300);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+}
+
+/* Button to toggle the drawer */
+.DrawerToggle {
+  font-size: 30px;
+  background-color: transparent;
+  border: none;
+  color: white;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1100;
+  cursor: pointer;
+}
+
+/* Navigation Link Styles */
+.navLinks {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  padding: 0;
+  margin-left: 60px;
+}
+
+.navItem a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.navItem a:hover {
+  text-decoration: underline;
+}
+
+
+/* Dropdown container */
+.DropdownContainer {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Custom dropdown styling */
+.CustomDropdown {
+  width: 250px;
+  /* Dropdown width */
+  padding: 10px;
+  /* Padding inside the dropdown */
+  border: 2px solid #003300;
+  /* Green border */
+  border-radius: 8px;
+  /* Rounded corners */
+  background-color: white;
+  /* Background color */
+  color: #003300;
+  /* Text color */
+  font-size: 16px;
+  /* Font size */
+  font-weight: bold;
+  /* Bold text */
+  cursor: pointer;
+  /* Pointer cursor */
+  outline: none;
+  /* Remove outline */
+  appearance: none;
+  /* Remove default dropdown arrow for consistent design */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow */
+}
+
+/* Add hover effect */
+.CustomDropdown:hover {
+  background-color: #e6ffe6;
+  /* Slightly lighter green background on hover */
+  border-color: #006600;
+  /* Darker green border on hover */
+}
+
+/* Focus effect for keyboard users */
+.CustomDropdown:focus {
+  border-color: #009900;
+  /* Bright green border */
+  box-shadow: 0 0 6px rgba(0, 153, 0, 0.5);
+  /* Glow effect */
+}
+
+/* Dropdown option styling */
+.CustomDropdown option {
+  font-weight: normal;
+  /* Normal font weight */
+  background-color: white;
+  /* Background for options */
+  color: #003300;
+  /* Text color */
+}
+
+.hero-image {
+  width: 50%; 
+  height: 50%;
+  /* max-width: 100%;  Ensures the image doesn't exceed the container's width */
+  padding-left: 500px;
+}

@@ -15,21 +15,63 @@ datasource db {
 }
 
 
-// model Player{
-//   ID              Int @id @default(autoincrement())
-//   Name            String
-//   DOB             DateTime
-//   BattingStyle    String
-//   ICCRanking      Int
-//   IntDebut        DateTime
-//   Profile         String  
-//   CaptainStatus   Boolean @default(false)
-//   PlayerRole      String
-//   // Squad_ID        Int //For handling one - to - many relations 
-//   // squads          Squad @relation(fields: [Squad_ID], references: [Squad_ID]) 
-//   BattingCareer   Batting_Career ?
-//   // BowlingCareer   Bowling_Career ? //question mark indicates it is required
-// } 
+
+model Player{
+  ID              Int @id @default(autoincrement())
+  Name            String
+  DOB             DateTime
+  BattingStyle    String
+  ICCRanking      Int
+  IntDebut        DateTime
+  Profile         String  
+  CaptainStatus   Boolean @default(false)
+  PlayerRole      String
+  // Squad_ID        Int //For handling one - to - many relations 
+  // squads          Squad @relation(fields: [Squad_ID], references: [Squad_ID]) 
+  BattingCareer   Batting_Career ?
+  BowlingCareer   Bowling_Career ? //question mark indicates it is required
+}
+
+model Batting_Career {
+  player_id  Int  @id
+  Type       String //format of the match
+  Value    String //country 
+  Span       String 
+  Mat    Int // number of matches played
+  Inns    Int
+  NO Int
+  Runs       Int
+  HS Int
+  Avg    Float //batting average
+  BF        Int // balls faced apparently
+  SR        Float //strike rate
+  Hundred   Int 
+  Fifty   Int
+  Duck Int
+  Fours Int
+  Sixes Int
+  batting_careers Player @relation(fields: [player_id], references:[ID])
+}
+
+model Bowling_Career{
+  player_id Int @id
+  Type String
+  Value String
+  Mat Int
+  Inns Int
+  Overs Float //best bowling in a single innings
+  Mdns Int //best bowling in a single match , both will be '118/7' this format
+  Runs Int //economy rate
+  Wkts Int
+  BBI String 
+  Avg Float
+  Econ Float
+  SR Float
+  FourW Int
+  FiveW Int
+  bowling_careers Player @relation(fields: [player_id], references: [ID])
+}
+
 
 model Matches {
    ID              Int             @id @default(autoincrement())
