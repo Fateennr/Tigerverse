@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from "react";
-import styles from "../app/Home.module.css"; // Keep the existing CSS module
+import styles from "../app/home.module.css"; // Keep the existing CSS module
 
 export default function NavigationBar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);

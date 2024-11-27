@@ -5,7 +5,7 @@ import PieChart from '/components/PieChart';
 import LineChart from "@/components/LineChart";
 import HorizontalBarChart from "@/components/HorizontalBarChart";
 import NavigationBar from "@/components/NavigationBar"; // Import the reusable NavigationBar
-import styles from "../Home.module.css";
+import styles from "../home.module.css";
 
 export default function Head2Head() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -20,13 +20,16 @@ export default function Head2Head() {
 
   // Fetch the list of opponents
   useEffect(() => {
+      console.log("hellow the opponents are not blank now", opponents);
     async function fetchOpponents() {
       try {
         const response = await fetch("/api/matches");
         const data = await response.json();
         setOpponents(data);
+        console.log("hellow the opponents are not blank now", opponents);
       } catch (error) {
         console.error("Error fetching opponents:", error);
+        console.log("hellow the opponents are not blank now", opponents);
       }
     }
     fetchOpponents();

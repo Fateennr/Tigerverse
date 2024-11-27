@@ -1,7 +1,17 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import styles from "../Home.module.css";
+import styles from "../home.module.css";
+
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
 export default function SquadPage() {
 
@@ -39,42 +49,8 @@ export default function SquadPage() {
   }
 
   return (
-   /*  <div style={{ padding: '20px' }}>
-      <h1>Squad</h1>
-      <table border="1" cellPadding="10" style={{ width: '100%', textAlign: 'left' }}>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Date of Birth</th>
-            <th>Batting Style</th>
-            <th>ICC Ranking</th>
-            <th>Int Debut</th>
-            <th>Profile</th>
-            <th>Captain Status</th>
-            <th>Player Role</th>
-          </tr>
-        </thead>
-        <tbody>
-          {players.map(player => (
-            <tr key={player.ID}>
-              <td>{player.ID}</td>
-              <td>{player.Name}</td>
-              <td>{new Date(player.DOB).toLocaleDateString()}</td>
-              <td>{player.BattingStyle}</td>
-              <td>{player.ICCRanking}</td>
-              <td>{new Date(player.IntDebut).toLocaleDateString()}</td>
-              <td>{player.Profile}</td>
-              <td>{player.CaptainStatus ? 'Yes' : 'No'}</td>
-              <td>{player.PlayerRole}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div> */
 
     <div className={styles.Container}>
-      {/* Button to open/close the drawer */}
       <button onClick={toggleDrawer} className={styles.DrawerToggle}>
         ☰
       </button>
@@ -125,7 +101,7 @@ export default function SquadPage() {
 
         
         
-        <div style={{ textAlign: "center", margin: "20px 0" }}>
+        {/* <div style={{ textAlign: "center", margin: "20px 0" }}>
             <h1 style={{ fontSize: "2rem", fontWeight: "bold" }}>Squad</h1>
           </div>
       <table border="1" cellPadding="10" style={{ width: '100%', textAlign: 'left' }}>
@@ -157,8 +133,36 @@ export default function SquadPage() {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table> */}
 
+      <div style= {{display : "flex", 
+                    flexWrap : "wrap",
+                    gap : "16px",
+                    justifyContent : "center"
+                    }}> 
+      {players.map(player => (
+        
+        <Card style={{
+                      flex: "1 1 calc(20% - 16px)", 
+                      maxWidth: "calc(20% - 16px)",
+                      boxSizing: "border-box", 
+                      }} >
+          
+          <CardHeader>
+            <CardTitle>{ player.Name }</CardTitle>
+            <CardDescription># {player.ID} </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <img src={`/players/${player.Name}.png`} alt = "no pic" style = {{ height: "200px", width: "200px"}} />
+            <p>{player.BattingStyle} </p>
+            <p> #{player.ICCRanking} </p>
+          </CardContent>
+          <CardFooter>
+            <p>{player.PlayerRole} </p>
+          </CardFooter>
+        </Card>
+      ))}
+      </div>
 
       </main>
     </div>

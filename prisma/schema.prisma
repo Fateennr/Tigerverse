@@ -1,222 +1,81 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://root:monethakena@localhost:3306/tigerverse"
-
+  url      = env("DATABASE_URL")
 }
 
-
-
-model Player{
-  ID              Int @id @default(autoincrement())
-  Name            String
-  DOB             DateTime
-  BattingStyle    String
-  ICCRanking      Int
-  IntDebut        DateTime
-  Profile         String  
-  CaptainStatus   Boolean @default(false)
-  PlayerRole      String
-  // Squad_ID        Int //For handling one - to - many relations 
-  // squads          Squad @relation(fields: [Squad_ID], references: [Squad_ID]) 
-  BattingCareer   Batting_Career ?
-  BowlingCareer   Bowling_Career ? //question mark indicates it is required
+model Player {
+  ID            Int             @id @default(autoincrement())
+  Name          String
+  DOB           DateTime
+  BattingStyle  String
+  ICCRanking    Int
+  IntDebut      DateTime
+  Profile       String
+  CaptainStatus Boolean         @default(false)
+  PlayerRole    String
+  BattingCareer Batting_Career?
+  BowlingCareer Bowling_Career?
 }
 
 model Batting_Career {
-  player_id  Int  @id
-  Type       String //format of the match
-  Value    String //country 
-  Span       String 
-  Mat    Int // number of matches played
-  Inns    Int
-  NO Int
-  Runs       Int
-  HS Int
-  Avg    Float //batting average
-  BF        Int // balls faced apparently
-  SR        Float //strike rate
-  Hundred   Int 
-  Fifty   Int
-  Duck Int
-  Fours Int
-  Sixes Int
-  batting_careers Player @relation(fields: [player_id], references:[ID])
+  player_id       Int    @id
+  Type            String
+  Span            String
+  Mat             Int
+  Inns            Int
+  NO              Int
+  Runs            Int
+  HS              Int
+  Avg             Float
+  BF              Int
+  SR              Float
+  Hundred         Int
+  Fifty           Int
+  Duck            Int
+  Fours           Int
+  Sixes           Int
+  Value           String
+  batting_careers Player @relation(fields: [player_id], references: [ID])
 }
 
-model Bowling_Career{
-  player_id Int @id
-  Type String
-  Value String
-  Mat Int
-  Inns Int
-  Overs Float //best bowling in a single innings
-  Mdns Int //best bowling in a single match , both will be '118/7' this format
-  Runs Int //economy rate
-  Wkts Int
-  BBI String 
-  Avg Float
-  Econ Float
-  SR Float
-  FourW Int
-  FiveW Int
+model Bowling_Career {
+  player_id       Int    @id
+  Type            String
+  Value           String
+  Mat             Int
+  Inns            Int
+  Overs           Float
+  Mdns            Int
+  Runs            Int
+  Wkts            Int
+  BBI             String
+  Avg             Float
+  Econ            Float
+  SR              Float
+  FourW           Int
+  FiveW           Int
   bowling_careers Player @relation(fields: [player_id], references: [ID])
 }
 
-
 model Matches {
-   ID              Int             @id @default(autoincrement())
-  Opponent        String
-  Type            String
-  Date            DateTime
-  Venue           String
-  Result          String
-  Wonbywicket     Boolean @default(false)
-  Wonbyrun        Boolean @default(false)
-  Winrun          Float
-  Winwicket       Float
-  Score_BD_Run    Float   
-  Score_BD_Over_Played Float 
-  Score_BD_wicket Int
-  Score_Opp_Run    Float   
-  Score_Opp_Over_Played Float 
-  Score_Opp_wicket Int
-
+  ID                    Int      @id @default(autoincrement())
+  Opponent              String
+  Type                  String
+  Date                  DateTime
+  Venue                 String
+  Result                String
+  Wonbywicket           Boolean  @default(false)
+  Wonbyrun              Boolean  @default(false)
+  Winrun                Int
+  Winwicket             Int
+  Score_BD_Over_Played  Float
+  Score_BD_Run          Float
+  Score_BD_wicket       Int
+  Score_Opp_Over_Played Float
+  Score_Opp_Run         Float
+  Score_Opp_wicket      Int
 }
-
-// model Coach {
-//   ID           Int @id @default(autoincrement())
-//   Name         String
-//   Nationality  String
-//   Current_Team Int
-//   Squad_ID     Int
-//   squad        Squad @relation(fields: [Squad_ID], references: [Squad_ID])
-// }
-
-// model Matches {
-
-//   Match_ID     Int @id @default(autoincrement())
-//   Match_Format String
-//   Runs         String // it will be like '115/10' etc
-//   Opponent_ID  Int
-//   Match_Date   DateTime
-//   Stadium      String
-//   Squad_ID     Squad[] // in every match there will be 2 teams
-//   countries    MatchesOnCountry[]
-// }
-
-// model Squad {
-//   Squad_ID Int @id @default(autoincrement())
-//   Match_ID Int
-//   players  Player[] // to make one to many relation, keep the player array into the squad and connect it
-//   coaches  Coach[] // Keeping the Coaach instance as a list
-//   matches  Matches @relation(fields: [Match_ID], references: [Match_ID]) 
-// }
-
-//matches table shows the matches against bangladesh, so for matchesoncountry 
-//junction table i might need a trigger for every entry, there is a duplicate
-//entry with country ID for bangladesh
-
-// model MatchesOnCountry { //junction table to handle many-to-many relationships between matches and countries
-// Match_ID   Int
-// Match      Matches @relation(fields: [Match_ID], references: [Match_ID])
-// Country_ID Int
-// Country    Country @relation(fields: [Country_ID], references: [Country_ID])
-// Match_Date DateTime
-
-// @@id([Match_ID, Country_ID])
-// }
-
-// model Country {
-//   Country_ID Int @id @default(autoincrement())
-//   Description String
-//   matches MatchesOnCountry[]  //both many to one connection into a junction table
-//   head2head Head2head ? //have to make required for the head2head history, but it may cause a problem when the country id is Bangladesh, cz for bd there will be no headtohead histoyr
-//   //If needed, will be added later on
-// }
-
-
-// model Batting_Career {
-//   player_id  Int  @id
-//   Type       String //format of the match
-//   Country    String //country 
-//   Span       String 
-//   Mat    Int // number of matches played
-//   Inns    Int
-//   NO Int
-//   Runs       Int
-//   HS Int
-//   Avg    Float //batting average
-//   BF        Int // balls faced apparently
-//   SR        Float //strike rate
-//   Hundred   Int 
-//   Fifty   Int
-//   Duck Int
-//   Fours Int
-//   Sixes Int
-//   batting_careers Player @relation(fields: [player_id], references:[ID])
-// }
-
-// model Bowling_Career{
-//   ID Int @unique
-//   Match Int
-//   Innings Int
-//   Runs Int
-//   Wkts Int
-//   BBI String //best bowling in a single innings
-//   BBM String //best bowling in a single match , both will be '118/7' this format
-//   Econ Float //economy rate
-//   Average Float
-//   FiveWkts Int 
-//   TenWkts Int 
-//   Format String
-//   players Player @relation(fields: [ID], references: [ID])
-// }
-
-// model Hall_Of_Fame {
-//   Title String
-//   Year Int
-//   Description String
-//   Imgsrc String
-//   Player_ID Int
-//   players Player @relation(fields: [Player_ID], references: [ID]) 
-// }
-
-
-// model Head2head {
-//   Format_Type  String //test, odi or t20
-//   Played       Int //number of matches played
-//   Won          Int
-//   Lost         Int
-//   Tied         Int
-//   No_Result    Int
-//   Capped       Int
-//   Highest_Inn  String //the entries will be '279/10' in this format 
-//   Lowest_Inn   String
-//   Best_Bowling String
-//   Best_Batting String
-//   OpponentID   Int @unique
-//   opponents    Country @relation(fields: [OpponentID], references: [Country_ID])
-// }
-
-// BestofBD {
-
-// }
-
-// Gallery{
-
-// }
-
-
-
-
-

@@ -245,7 +245,7 @@ const matches = [
     
     
     
-    const batting_career = []
+const batting_career = []
     
     
     

@@ -2,12 +2,21 @@
 
 import { PrismaClient } from '@prisma/client';
 
+// const { PrismaClient } = require('@prisma/client');
+
 const prisma = new PrismaClient();
 
 export async function GET(req) {
+// async function main(req) {
+// async function main() {
+  // console.log("is the function alive");
+  console.log(req.url);
   try {
     const { searchParams } = new URL(req.url);
+    // const { searchParams } = new URL("http://localhost:3000/api/matches/stats?opponent=India");
     const opponent = searchParams.get("opponent");
+
+    console.log("the opponent is ",opponent);
 
     if (!opponent) {
       return new Response(
@@ -17,11 +26,9 @@ export async function GET(req) {
     }
 
     // Use parameterized queries to safely inject opponent into the SQL query
-    const stats = await prisma.$queryRaw`
-      SELECT GetOpponentStats(${opponent})
-    `;
+    const stats = await prisma.$queryRaw`SELECT GetOpponentStats(${opponent})`;
   
-
+    console.log(stats);
     if (!stats || stats.length === 0) {
       return new Response(
         JSON.stringify({ error: "No stats found for the specified opponent." }),
@@ -43,3 +50,15 @@ export async function GET(req) {
     await prisma.$disconnect();
   }
 }
+
+
+
+// main()
+//     .then(async () => {
+//       await prisma.$disconnect();
+//     })
+//     .catch(async (e) => {
+//       console.error(e);
+//       await prisma.$disconnect();
+//       process.exit(1);
+//     });
