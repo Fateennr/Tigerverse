@@ -99,42 +99,6 @@ export default function SquadPage() {
           </ul>
         </nav>
 
-        
-        
-        {/* <div style={{ textAlign: "center", margin: "20px 0" }}>
-            <h1 style={{ fontSize: "2rem", fontWeight: "bold" }}>Squad</h1>
-          </div>
-      <table border="1" cellPadding="10" style={{ width: '100%', textAlign: 'left' }}>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Date of Birth</th>
-            <th>Batting Style</th>
-            <th>ICC Ranking</th>
-            <th>Int Debut</th>
-            <th>Profile</th>
-            <th>Captain Status</th>
-            <th>Player Role</th>
-          </tr>
-        </thead>
-        <tbody>
-          {players.map(player => (
-            <tr key={player.ID}>
-              <td>{player.ID}</td>
-              <td>{player.Name}</td>
-              <td>{new Date(player.DOB).toLocaleDateString()}</td>
-              <td>{player.BattingStyle}</td>
-              <td>{player.ICCRanking}</td>
-              <td>{new Date(player.IntDebut).toLocaleDateString()}</td>
-              <td>{player.Profile}</td>
-              <td>{player.CaptainStatus ? 'Yes' : 'No'}</td>
-              <td>{player.PlayerRole}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table> */}
-
       <div style= {{display : "flex", 
                     flexWrap : "wrap",
                     gap : "16px",
