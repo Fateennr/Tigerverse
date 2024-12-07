@@ -17,12 +17,13 @@ model Player {
   Profile       String
   CaptainStatus Boolean         @default(false)
   PlayerRole    String
-  BattingCareer Batting_Career?
-  BowlingCareer Bowling_Career?
+  BattingCareer Batting_Career[]
+  BowlingCareer Bowling_Career[]
 }
 
 model Batting_Career {
-  player_id       Int    @id
+  // id              Int @id @default(autoincrement())
+  player_id       Int
   Type            String
   Span            String
   Mat             Int
@@ -40,10 +41,13 @@ model Batting_Career {
   Sixes           Int
   Value           String
   batting_careers Player @relation(fields: [player_id], references: [ID])
+
+  @@unique([player_id, Value])
 }
 
 model Bowling_Career {
-  player_id       Int    @id
+  // id              Int @id @default(autoincrement())
+  player_id       Int 
   Type            String
   Value           String
   Mat             Int
@@ -59,6 +63,9 @@ model Bowling_Career {
   FourW           Int
   FiveW           Int
   bowling_careers Player @relation(fields: [player_id], references: [ID])
+  
+  @@unique([player_id, Value])
+
 }
 
 model Matches {

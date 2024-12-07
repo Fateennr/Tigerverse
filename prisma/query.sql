@@ -55,4 +55,4 @@ CREATE FUNCTION GetOpponentStats(opponent_name VARCHAR(255))
             'lowestInnings', lowestInnings,
             'totalRunsAgainst', totalRunsAgainst
       );
- END $$ 
+ END
