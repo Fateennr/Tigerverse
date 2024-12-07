@@ -50,6 +50,7 @@ model Bowling_Career {
   player_id       Int 
   Type            String
   Value           String
+  Span            String
   Mat             Int
   Inns            Int
   Overs           Float
@@ -63,7 +64,7 @@ model Bowling_Career {
   FourW           Int
   FiveW           Int
   bowling_careers Player @relation(fields: [player_id], references: [ID])
-  
+
   @@unique([player_id, Value])
 
 }

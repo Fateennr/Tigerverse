@@ -241,11 +241,11 @@ const matches = [
         }
         
         
-    ]
+];
     
     
     
-    const batting_career = [
+const batting_career = [
         {
             "player_id": 4,
             "Type": "Country",
@@ -702,7 +702,281 @@ const matches = [
             "Type": "Country",
             "player_id": 1
         }
-    ];
+];
+
+
+const bowling_career = [
+{
+    "Type": "Country",
+    "Value": "Afghanistan",
+    "Span": "2022-2023",
+    "Mat": 7,
+    "Inns": 3,
+    "Overs": 3.1,
+    "Mdns": 0,
+    "Runs": 14,
+    "Wkts": 1,
+    "BBI": "1/0",
+    "Avg": 14.00,
+    "Econ": 4.42,
+    "SR": 19.0,
+    "4w": 0,
+    "5w": 0,
+    "player_id": 1
+},
+{
+    "Type": "Country",
+    "Value": "England",
+    "Span": "2023-2023",
+    "Mat": 3,
+    "Inns": "-",
+    "Overs": "-",
+    "Mdns": "-",
+    "Runs": "-",
+    "Wkts": "-",
+    "BBI": "-",
+    "Avg": "-",
+    "Econ": "-",
+    "SR": "-",
+    "4w": "-",
+    "5w": "-",
+    "player_id": 1
+},
+{
+    "Type": "Country",
+    "Value": "India",
+    "Span": "2022-2022",
+    "Mat": 3,
+    "Inns": 1,
+    "Overs": 1.0,
+    "Mdns": 0,
+    "Runs": 14,
+    "Wkts": 0,
+    "BBI": "-",
+    "Avg": "-",
+    "Econ": 14.00,
+    "SR": "-",
+    "4w": 0,
+    "5w": 0,
+    "player_id": 1
+},
+{
+    "Type": "Country",
+    "Value": "New Zealand",
+    "Span": "2023-2023",
+    "Mat": 1,
+    "Inns": 1,
+    "Overs": 1.0,
+    "Mdns": 0,
+    "Runs": 17,
+    "Wkts": 0,
+    "BBI": "-",
+    "Avg": "-",
+    "Econ": 17.00,
+    "SR": "-",
+    "4w": 0,
+    "5w": 0,
+    "player_id": 1
+},
+{
+    "Type": "Country",
+    "Value": "Pakistan",
+    "Span": "2023-2023",
+    "Mat": 1,
+    "Inns": "-",
+    "Overs": "-",
+    "Mdns": "-",
+    "Runs": "-",
+    "Wkts": "-",
+    "BBI": "-",
+    "Avg": "-",
+    "Econ": "-",
+    "SR": "-",
+    "4w": "-",
+    "5w": "-",
+    "player_id": 1
+},
+{
+    "Type": "Country",
+    "Value": "South Africa",
+    "Span": "2022-2022",
+    "Mat": 3,
+    "Inns": 1,
+    "Overs": 5.0,
+    "Mdns": 0,
+    "Runs": 15,
+    "Wkts": 1,
+    "BBI": "1/15",
+    "Avg": 15.00,
+    "Econ": 3.00,
+    "SR": 30.0,
+    "4w": 0,
+    "5w": 0,
+    "player_id": 1
+},
+{
+    "Type": "Country",
+    "Value": "Sri Lanka",
+    "Span": "2021-2021",
+    "Mat": 3,
+    "Inns": "-",
+    "Overs": "-",
+    "Mdns": "-",
+    "Runs": "-",
+    "Wkts": "-",
+    "BBI": "-",
+    "Avg": "-",
+    "Econ": "-",
+    "SR": "-",
+    "4w": "-",
+    "5w": "-",
+    "player_id": 1
+},
+{
+    "Type": "Country",
+    "Value": "West Indies",
+    "Span": "2022-2022",
+    "Mat": 3,
+    "Inns": 1,
+    "Overs": 2.0,
+    "Mdns": 1,
+    "Runs": 2,
+    "Wkts": 0,
+    "BBI": "-",
+    "Avg": "-",
+    "Econ": 1.00,
+    "SR": "-",
+    "4w": 0,
+    "5w": 0,
+    "player_id": 1
+},
+{
+    "Type": "Country",
+    "Value": "Zimbabwe",
+    "Span": "2020-2022",
+    "Mat": 7,
+    "Inns": 3,
+    "Overs": 3.3,
+    "Mdns": 0,
+    "Runs": 29,
+    "Wkts": 1,
+    "BBI": "1/12",
+    "Avg": 29.00,
+    "Econ": 8.28,
+    "SR": 21.0,
+    "4w": 0,
+    "5w": 0,
+    "player_id": 1
+},
+{
+    "Type": "Country",
+    "Value": "Bangladesh",
+    "Span": "2020-2023",
+    "Mat": 16,
+    "Inns": 4,
+    "Overs": 5.1,
+    "Mdns": 0,
+    "Runs": 34,
+    "Wkts": 2,
+    "BBI": "1/0",
+    "Avg": 17.00,
+    "Econ": 6.58,
+    "SR": 15.5,
+    "4w": 0,
+    "5w": 0,
+    "player_id": 1
+},
+{
+    "Type": "Country",
+    "Value": "New Zealand",
+    "Span": "2023-2023",
+    "Mat": 1,
+    "Inns": 1,
+    "Overs": 1.0,
+    "Mdns": 0,
+    "Runs": 17,
+    "Wkts": 0,
+    "BBI": "-",
+    "Avg": "-",
+    "Econ": 17.00,
+    "SR": "-",
+    "4w": 0,
+    "5w": 0,
+    "player_id": 1
+},
+{
+    "Type": "Country",
+    "Value": "Pakistan",
+    "Span": "2023-2023",
+    "Mat": 2,
+    "Inns": 1,
+    "Overs": 1.0,
+    "Mdns": 0,
+    "Runs": 6,
+    "Wkts": 0,
+    "BBI": "-",
+    "Avg": "-",
+    "Econ": 6.00,
+    "SR": "-",
+    "4w": 0,
+    "5w": 0,
+    "player_id": 1
+},
+{
+    "Type": "Country",
+    "Value": "South Africa",
+    "Span": "2022-2022",
+    "Mat": 3,
+    "Inns": 1,
+    "Overs": 5.0,
+    "Mdns": 0,
+    "Runs": 15,
+    "Wkts": 1,
+    "BBI": "1/15",
+    "Avg": 15.00,
+    "Econ": 3.00,
+    "SR": 30.0,
+    "4w": 0,
+    "5w": 0,
+    "player_id": 1
+},
+{
+    "Type": "Country",
+    "Value": "West Indies",
+    "Span": "2022-2022",
+    "Mat": 3,
+    "Inns": 1,
+    "Overs": 2.0,
+    "Mdns": 1,
+    "Runs": 2,
+    "Wkts": 0,
+    "BBI": "-",
+    "Avg": "-",
+    "Econ": 1.00,
+    "SR": "-",
+    "4w": 0,
+    "5w": 0,
+    "player_id": 1
+},
+{
+    "Type": "Country",
+    "Value": "Zimbabwe",
+    "Span": "2021-2022",
+    "Mat": 6,
+    "Inns": 2,
+    "Overs": 1.3,
+    "Mdns": 0,
+    "Runs": 17,
+    "Wkts": 0,
+    "BBI": "-",
+    "Avg": "-",
+    "Econ": 11.33,
+    "SR": "-",
+    "4w": 0,
+    "5w": 0,
+    "player_id": 1
+}
+];
     
     
     
@@ -728,65 +1002,6 @@ const prisma = new PrismaClient();
 //   }
 
 async function main() {
-
-    //         batting_career.push({
-//             PlayerID : parseInt(row['PlayerID']),
-//             Mathches : parseInt(row['Matches']),
-//             Innings : parseInt(row['Innings']),
-//             Runs : parseInt(row['Runs']),
-//             Average : parseFloat(row['Average']),
-//             High_Score : parseInt(row['High_Score']),
-//             B_F : parseFloat(row['B_F']),
-//             S_R : parseFloat(row['S_R']),
-//             Hundreds : parseInt(row['Hundreds']),
-//             Fifties : parseInt(row['Fifties']),
-//             Format : row['Format']
-//         })
-
-    // for (const player of players) {
-    //     try {
-    //       const createdPlayer = await prisma.player.create({
-    //         data: {
-    //           Name: player.Name,
-    //           DOB: new Date(player.DOB),
-    //           BattingStyle: player.BattingStyle,
-    //           ICCRanking: player.ICCRanking,
-    //           IntDebut: new Date(player.IntDebut),
-    //           Profile: player.Profile,
-    //           CaptainStatus: player.CaptainStatus,
-    //           PlayerRole: player.PlayerRole
-    //         },
-    //       });
-      
-    //       console.log("Player Created:", createdPlayer);
-    //     } catch (error) {
-    //       console.error("Error creating player:", error);
-    //     }
-    //   }
-    // // Batch insertion for matches
-    // for (const match of matches) {
-    //   try {
-    //     const createdMatch = await prisma.matches.create({
-    //       data: {
-    //         Opponent: match.Opponent,
-    //         Type: match.Type,
-    //         Date: new Date(match.Date),
-    //         Venue: match.Venue,
-    //         Result: match.Result,
-    //         Wonbywicket: match.Wonbywicket,
-    //         Wonbyrun: match.Wonbyrun,
-    //         Winrun: match.Winrun,
-    //         Winwicket: match.Winwicket,
-    //         Score_BD: match.Score_BD,
-    //         Score_Opponent: match.Score_Opponent,
-    //       },
-    //     });
-  
-    //     console.log("Match Created:", createdMatch);
-    //   } catch (error) {
-    //     console.error("Error creating match:", error);
-    //   }
-    // }
 }
   
 main()
