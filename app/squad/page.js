@@ -20,14 +20,30 @@ export default function SquadPage() {
   const [loading, setLoading] = useState(true);
 
   const [selectedPlayer, setSelectedPlayer] = useState(null);
+  const [selectedPlayerData, setSelectedPlayerData] = useState(null);
 
   // Function to handle card click
   const handleCardHandler = async (player) => {
     setSelectedPlayer(player);
 
-    // try{
+    try{
+      const response = await fetch(`/api/players/stats?id=${ player.ID }`);
+      if(!response.ok){
+        throw new Error("Failed to fetch player id ", player.ID);
+      }
 
-    // }
+      const playerData = await response.json();
+      console.log("selected player data is ", playerData);
+
+      setSelectedPlayerData(playerData);
+      console.log("selected player data is ", selectedPlayerData);
+    }
+    catch(error){
+      console.error("Error fetching details ", error.message);
+
+    }
+    finally{
+    }
   };
 
   // Function to close floating card
@@ -139,9 +155,10 @@ export default function SquadPage() {
                 }}
               /> 
             </div>
-            <p><strong>Batting Style:</strong> {selectedPlayer.BattingStyle}</p>
-            <p><strong>ICC Ranking:</strong> #{selectedPlayer.ICCRanking}</p>
-            <p><strong>Role:</strong> {selectedPlayer.PlayerRole}</p>
+            <p><strong>Batting Style:</strong> {selectedPlayerData.Average}</p>
+            <p><strong>ICC Ranking:</strong> #{selectedPlayerData.Innings}</p>
+            <p><strong>Role:</strong> {selectedPlayerData.StrikeRate}</p>
+            
             <button
               onClick={closeFloatingCard}
               style={{
