@@ -1,3 +1,139 @@
+ FUNCTION `GetPlayerCareerDetails`(player_id INT) RETURNS json
+    DETERMINISTIC
+BEGIN
+        DECLARE opponent_country VARCHAR(30);
+        DECLARE matches INT DEFAULT 0;
+        DECLARE innings INT DEFAULT 0;
+        DECLARE notout INT DEFAULT 0;
+        DECLARE runs INT DEFAULT 0;
+        DECLARE highestscores INT DEFAULT 0;
+        DECLARE average FLOAT DEFAULT 0;
+        DECLARE ballsfaced FLOAT DEFAULT 0;
+        DECLARE strikerate FLOAT DEFAULT 0;
+        DECLARE hundreds INT DEFAULT 0;
+        DECLARE fifties INT DEFAULT 0;
+        DECLARE ducks INT DEFAULT 0;
+        DECLARE fours INT DEFAULT 0;
+        DECLARE Sixes INT DEFAULT 0;
+        DECLARE playerRole VARCHAR(30);
+        DECLARE careerDetails JSON;
+
+        DECLARE totalOvers FLOAT DEFAULT 0;
+        DECLARE totalMaidens INT DEFAULT 0;
+        DECLARE totalBowlingRuns INT DEFAULT 0;
+        DECLARE totalWickets INT DEFAULT 0;
+        DECLARE totalFourW INT DEFAULT 0;
+        DECLARE totalFiveW INT DEFAULT 0;
+        DECLARE bowlingAverage FLOAT DEFAULT 0;
+        DECLARE economyRate FLOAT DEFAULT 0;
+        DECLARE bowlingStrikeRate FLOAT DEFAULT 0;
+
+        SELECT PlayerRole INTO playerRole
+        FROM Player
+        WHERE ID = player_id;
+
+        SELECT CONCAT('Player Role: ', playerRole) AS DebugOutput;
+
+        IF playerRole = 'Batsman' THEN
+            SELECT
+                SUM(Mat),
+                SUM(Inns),
+                SUM(`NO`),
+                SUM(Runs),
+                SUM(BF),
+                SUM(Hundres),
+                SUM(Fifty),
+                SUM(Duck),
+                SUM(Fours),
+                SUM(Sixes)
+            INTO
+                matches,
+                innings,
+                notout,
+                runs,
+                ballsfaced,
+                hundreds,
+                fifties,
+                ducks,
+                fours,
+                Sixes
+            FROM Batting_Career
+            WHERE player_id = player_id;
+
+            SELECT AVG(Avg) INTO average
+            FROM Batting_Career
+            WHERE player_id = player_id;
+
+            SELECT AVG(SR) INTO strikerate
+            FROM Batting_Career
+            WHERE player_id = player_id;
+
+            SET careerDetails = JSON_OBJECT(
+                'Role', 'Batsman',
+                'Matches', matches,
+                'Innings', innings,
+                'NO', notout,
+                'Runs', runs,
+                'Average', ROUND(average,2),
+                'StrikeRate', ROUND(strikerate,2),
+                'Hundreds', hundreds,
+                'Fifties', fifties,
+                'Ducks', ducks,
+                'Fours', fours,
+                'Sixes', sixes
+            );
+
+        ELSEIF playerRole = 'Bowler' THEN
+
+            SELECT
+                SUM(Mat),
+                SUM(Inns),
+                SUM(Overs),
+                SUM(Mdns),
+                SUM(Runs),
+                SUM(Wkts),
+                SUM(FourW),
+                SUM(FiveW)
+            INTO
+                matches,
+                innings,
+                totalOvers,
+                totalMaidens,
+                totalBowlingRuns,
+                totalWickets,
+                totalFourW,
+                totalFiveW
+            FROM Bowling_Career
+            WHERE player_id = player_id;
+
+            SELECT
+                AVG(Avg), AVG(Econ), AVG(SR)
+            INTO
+                bowlingAverage, economyRate, bowlingStrikeRate
+            FROM Bowling_Career
+            WHERE player_id = player_id;
+
+            SET careerDetails = JSON_OBJECT(
+                'Role', 'Bowler',
+                'Matches', totalMatches,
+                'Innings', totalInnings,
+                'Overs', totalOvers,
+                'Maidens', totalMaidens,
+                'RunsConceded', totalBowlingRuns,
+                'Wickets', totalWickets,
+                'BowlingAverage', ROUND(bowlingAverage, 2),
+                'EconomyRate', ROUND(economyRate, 2),
+                'StrikeRate', ROUND(bowlingStrikeRate, 2),
+                'FourWicketHauls', totalFourW,
+                'FiveWicketHauls', totalFiveW
+            );
+        ELSE
+            SET careerDetails = JSON_OBJECT('Error',playerRole);
+        END IF;
+        RETURN careerDetails;
+END
+
+
 CREATE FUNCTION GetOpponentStats(opponent_name VARCHAR(255))
    RETURNS JSON
    DETERMINISTIC
@@ -170,3 +306,8 @@ VALUES
 -- ('Country', 'Bangladesh', '2020-2023', 16, 4, 5.1, 0, 34, 2, '1/0', 17.00, 6.58, 15.5, 0, 0, 1),
 -- ('Country', 'Pakistan', '2023-2023', 2, 1, 1.0, 0, 6, 0, '0/0', 0.00, 6.00, 0.00, 0, 0, 1),
 -- ('Country', 'Zimbabwe', '2021-2022', 6, 2, 1.3, 0, 17, 0, '0/0', 0.00, 11.33, 0.00, 0, 0, 1);
+
+
+
+
+

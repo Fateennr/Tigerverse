@@ -56,62 +56,13 @@ export default function Head2Head() {
   }, [selectedOpponent]);
 
   return (
-    <div className={styles.Container}>
-      {/* Button to open/close the drawer */}
-      <button onClick={toggleDrawer} className={styles.DrawerToggle}>
-        ☰
-      </button>
-
-      {/* Drawer */}
-      <aside className={`${styles.Sidebar} ${isDrawerOpen ? styles.Open : ""}`}>
-        <div className={styles.Title}>
-          <h2>TigerVerse</h2>
-        </div>
-        <div className={styles.Spacer}></div> {/* Grey spacer */}
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/head2head">Squad</a></li>
-          <li><a href="/halloffame">Player</a></li>
-          <li><a href="/match">Coach</a></li>
-          <li><a href="/squad">Match</a></li>
-
-        </ul>
-      </aside>
-
-      {/* Main Content */}
-      <main className={styles.MainContent}>
-        <nav className={styles.NavigationBar}>
-          <ul className={styles.navLinks}>
-            <li className={styles.navItem}>
-              <a href="/">Home</a>
-            </li>
-            <li className={styles.navItem}>
-              <a href="/head2head">Head2Head</a>
-            </li>
-
-            <li className={styles.navItem}>
-              <a href="/halloffame">Hall of Fame</a>
-            </li>
-            <li className={styles.navItem}>
-              <a href="/match">Match</a>
-            </li>
-            <li className={styles.navItem}>
-              <a href="/squad">Squad</a>
-            </li>
-            <li className={styles.navItem}>
-              <a href="/bestofbd">Best Of BD</a>
-            </li>
-            <li className={styles.navItem}>
-              <a href="/gallery">Gallery</a>
-            </li>
-          </ul>
-
-        </nav>
+    <>
+      <NavigationBar/>
         {/* Dropdown Menu */}
         <select
           value={selectedOpponent}
           onChange={(e) => setSelectedOpponent(e.target.value)}
-        >
+          >
           <option value="">Select Opponent</option>
           {opponents.map((match) => (
             <option key={match.Opponent} value={match.Opponent}>
@@ -125,6 +76,7 @@ export default function Head2Head() {
 
         {/* Display selected opponent */}
 
+      <main className={styles.MainContent}>
 
         {selectedOpponent && (
           <div style={{ textAlign: "center", margin: "20px 0" }}>
@@ -137,7 +89,7 @@ export default function Head2Head() {
         {opponentStats && (
           <div>
              {selectedOpponent && (
-          <div style={{ textAlign: "center", margin: "20px 0" }}>
+               <div style={{ textAlign: "center", margin: "20px 0" }}>
             <h1 style={{ fontSize: "1rem", fontWeight: "bold" }}>Statistics for {selectedOpponent}</h1>
           </div>
         )}
@@ -152,7 +104,7 @@ export default function Head2Head() {
                 boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
                 textAlign: "center",
               }}
-            >
+              >
               <p style={{ fontSize: "1.2rem", marginBottom: "10px" }}>
                 <strong>Total Matches Played:</strong> {opponentStats.totalMatchesPlayed}
               </p>
@@ -184,7 +136,7 @@ export default function Head2Head() {
         {opponentStats && (
           <>
             {selectedOpponent && (
-          <div style={{ textAlign: "center", margin: "20px 0" }}>
+              <div style={{ textAlign: "center", margin: "20px 0" }}>
             <h1 style={{ fontSize: "1rem", fontWeight: "bold" }}>Win Loss Distribution</h1>
           </div>
         )}
@@ -197,7 +149,7 @@ export default function Head2Head() {
             )}
 
 {selectedOpponent && (
-          <div style={{ textAlign: "center", margin: "20px 0" }}>
+  <div style={{ textAlign: "center", margin: "20px 0" }}>
             <h1 style={{ fontSize: "1rem", fontWeight: "bold" }}>Innings Perfomance</h1>
           </div>
         )}
@@ -210,7 +162,7 @@ export default function Head2Head() {
             )}
 
 {selectedOpponent && (
-          <div style={{ textAlign: "center", margin: "20px 0" }}>
+  <div style={{ textAlign: "center", margin: "20px 0" }}>
             <h1 style={{ fontSize: "1rem", fontWeight: "bold" }}>Match Stats Overview</h1>
           </div>
         )}
@@ -225,12 +177,7 @@ export default function Head2Head() {
           </>
         )}
       </main>
-
-
-
-
-
-    </div>
+</>
 
   );
 }
