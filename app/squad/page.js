@@ -22,8 +22,12 @@ export default function SquadPage() {
   const [selectedPlayer, setSelectedPlayer] = useState(null);
 
   // Function to handle card click
-  const handleCardHandler = (player) => {
+  const handleCardHandler = async (player) => {
     setSelectedPlayer(player);
+
+    // try{
+
+    // }
   };
 
   // Function to close floating card

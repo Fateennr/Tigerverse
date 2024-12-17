@@ -8,21 +8,20 @@ datasource db {
 }
 
 model Player {
-  ID            Int             @id @default(autoincrement())
+  ID            Int              @id @default(autoincrement())
   Name          String
   DOB           DateTime
   BattingStyle  String
   ICCRanking    Int
   IntDebut      DateTime
   Profile       String
-  CaptainStatus Boolean         @default(false)
+  CaptainStatus Boolean          @default(false)
   PlayerRole    String
   BattingCareer Batting_Career[]
   BowlingCareer Bowling_Career[]
 }
 
 model Batting_Career {
-  // id              Int @id @default(autoincrement())
   player_id       Int
   Type            String
   Span            String
@@ -46,8 +45,7 @@ model Batting_Career {
 }
 
 model Bowling_Career {
-  // id              Int @id @default(autoincrement())
-  player_id       Int 
+  player_id       Int
   Type            String
   Value           String
   Span            String
@@ -66,7 +64,6 @@ model Bowling_Career {
   bowling_careers Player @relation(fields: [player_id], references: [ID])
 
   @@unique([player_id, Value])
-
 }
 
 model Matches {

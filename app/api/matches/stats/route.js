@@ -7,8 +7,6 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export async function GET(req) {
-// async function main(req) {
-// async function main() {
   // console.log("is the function alive");
   console.log(req.url);
   try {
