@@ -1,4 +1,3 @@
-import { NextRequest } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -6,11 +5,11 @@ const prisma = new PrismaClient();
 export async function GET(req) {
     console.log(req.url);
     try{
-        // const { searchparams } = new URL(req.url);
-        const searchparams  = req.nextUrl.searchParams;
+        const { searchParams } = new URL(req.url);
+        // const searchparams  = req.nextUrl.searchParams;
         // const { careerurl } = new URL("http://localhost:3000/api/players/stats?id=1");
 
-        const playerid = searchparams.get("id");
+        const playerid = searchParams.get("id");
         // console.log("player id is ", playerid);
         
         // const playerid = 4;

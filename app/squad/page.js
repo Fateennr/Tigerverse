@@ -112,7 +112,7 @@ export default function SquadPage() {
 
       </div>
 
-      {selectedPlayer && (
+      {selectedPlayer && selectedPlayerData && (
         <>
             <div
             onClick={closeFloatingCard}
