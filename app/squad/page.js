@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import NavigationBar from '@/components/NavigationBar';
+import NavigationBar from '@/app/components/NavigationBar';
 
 
 import {
@@ -11,7 +11,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/app/components/ui/card"
 
 export default function SquadPage() {
 

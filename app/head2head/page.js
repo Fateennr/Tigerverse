@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import PieChart from '/components/PieChart';
-import LineChart from "@/components/LineChart";
-import HorizontalBarChart from "@/components/HorizontalBarChart";
-import NavigationBar from "@/components/NavigationBar"; // Import the reusable NavigationBar
+import LineChart from "@/app/components/LineChart";
+import HorizontalBarChart from "@/app/components/HorizontalBarChart";
+import NavigationBar from "@/app/components/NavigationBar"; // Import the reusable NavigationBar
 import styles from "../home.module.css";
 
 export default function Head2Head() {

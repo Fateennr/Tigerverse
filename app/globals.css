@@ -73,3 +73,9 @@ body {
     @apply bg-background text-foreground;
  }
 }
+
+.tiger-container{
+  position: absolute;
+  right: -800px;
+  top: 0;
+}
