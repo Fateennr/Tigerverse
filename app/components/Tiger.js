@@ -6,9 +6,9 @@ const SVGComponent = (props) => (
     xmlnsXlink="http://www.w3.org/1999/xlink"
     x="0px"
     y="0px"
-    width="80vw"
-    height="80vw"
-    viewBox="0 0 500 500"
+    width="100vw"
+    height="100vw"
+    viewBox="0 0 400 400"
     style={{ enableBackground: "new 0 0 500 500" }}
     xmlSpace="preserve"
     {...props}

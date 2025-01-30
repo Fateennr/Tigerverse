@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import PieChart from '/components/PieChart';
+import PieChart from '@/app/components/PieChart';
 import LineChart from "@/app/components/LineChart";
 import HorizontalBarChart from "@/app/components/HorizontalBarChart";
 import NavigationBar from "@/app/components/NavigationBar"; // Import the reusable NavigationBar
