@@ -74,8 +74,19 @@ body {
  }
 }
 
-.tiger-container{
+.tiger-container {
   position: absolute;
-  right: -800px;
   top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.tiger-container svg {
+  width: 100%;
+  height: 100%;
+  transform: translateX(40%);
 }
