@@ -1,24 +1,16 @@
-"use client";
-
-import { useState } from "react"; // Import useState for toggling drawer visibility
-import styles from "./home.module.css"; // Import the CSS module
-import NavigationBar from "@/app/components/NavigationBar";
-import React from "react"
-import Hero from "@/app/components/ui/Hero";
+import Image from "next/image";
+import Hero from "@/components/home/Hero"
+import TeamInfo from "@/components/home/TeamInfo"
+import CricketTimeline from "@/components/home/CricketTimeline"
 
 export default function Home() {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  // Function to toggle the drawer state
-  const toggleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen);
-  };
-
   return (
-
-    <>
-      <Hero/>
-      
-    </>
+    <main className="min-h-screen">
+    <Hero />
+    <div className="container mx-auto px-4 py-12">
+      <TeamInfo />
+      <CricketTimeline />
+    </div>
+  </main>
   );
 }

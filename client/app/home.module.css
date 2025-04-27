@@ -1,204 +1,88 @@
-/* Container to hold everything */
-.Container {
-  display: flex;
-  height: 10vh;
-  /* Full screen height */
-  position: relative;
-}
-
-/* Sidebar Styles (Drawer) */
-.Sidebar {
-  position: fixed;
-  top: 0;
-  left: -250px;
-  /* Hidden by default */
-  width: 250px;
-  background-color: #003300;
-  color: white;
-  height: 100vh;
-  padding: 20px;
-  transition: left 0.3s ease;
-  /* Smooth transition when toggling */
-  z-index: 1000;
-  /* Ensure it's above other content */
-  display: flex;
-  flex-direction: column;
-}
-
-.Sidebar ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.Sidebar li {
-  margin-bottom: 15px;
-}
-
-.Sidebar a {
-  text-decoration: none;
-  color: white;
-  font-weight: bold;
-  font-size: 16px;
-}
-
-.Sidebar a:hover {
-  text-decoration: underline;
-}
-
-.Sidebar.Open {
-  left: 0;
-}
-
-
-.Title {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 24px;
-  font-weight: bold;
-  color: white;
-}
-
-.Spacer {
-  background-color: #808080;
-  height: 1px;
-  margin-bottom: 20px;
-}
-
-.MainContent {
-  flex: 1;
-  padding: 20px;
-  width: 100%;
-  transition: margin-left 0.3s ease;
-}
-
-.NavigationBar {
-  background: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width:100%;
-  height: 5%;
-  position: fixed;
-  top: 0;
-  color: white;
-}
-
-/* Button to toggle the drawer */
-.DrawerToggle {
-  font-size: 30px;
-  background-color: transparent;
-  border: none;
-  color: white;
-  position: absolute;
-  left: 20px;
-  z-index: 1100;
-  cursor: pointer;
-}
-
-/* Navigation Link Styles */
-.navLinks {
-  list-style: none;
-  display: flex;
-  gap: 20px;
-  padding: 0;
-  margin-left: 60px;
-}
-
-.navItem a {
-  text-decoration: none;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.navItem a:hover {
-  text-decoration: underline;
-}
-
-
-/* Dropdown container */
-.DropdownContainer {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* Custom dropdown styling */
-.CustomDropdown {
-  width: 250px;
-  /* Dropdown width */
-  padding: 10px;
-  /* Padding inside the dropdown */
-  border: 2px solid #003300;
-  /* Green border */
-  border-radius: 8px;
-  /* Rounded corners */
-  background-color: white;
-  /* Background color */
-  color: #003300;
-  /* Text color */
-  font-size: 16px;
-  /* Font size */
-  font-weight: bold;
-  /* Bold text */
-  cursor: pointer;
-  /* Pointer cursor */
-  outline: none;
-  /* Remove outline */
-  appearance: none;
-  /* Remove default dropdown arrow for consistent design */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  /* Subtle shadow */
-}
-
-/* Add hover effect */
-.CustomDropdown:hover {
-  background-color: #e6ffe6;
-  /* Slightly lighter green background on hover */
-  border-color: #006600;
-  /* Darker green border on hover */
-}
-
-/* Focus effect for keyboard users */
-.CustomDropdown:focus {
-  border-color: #009900;
-  /* Bright green border */
-  box-shadow: 0 0 6px rgba(0, 153, 0, 0.5);
-  /* Glow effect */
-}
-
-/* Dropdown option styling */
-.CustomDropdown option {
-  font-weight: normal;
-  /* Normal font weight */
-  background-color: white;
-  /* Background for options */
-  color: #003300;
-  /* Text color */
-}
-
-.hero-image {
-  width: 50%; 
-  height: 50%;
-  /* max-width: 100%;  Ensures the image doesn't exceed the container's width */
-  padding-left: 500px;
-}
-
-.hero{
-  position:absolute;
-  top:0;
-}
-
-.hero svg{
-  position:relative;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-}
-
-
+/* Home page specific styles */
+.timelineContainer {
+    position: relative;
+    padding: 2rem 0;
+  }
+  
+  .timelineItem {
+    display: flex;
+    margin-bottom: 2rem;
+    transition: transform 0.3s ease;
+  }
+  
+  .timelineItem:hover {
+    transform: translateX(10px);
+  }
+  
+  .timelineYear {
+    font-weight: bold;
+    min-width: 100px;
+    color: #ffde00; /* Bangladesh yellow */
+  }
+  
+  .timelineContent {
+    margin-left: 2rem;
+    padding: 1.5rem;
+    background-color: rgba(0, 106, 78, 0.3); /* Bangladesh green with opacity */
+    border-radius: 0.5rem;
+    border-left: 4px solid #f42a41; /* Bangladesh red */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .timelineContent:hover {
+    background-color: rgba(0, 106, 78, 0.5);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .teamInfoSection {
+    margin-bottom: 4rem;
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  .sectionTitle {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+    border-bottom: 3px solid #f42a41; /* Bangladesh red */
+    padding-bottom: 0.5rem;
+    display: inline-block;
+    position: relative;
+  }
+  
+  .sectionTitle::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 50%;
+    height: 3px;
+    background-color: #ffde00; /* Bangladesh yellow */
+  }
+  
+  .statCard {
+    background-color: rgba(0, 106, 78, 0.2);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    border-left: 4px solid #f42a41;
+  }
+  
+  .statCard:hover {
+    background-color: rgba(0, 106, 78, 0.4);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .achievementItem {
+    transition: all 0.3s ease;
+    padding: 0.5rem 0;
+  }
+  
+  .achievementItem:hover {
+    transform: translateX(10px);
+    color: #ffde00; /* Bangladesh yellow */
+  }
+  

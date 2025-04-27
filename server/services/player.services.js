@@ -1,6 +1,7 @@
 const db = require('../config/db');
 
 class PlayerServices{
+    
     fetchData(query, params = []){
         return new Promise((resolve, reject) => {
             db.query(query, params, (err, results) => {
@@ -9,6 +10,7 @@ class PlayerServices{
             });
         });
     };
+
     getBattingData(playerId){
         const sql = `
         SELECT *
