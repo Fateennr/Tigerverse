@@ -48,6 +48,10 @@ export default function NavigationBar() {
             Squad
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#f42a41] transition-all duration-300 group-hover:w-full"></span>
           </Link>
+          <Link href="/my-squad" className="text-white hover:text-[#ffde00] transition-colors relative group">
+            Generate My Own Squad !
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#f42a41] transition-all duration-300 group-hover:w-full"></span>
+          </Link>
           <Link href="/h2h" className="text-white hover:text-[#ffde00] transition-colors relative group">
             Head2Head
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#f42a41] transition-all duration-300 group-hover:w-full"></span>
@@ -83,6 +87,13 @@ export default function NavigationBar() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Squad
+              </Link>
+              <Link
+                href="/my-squad"
+                className="text-white hover:text-[#ffde00] transition-colors py-2 px-4 border-l-2 border-[#f42a41]"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Generate My Own Squad !
               </Link>
               <Link
                 href="/h2h"
