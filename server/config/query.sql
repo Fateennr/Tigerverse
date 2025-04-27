@@ -2774,5 +2774,269 @@ END;
 DELIMITER ;
 
 -- test the players
-CALL GetPlayers('playing','ALL','Bowler','runs','DESC');
+CALL GetAllPlayers('playing','ALL','Bowler','runs','DESC');
+
+-- for squad page
+
+
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS GetMatchesList;
+//
+CREATE PROCEDURE GetMatchesList(
+  IN in_venues    TEXT,         -- comma-separated list or 'ALL'
+  IN in_format    VARCHAR(10),  -- 'ODI','Test','T20','ALL'
+  IN in_winType   VARCHAR(10),  -- 'run','wicket','both'
+  IN in_sortBy    VARCHAR(20),  -- 'wonbyrun','winrun','winwicket','longest','highestrun'
+  IN in_sortOrder VARCHAR(4)    -- 'ASC' or 'DESC'
+)
+BEGIN
+  DECLARE sort_col VARCHAR(100) DEFAULT 'ID';
+  DECLARE sort_dir VARCHAR(4)   DEFAULT 'ASC';
+  DECLARE ql       TEXT;
+  IF in_sortBy = 'wonbyrun' THEN
+    SET sort_col = 'Wonbyrun';
+  ELSEIF in_sortBy = 'winrun' THEN
+    SET sort_col = 'Winrun';
+  ELSEIF in_sortBy = 'winwicket' THEN
+    SET sort_col = 'Winwicket';
+  ELSEIF in_sortBy = 'longest' THEN
+    SET sort_col = 'Score_BD_Over_Played + Score_Opp_Over_Played';
+  ELSEIF in_sortBy = 'highestrun' THEN
+    SET sort_col = 'GREATEST(Score_BD_Run, Score_Opp_Run)';
+  END IF;
+  IF UPPER(in_sortOrder) = 'DESC' THEN
+    SET sort_dir = 'DESC';
+  END IF;
+  SET ql = CONCAT(
+    'SELECT * FROM Matches WHERE ',
+      '(? = ''ALL'' OR FIND_IN_SET(Venue, ?) > 0) ',
+      'AND (? = ''ALL'' OR `Type` = ?) '
+  );
+  IF in_winType = 'run' THEN
+    SET ql = CONCAT(ql, 'AND Wonbyrun   = 1 ');
+  ELSEIF in_winType = 'wicket' THEN
+    SET ql = CONCAT(ql, 'AND Wonbywicket= 1 ');
+  END IF;
+  SET ql = CONCAT(ql, 'ORDER BY ', sort_col, ' ', sort_dir);
+  PREPARE stmt FROM ql;
+  SET @v1 = in_venues;
+  SET @v2 = in_venues;
+  SET @v3 = in_format;
+  SET @v4 = in_format;
+  EXECUTE stmt USING @v1, @v2, @v3, @v4;
+  DEALLOCATE PREPARE stmt;
+END;
+//
+
+DELIMITER ;
+
+-- get matches list based on filtering
+DELIMITER //
+
+CREATE PROCEDURE GetMatchesList(
+  IN in_venues    TEXT,        
+  IN in_format    VARCHAR(10), 
+  IN in_winType   VARCHAR(10), 
+  IN in_sortBy    VARCHAR(20),
+  IN in_sortOrder VARCHAR(4)   
+)
+BEGIN
+  DECLARE sort_col VARCHAR(100) DEFAULT 'ID';
+  DECLARE sort_dir VARCHAR(4)   DEFAULT 'ASC';
+  DECLARE ql       TEXT;
+
+  IF in_sortBy = 'wonbyrun'  THEN SET sort_col = 'Wonbyrun';
+  ELSEIF in_sortBy = 'winrun' THEN SET sort_col = 'Winrun';
+  ELSEIF in_sortBy = 'winwicket' THEN SET sort_col = 'Winwicket';
+  ELSEIF in_sortBy = 'longest' THEN 
+    SET sort_col = 'Score_BD_Over_Played + Score_Opp_Over_Played';
+  ELSEIF in_sortBy = 'highestrun' THEN 
+    SET sort_col = 'GREATEST(Score_BD_Run, Score_Opp_Run)';
+  END IF;
+
+  IF UPPER(in_sortOrder) = 'DESC' THEN
+    SET sort_dir = 'DESC';
+  END IF;
+
+  SET ql = CONCAT(
+    'SELECT * FROM Matches WHERE ',
+      '(? = ''ALL'' OR FIND_IN_SET(Venue, ?) > 0) ',
+      'AND (? = ''ALL'' OR `Type` = ?) '
+  );
+
+  IF in_winType = 'run' THEN
+    SET ql = CONCAT(ql, 'AND Wonbyrun = 1 ');
+  ELSEIF in_winType = 'wicket' THEN
+    SET ql = CONCAT(ql, 'AND Wonbywicket = 1 ');
+  END IF;
+
+  SET ql = CONCAT(ql, 'ORDER BY ', sort_col, ' ', sort_dir);
+
+  SET @sql = ql;
+  PREPARE stmt FROM @sql;
+
+  SET @v1 = in_venues;
+  SET @v2 = in_venues;
+  SET @v3 = in_format;
+  SET @v4 = in_format;
+
+  EXECUTE stmt USING @v1, @v2, @v3, @v4;
+  DEALLOCATE PREPARE stmt;
+END //
+
+DELIMITER ;
+
+-- Get matches List 
+
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS GetMatchesList;
+
+CREATE PROCEDURE GetMatchesList(
+  IN in_venues     TEXT,         -- comma-sep list or 'ALL'
+  IN in_format     VARCHAR(10),  -- 'ODI','Test','T20','ALL'
+  IN in_opponents  TEXT,         -- comma-sep list or 'ALL'
+  IN in_winType    VARCHAR(10),  -- 'run','wicket','both'
+  IN in_sortBy     VARCHAR(20),  -- 'wonbyrun','winrun','winwicket','longest','highestrun'
+  IN in_sortOrder  VARCHAR(4)    -- 'ASC' or 'DESC'
+)
+BEGIN
+  DECLARE sort_col VARCHAR(100) DEFAULT 'ID';
+  DECLARE sort_dir VARCHAR(4)   DEFAULT 'ASC';
+  DECLARE ql       TEXT;
+
+  IF in_sortBy = 'wonbyrun' THEN
+    SET sort_col = 'Wonbyrun';
+  ELSEIF in_sortBy = 'winrun' THEN
+    SET sort_col = 'Winrun';
+  ELSEIF in_sortBy = 'winwicket' THEN
+    SET sort_col = 'Winwicket';
+  ELSEIF in_sortBy = 'longest' THEN
+    SET sort_col = 'Score_BD_Over_Played + Score_Opp_Over_Played';
+  ELSEIF in_sortBy = 'highestrun' THEN
+    SET sort_col = 'GREATEST(Score_BD_Run, Score_Opp_Run)';
+  END IF;
+
+  IF UPPER(in_sortOrder) = 'DESC' THEN
+    SET sort_dir = 'DESC';
+  END IF;
+
+  SET ql = CONCAT(
+    'SELECT * FROM Matches WHERE ',
+      '(? = ''ALL'' OR FIND_IN_SET(Venue, ?) > 0) ',
+      'AND (? = ''ALL'' OR `Type` = ?) ',
+      'AND (? = ''ALL'' OR FIND_IN_SET(Opponent, ?) > 0) ',
+      'AND (',
+        '? IN (''ALL'',''both'') ',
+        'OR (? = ''run''    AND Wonbyrun   = 1) ',
+        'OR (? = ''wicket'' AND Wonbywicket= 1)',
+      ') ',
+    'ORDER BY ', sort_col, ' ', sort_dir
+  );
+
+  SET @sql = ql;
+  PREPARE stmt FROM @sql;
+  SET @v1 = in_venues;
+  SET @v2 = in_venues;
+  SET @v3 = in_format;
+  SET @v4 = in_format;
+  SET @v5 = in_opponents;
+  SET @v6 = in_opponents;
+  SET @v7 = in_winType;
+  SET @v8 = in_winType;
+  SET @v9 = in_winType;
+
+  EXECUTE stmt USING @v1, @v2, @v3, @v4, @v5, @v6, @v7, @v8, @v9;
+  DEALLOCATE PREPARE stmt;
+END; 
+//
+DELIMITER ;
+
+
+-- test
+CALL GetMatchesList(
+  'Lord\'s Cricket Ground',
+  'ODI',
+  'India',
+  'both',
+  'highestrun',
+  'DESC'
+);
+
+-- summerise bowling career for player
+
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS SummarizeBowlingCareer;
+//
+CREATE PROCEDURE SummarizeBowlingCareer(
+  IN in_playerId INT
+)
+BEGIN
+  DECLARE done        BOOLEAN DEFAULT FALSE;
+  DECLARE v_Format    VARCHAR(10);
+  DECLARE v_Location  VARCHAR(10);
+  DECLARE v_Matches   INT;
+  DECLARE v_Five      INT;
+  DECLARE v_Ten       INT;
+  DECLARE v_Maidens   INT;
+
+  DECLARE tot_ODI       INT DEFAULT 0;
+  DECLARE tot_T20       INT DEFAULT 0;
+  DECLARE tot_Test      INT DEFAULT 0;
+  DECLARE tot_Home      INT DEFAULT 0;
+  DECLARE tot_Away      INT DEFAULT 0;
+  DECLARE tot_Neutral   INT DEFAULT 0;
+  DECLARE tot_FiveHauls INT DEFAULT 0;
+  DECLARE tot_TenHauls  INT DEFAULT 0;
+  DECLARE tot_Maidens   INT DEFAULT 0;
+
+  DECLARE cur CURSOR FOR
+    SELECT MatchType, LocationType, Matches,
+           FiveWicketHauls, TenWicketHauls, Maidens
+      FROM BowlingCareerAgainst
+     WHERE PlayerID = in_playerId;
+
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+  OPEN cur;
+  read_loop: LOOP
+    FETCH cur INTO
+      v_Format, v_Location, v_Matches,
+      v_Five, v_Ten, v_Maidens;
+    IF done THEN
+      LEAVE read_loop;
+    END IF;
+
+    IF v_Format = 'ODI'  THEN SET tot_ODI   = tot_ODI   + v_Matches; END IF;
+    IF v_Format = 'T20'  THEN SET tot_T20   = tot_T20   + v_Matches; END IF;
+    IF v_Format = 'Test' THEN SET tot_Test  = tot_Test  + v_Matches; END IF;
+
+    IF v_Location = 'Home'    THEN SET tot_Home    = tot_Home    + v_Matches; END IF;
+    IF v_Location = 'Away'    THEN SET tot_Away    = tot_Away    + v_Matches; END IF;
+    IF v_Location = 'Neutral' THEN SET tot_Neutral = tot_Neutral + v_Matches; END IF;
+
+    SET tot_FiveHauls = tot_FiveHauls + v_Five;
+    SET tot_TenHauls  = tot_TenHauls  + v_Ten;
+    SET tot_Maidens   = tot_Maidens   + v_Maidens;
+  END LOOP;
+  CLOSE cur;
+
+  SELECT
+    tot_ODI       AS TotalODIMatches,
+    tot_T20       AS TotalT20Matches,
+    tot_Test      AS TotalTestMatches,
+    tot_Home      AS TotalHomeMatches,
+    tot_Away      AS TotalAwayMatches,
+    tot_Neutral   AS TotalNeutralMatches,
+    tot_FiveHauls AS TotalFiveWicketHauls,
+    tot_TenHauls  AS TotalTenWicketHauls,
+    tot_Maidens   AS TotalMaidens;
+END;
+//
+DELIMITER ;
+
+
+
 
