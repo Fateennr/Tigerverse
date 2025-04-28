@@ -72,10 +72,12 @@ CALL GetSquad('T20','2024-2025', ' ranking', 'ASC');
 -- to get the list of the players
 DELIMITER //
 
-DROP PROCEDURE IF EXISTS GetAllPlayers;
-//
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS GetAllPlayers $$
+
 CREATE PROCEDURE GetAllPlayers(
-  IN in_status    VARCHAR(10),  -- 'playing','retired','both'
+  IN in_status    VARCHAR(10),  -- 'playing','retired','ALL'
   IN in_format    VARCHAR(10),  -- 'ODI','Test','T20','ALL'
   IN in_role      VARCHAR(20),  -- 'Batsman','Bowler','Wicketkeeper','ALL'
   IN in_sortBy    VARCHAR(20),  -- 'runs','wickets','ranking','matches','dismissals','none'
@@ -92,6 +94,7 @@ BEGIN
     SET where_clause = CONCAT(where_clause, ' AND p.Retired IS NULL ');
   ELSEIF in_status = 'retired' THEN
     SET where_clause = CONCAT(where_clause, ' AND p.Retired IS NOT NULL ');
+  -- if 'ALL', no filter needed
   END IF;
 
   -- 2) Role filter
@@ -128,30 +131,28 @@ BEGIN
     SET sort_col = 'TotalMatches';
   ELSEIF in_sortBy = 'dismissals' THEN
     SET sort_col = 'TotalDismissals';
+  ELSE
+    SET sort_col = 'p.ID'; -- Default sort
   END IF;
 
   -- 5) Determine sort direction
   IF UPPER(in_sortOrder) = 'DESC' THEN
     SET sort_dir = 'DESC';
+  ELSE
+    SET sort_dir = 'ASC';
   END IF;
 
   -- 6) Build and run dynamic SQL
   SET @sql_text = CONCAT(
     'SELECT ',
-      'p.ID, ',
-      'p.Name, ',
-      'p.RANKING, ',
-      'p.PlayerRole, ',
-      'p.BattingStyle, ',
-      'p.BowlingStyle, ',
-      -- your aggregates follow:
-      'COALESCE((SELECT SUM(Runs)     FROM BattingCareerAgainst ',
+      'p.*, ',
+      'COALESCE((SELECT SUM(Runs) FROM BattingCareerAgainst ',
                'WHERE PlayerID = p.ID ',
                  'AND (MatchType = ', fmt_q, ' OR ', fmt_q, ' = ''ALL'')), 0) AS TotalRuns, ',
-      'COALESCE((SELECT SUM(Wickets)  FROM BowlingCareerAgainst ',
+      'COALESCE((SELECT SUM(Wickets) FROM BowlingCareerAgainst ',
                'WHERE PlayerID = p.ID ',
                  'AND (MatchType = ', fmt_q, ' OR ', fmt_q, ' = ''ALL'')), 0) AS TotalWickets, ',
-      'COALESCE((SELECT SUM(Matches)  FROM BattingCareerAgainst ',
+      'COALESCE((SELECT SUM(Matches) FROM BattingCareerAgainst ',
                'WHERE PlayerID = p.ID ',
                  'AND (MatchType = ', fmt_q, ' OR ', fmt_q, ' = ''ALL'')), 0) AS TotalMatches, ',
       'COALESCE((SELECT SUM(Catches+Stumpings+RunOuts+DirectHits) ',
@@ -167,12 +168,91 @@ BEGIN
   PREPARE stmt FROM @sql_text;
   EXECUTE stmt;
   DEALLOCATE PREPARE stmt;
-END;
-//
+END $$
+
 DELIMITER ;
 
+
+
 -- test the players
-CALL GetAllPlayers('playing','ALL','Bowler','runs','DESC');
+CALL GetAllPlayers('ALL','ALL','Bowler','runs','DESC');
+
+DROP PROCEDURE IF EXISTS GetHighestRunByPlayerID;
+
+DROP PROCEDURE IF EXISTS GetHighestWicketsByPlayerID;
+DROP PROCEDURE IF EXISTS GetMatchesPlayedByPlayerID;
+DROP PROCEDURE IF EXISTS GetHighestDismissalsByPlayerID;
+DROP FUNCTION IF EXISTS GetPlayerStatusByID;
+
+
+
+
+
+-- Set delimiter
+DELIMITER $$
+
+-- Get the highest run by a player
+CREATE PROCEDURE GetHighestRunByPlayerID(IN player_id INT)
+BEGIN
+    SELECT MAX(HighestScore) AS HighestRun
+    FROM BattingCareerAgainst
+    WHERE PlayerID = player_id;
+END $$
+
+
+
+-- Get the highest wickets by a player
+CREATE PROCEDURE GetHighestWicketsByPlayerID(IN player_id INT)
+BEGIN
+    SELECT MAX(Wickets) AS HighestWickets
+    FROM BowlingCareerAgainst
+    WHERE PlayerID = player_id;
+END $$
+
+-- Get the total matches played by a player
+CREATE PROCEDURE GetMatchesPlayedByPlayerID(IN player_id INT)
+BEGIN
+    SELECT 
+        COALESCE(
+            (SELECT SUM(Matches) FROM BattingCareerAgainst WHERE PlayerID = player_id), 0
+        ) +
+        COALESCE(
+            (SELECT SUM(Matches) FROM BowlingCareerAgainst WHERE PlayerID = player_id), 0
+        ) +
+        COALESCE(
+            (SELECT SUM(Matches) FROM FieldingCareer WHERE PlayerID = player_id), 0
+        ) AS TotalMatchesPlayed;
+END $$
+
+-- Get the highest dismissals by a player
+CREATE PROCEDURE GetHighestDismissalsByPlayerID(IN player_id INT)
+BEGIN
+    SELECT MAX(Catches + Stumpings + RunOuts + DirectHits) AS HighestDismissals
+    FROM FieldingCareer
+    WHERE PlayerID = player_id;
+END $$
+
+-- Get the player status (Retired or Playing)
+CREATE FUNCTION GetPlayerStatusByID(player_id INT) 
+RETURNS VARCHAR(10)
+DETERMINISTIC
+BEGIN
+    DECLARE player_status VARCHAR(10);
+
+    SELECT CASE
+             WHEN Retired IS NULL THEN 'Playing'
+             ELSE 'Retired'
+           END
+    INTO player_status
+    FROM Players
+    WHERE ID = player_id;
+
+    RETURN player_status;
+END $$
+
+-- Reset delimiter
+DELIMITER ;
+
 
 -- for squad page
 
@@ -248,7 +328,7 @@ DELIMITER ;
 
 -- test
 CALL GetMatchesList(
-  'Lord\'s Cricket Ground',
+  'Lord Cricket Ground',
   'ODI',
   'India',
   'both',
@@ -259,6 +339,8 @@ CALL GetMatchesList(
 -- summerise bowling career for player
 
 DELIMITER //
+
+
 
 DROP PROCEDURE IF EXISTS SummarizeBowlingCareer;
 //
@@ -328,3 +410,4 @@ BEGIN
 END;
 //
 DELIMITER ;
+

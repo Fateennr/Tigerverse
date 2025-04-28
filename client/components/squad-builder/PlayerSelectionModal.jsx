@@ -25,14 +25,14 @@ export default function PlayerSelectionModal({ onClose, onPlayerSelect }) {
     try {
       setLoading(true)
       // In a real app, this would be an actual API call
-      // const response = await fetch(`${process.env.BACKEND_URI}/players`)
-      // const data = await response.json()
+       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/players/playersinfosquadgen`);
+       const data = await response.json();
 
       // Mock data for players
-      const data = [
+      /* const data = [
         {
           id: 1,
-          name: "Tamim Iqbal",
+          name: "Tanim Iqbal",
           role: "Batsman",
           status: "playing",
           formats: ["Test", "ODI", "T20"],
@@ -240,7 +240,7 @@ export default function PlayerSelectionModal({ onClose, onPlayerSelect }) {
           },
           image: "/placeholder.svg?height=300&width=300",
         },
-      ]
+      ] */
 
       setPlayers(data)
       setFilteredPlayers(data)
