@@ -24,7 +24,7 @@ class GalleryService {
 
     const cat = category.trim().toLowerCase()
 
-    // 2) category==='match' → join into your Matches table
+    // 2) category==='match' → join into your Matches table and order by date desc
     if (cat === 'match') {
       const sqlMatch = `
         SELECT
@@ -50,6 +50,7 @@ class GalleryService {
         JOIN Matches m
           ON p.EntityID = m.ID
         WHERE LOWER(p.Category) = ?
+        ORDER BY m.Date DESC
       `
       const [matchRows] = await db.promise().query(sqlMatch, [cat])
       return matchRows
