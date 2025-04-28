@@ -12,6 +12,16 @@ class ServicesController{
       res.status(500).json({ error: 'Failed to fetch data' });
     }
   }
+
+  async getVenues (req, res){
+    try {
+      const data = await ServicesServices.getSpan('SELECT DISTINCT(Venue) FROM Matches');
+      res.json(data);
+    } catch (err) {
+      console.error('Database query error:', err);
+      res.status(500).json({ error: 'Failed to fetch data' });
+    }
+  }
 }
 
 module.exports = new ServicesController();

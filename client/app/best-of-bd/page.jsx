@@ -28,10 +28,9 @@ export default function BestOfBDPage() {
       try {
         setLoading(true)
 
-        // In a real app, these would be actual API calls
-        // const venuesResponse = await fetch(`${process.env.BACKEND_URI}/services/venues`)
-        // const opponentsResponse = await fetch(`${process.env.BACKEND_URI}/services/opponents`)
-        // const matchesResponse = await fetch(`${process.env.BACKEND_URI}/matches`)
+        const venuesResponse = await fetch(`${process.env.BACKEND_URI}/services/venues`)
+        const opponentsResponse = await fetch(`${process.env.BACKEND_URI}/services/opponents`)
+        const matchesResponse = await fetch(`${process.env.BACKEND_URI}/matches`)
 
         // Mock data for venues
         const venuesData = [
