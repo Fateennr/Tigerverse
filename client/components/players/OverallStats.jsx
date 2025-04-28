@@ -12,6 +12,11 @@ import {
   PieChart,
   Pie,
   Cell,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  Radar,
 } from "recharts"
 
 export default function OverallStats({ battingStats, bowlingStats, fieldingStats, player }) {
@@ -20,8 +25,8 @@ export default function OverallStats({ battingStats, bowlingStats, fieldingStats
   // Calculate overall stats
   const totalRuns = battingStats.reduce((sum, stat) => sum + stat.Runs, 0)
   const totalWickets = bowlingStats.reduce((sum, stat) => sum + stat.Wickets, 0)
-  const totalCatches = fieldingStats.reduce((sum, stat) => sum + stat.Catches, 0)
-  const totalStumpings = fieldingStats.reduce((sum, stat) => sum + stat.Stumpings, 0)
+  const totalCatches = fieldingStats.reduce((sum, stat) => sum + (stat.Catches || 0), 0)
+  const totalStumpings = fieldingStats.reduce((sum, stat) => sum + (stat.Stumpings || 0), 0)
 
   // Format data for charts
   const formatPerformanceData = () => {
@@ -69,8 +74,72 @@ export default function OverallStats({ battingStats, bowlingStats, fieldingStats
     return [
       { name: "Catches", value: totalCatches, color: "#006a4e" },
       { name: "Stumpings", value: totalStumpings, color: "#f42a41" },
-      { name: "Run Outs", value: fieldingStats.reduce((sum, stat) => sum + stat.RunOuts, 0), color: "#ffde00" },
-      { name: "Direct Hits", value: fieldingStats.reduce((sum, stat) => sum + stat.DirectHits, 0), color: "#ffffff" },
+      { name: "Run Outs", value: fieldingStats.reduce((sum, stat) => sum + (stat.RunOuts || 0), 0), color: "#ffde00" },
+      {
+        name: "Direct Hits",
+        value: fieldingStats.reduce((sum, stat) => sum + (stat.DirectHits || 0), 0),
+        color: "#ffffff",
+      },
+    ].filter((item) => item.value > 0)
+  }
+
+  // Prepare data for spider chart
+  const prepareSpiderData = () => {
+    // Calculate batting metrics
+    const avgBattingAverage =
+      battingStats.length > 0
+        ? battingStats.reduce((sum, stat) => sum + Number.parseFloat(stat.Average), 0) / battingStats.length
+        : 0
+    const avgBattingStrikeRate =
+      battingStats.length > 0
+        ? battingStats.reduce((sum, stat) => sum + Number.parseFloat(stat.StrikeRate), 0) / battingStats.length
+        : 0
+
+    // Calculate bowling metrics
+    const avgBowlingEconomy =
+      bowlingStats.length > 0
+        ? bowlingStats.reduce((sum, stat) => sum + Number.parseFloat(stat.Economy), 0) / bowlingStats.length
+        : 0
+    const avgBowlingAverage =
+      bowlingStats.length > 0
+        ? bowlingStats.reduce((sum, stat) => sum + Number.parseFloat(stat.Average), 0) / bowlingStats.length
+        : 0
+    const avgBowlingStrikeRate =
+      bowlingStats.length > 0
+        ? bowlingStats.reduce((sum, stat) => sum + Number.parseFloat(stat.StrikeRate), 0) / bowlingStats.length
+        : 0
+
+    // Calculate fielding metrics
+    const totalDismissals = totalCatches + totalStumpings
+
+    // Normalize values (0-100 scale)
+    // For batting: higher is better
+    // For bowling: lower is better (so we invert)
+    const maxBattingAvg = 60 // Benchmark
+    const maxStrikeRate = 150 // Benchmark
+    const minBowlingEconomy = 3 // Benchmark
+    const minBowlingAvg = 20 // Benchmark
+    const minBowlingStrikeRate = 30 // Benchmark
+
+    return [
+      { subject: "Batting Average", A: Math.min(100, (avgBattingAverage / maxBattingAvg) * 100), fullMark: 100 },
+      { subject: "Batting SR", A: Math.min(100, (avgBattingStrikeRate / maxStrikeRate) * 100), fullMark: 100 },
+      {
+        subject: "Bowling Economy",
+        A: Math.min(100, (minBowlingEconomy / Math.max(1, avgBowlingEconomy)) * 100),
+        fullMark: 100,
+      },
+      {
+        subject: "Bowling Average",
+        A: Math.min(100, (minBowlingAvg / Math.max(1, avgBowlingAverage)) * 100),
+        fullMark: 100,
+      },
+      {
+        subject: "Bowling SR",
+        A: Math.min(100, (minBowlingStrikeRate / Math.max(1, avgBowlingStrikeRate)) * 100),
+        fullMark: 100,
+      },
+      { subject: "Fielding", A: Math.min(100, totalDismissals * 10), fullMark: 100 }, // Arbitrary scale
     ]
   }
 
@@ -109,9 +178,9 @@ export default function OverallStats({ battingStats, bowlingStats, fieldingStats
       </div>
 
       {/* Chart Selection */}
-      <div className="flex space-x-2 mb-4">
+      <div className="flex flex-wrap space-x-2 mb-4">
         <button
-          className={`px-3 py-1 text-sm rounded-md transition-colors ${
+          className={`px-3 py-1 text-sm rounded-md transition-colors mb-2 ${
             activeChart === "performance" ? "bg-[#006a4e] text-white" : "bg-[#333] text-gray-300 hover:bg-[#444]"
           }`}
           onClick={() => setActiveChart("performance")}
@@ -119,7 +188,7 @@ export default function OverallStats({ battingStats, bowlingStats, fieldingStats
           Format Performance
         </button>
         <button
-          className={`px-3 py-1 text-sm rounded-md transition-colors ${
+          className={`px-3 py-1 text-sm rounded-md transition-colors mb-2 ${
             activeChart === "runs" ? "bg-[#006a4e] text-white" : "bg-[#333] text-gray-300 hover:bg-[#444]"
           }`}
           onClick={() => setActiveChart("runs")}
@@ -127,12 +196,20 @@ export default function OverallStats({ battingStats, bowlingStats, fieldingStats
           Run Distribution
         </button>
         <button
-          className={`px-3 py-1 text-sm rounded-md transition-colors ${
+          className={`px-3 py-1 text-sm rounded-md transition-colors mb-2 ${
             activeChart === "fielding" ? "bg-[#006a4e] text-white" : "bg-[#333] text-gray-300 hover:bg-[#444]"
           }`}
           onClick={() => setActiveChart("fielding")}
         >
           Fielding Stats
+        </button>
+        <button
+          className={`px-3 py-1 text-sm rounded-md transition-colors mb-2 ${
+            activeChart === "spider" ? "bg-[#006a4e] text-white" : "bg-[#333] text-gray-300 hover:bg-[#444]"
+          }`}
+          onClick={() => setActiveChart("spider")}
+        >
+          Player Rating
         </button>
       </div>
 
@@ -207,15 +284,31 @@ export default function OverallStats({ battingStats, bowlingStats, fieldingStats
             </PieChart>
           </ResponsiveContainer>
         )}
+
+        {activeChart === "spider" && (
+          <ResponsiveContainer width="100%" height="100%">
+            <RadarChart cx="50%" cy="50%" outerRadius="80%" data={prepareSpiderData()}>
+              <PolarGrid stroke="#444" />
+              <PolarAngleAxis dataKey="subject" tick={{ fill: "#fff" }} />
+              <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fill: "#fff" }} />
+              <Radar name="Player Rating" dataKey="A" stroke="#ffde00" fill="#ffde00" fillOpacity={0.6} />
+              <Tooltip
+                contentStyle={{ backgroundColor: "#1c1c1c", borderColor: "#333" }}
+                formatter={(value) => [`${value.toFixed(1)}%`, "Rating"]}
+              />
+            </RadarChart>
+          </ResponsiveContainer>
+        )}
       </div>
 
       <div className="mt-6 p-4 bg-[#006a4e]/20 rounded-lg border-l-2 border-[#006a4e]">
         <h4 className="text-lg font-bold text-white mb-2">Player Summary</h4>
         <p className="text-gray-300">
-          {player.name} is a {player.role.toLowerCase()} who has represented Bangladesh in
-          {player.formats.join(", ")} formats. With {totalRuns} runs and {totalWickets} wickets in international
-          cricket, {player.name} has been a valuable asset to the Bangladesh cricket team since{" "}
-          {player.span.split("-")[0]}.
+          {player.Name || player.name} is a {(player.Role || player.role || "").toLowerCase()} who has represented
+          Bangladesh in
+          {player.formats ? player.formats.join(", ") : (player.Specialist || "").split(",").join(", ")} formats. With{" "}
+          {totalRuns} runs and {totalWickets} wickets in international cricket, {player.Name || player.name} has been a
+          valuable asset to the Bangladesh cricket team since their debut.
         </p>
       </div>
     </div>
