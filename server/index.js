@@ -3,6 +3,7 @@ const cors = require('cors');
 const app = express();
 const playerRoutes = require('./routes/player.routes');
 const squadRoutes = require('./routes/squad.routes');
+const servicesRoutes = require('./routes/services.routes');
 
 app.use(cors({
   methods: ['GET','POST','PUT','DELETE','OPTIONS'],
@@ -13,6 +14,7 @@ app.use(express.json());
 
 app.use('/players', playerRoutes);
 app.use('/squad', squadRoutes);
+app.use('/services', servicesRoutes);
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

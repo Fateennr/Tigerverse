@@ -2615,6 +2615,7 @@ CREATE PROCEDURE GetSquad(
 BEGIN
   DECLARE order_col  VARCHAR(50) DEFAULT 'p.RANKING';
   DECLARE order_dir  VARCHAR(4)  DEFAULT 'ASC';
+  DECLARE id_aggr   VARCHAR(4)  DEFAULT 'MAX';
 
   IF in_sortBy = 'date' THEN
     SET order_col = 's.ID';
@@ -2626,28 +2627,34 @@ BEGIN
     SET order_dir = 'DESC';
   END IF;
 
-  SET @sql_text = CONCAT(
+  IF in_sortBy = 'date' AND UPPER(in_sortOrder) = 'ASC' THEN
+    SET id_aggr = 'MIN';
+  ELSE
+    -- for date+DESC or any ranking sort, use MAX
+    SET id_aggr = 'MAX';
+  END IF;
+
+   SET @sql_text = CONCAT(
     'SELECT ',
       'p.ID, ',
-      'p.Name                                                    AS Name, ',
-      'p.RANKING                                                 AS Ranking, ',
-      'p.Age                                                     AS Age, ',
+      'p.Name AS Name, ',
+      'p.RANKING AS Ranking, ',
+      'p.Age AS Age, ',
       's.Span, ',
-      'p.PlayerRole                                              AS PlayerRole, ',
-      'CASE WHEN p.Specialist IS NULL THEN ''TEST,ODI,T20''      ',
-      '     ELSE UPPER(p.Specialist)                                     ',
-      'END                                                       AS Specialist ',
+      'p.PlayerRole AS PlayerRole, ',
+      'CASE WHEN p.Specialist IS NULL THEN ''TEST,ODI,T20'' ELSE UPPER(p.Specialist) END AS Specialist ',
     'FROM Squads s ',
       'JOIN SquadPlayers sp ON s.ID = sp.SquadID ',
       'JOIN Players p       ON sp.PlayerID = p.ID ',
     'WHERE s.MatchType = ? ',
       'AND s.Span      = ? ',
       'AND s.ID = (',
-        'SELECT MAX(ID) FROM Squads ',
+        'SELECT ', id_aggr, '(ID) FROM Squads ',
         'WHERE MatchType = ? AND Span = ?',
       ') ',
     'ORDER BY ', order_col, ' ', order_dir
   );
+
 
   PREPARE stmt FROM @sql_text;
     SET @fmt1  = in_format;
@@ -2661,7 +2668,7 @@ END;
 DELIMITER ;
 
 -- test the query
-CALL GetSquad('ODI','2024-2025', ' ranking', 'ASC');
+CALL GetSquad('T20','2024-2025', ' ranking', 'ASC');
 
 
 -- to get the list of the players

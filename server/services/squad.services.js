@@ -13,7 +13,7 @@ class SquadServices{
         return rows[0] || [];
     }
       
-    async getLatestSquad({ format = 'ODI', span = '2024-2025', sortBy = 'ranking', sortOrder = 'ASC' } = {}) {
+    async getLatestSquad({ format = 'T20', span = '2024-2025', sortBy = 'ranking', sortOrder = 'ASC' } = {}) {
         const sql = 'CALL GetSquad(?, ?, ?, ?)';
         const params = [format, span, sortBy, sortOrder];
         const [rows] = await db.promise().query(sql, params);

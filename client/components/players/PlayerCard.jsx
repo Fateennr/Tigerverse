@@ -51,7 +51,7 @@ export default function PlayerCard({ player, onClick }) {
       <div className="relative h-48 overflow-hidden">
         <Image
           src={
-              `/players/${encodeURIComponent(player.Name)}.png`
+              `/players/${player.Name}.png`
               || '/placeholder.jpg'
           }
           alt={player.Name}

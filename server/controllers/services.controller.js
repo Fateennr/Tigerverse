@@ -1,11 +1,11 @@
-const  ServicesServices  = require('../services/player.services');
+const  ServicesServices  = require('../services/services.services');
 
 
 class ServicesController{
 
-  async getAllFormats (req, res){
+  async getSpan (req, res){
     try {
-      const data = await ServicesServices.getAllFormats('SELECT * FROM Players');
+      const data = await ServicesServices.getSpan('SELECT DISTINCT(Span) FROM Squads');
       res.json(data);
     } catch (err) {
       console.error('Database query error:', err);
@@ -14,4 +14,4 @@ class ServicesController{
   }
 }
 
-module.exports = new PlayerController();
+module.exports = new ServicesController();

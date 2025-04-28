@@ -13,56 +13,73 @@ export default function SquadPage() {
   const [showDetails, setShowDetails] = useState(false)
 
   // Filter states
-  const [format, setFormat] = useState("all")
-  const [span, setSpan] = useState("all")
+  const [format, setFormat] = useState("ODI")
+  const [span, setSpan] = useState("2024-2025")
   const [sortOrder, setSortOrder] = useState("DESC")
   const [sortBy, setSortBy] = useState("rank")
   const [spans, setSpans] = useState([])
 
+  const buildUrl = () => {
+    const params = new URLSearchParams({
+      format,
+      span,
+      sortBy,
+      sortOrder,
+    })
+    return `${process.env.NEXT_PUBLIC_BACKEND_URI}/squad/latest-squad?${params.toString()}`
+  }
+
+  const fetchPlayers = async () => {
+    setLoading(true)
+    try {
+      const url = buildUrl()
+      console.log("Fetching squad from:", url)
+      const res = await fetch(url)
+      if (!res.ok) throw new Error(res.statusText)
+      const data = await res.json()
+      setPlayers(data)
+      setFilteredPlayers(data)
+      setError(null)
+    } catch (err) {
+      console.error("Failed to fetch players data", err)
+      setError("Could not load squad")
+    } finally {
+      setLoading(false)
+    }
+  }
+
   // Fetch players data
   useEffect(() => {
-    const fetchPlayers = async () => {
-      try {
-        setLoading(true)
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/squad/latest-squad`);
-        console.log(process.env.NEXT_PUBLIC_BACKEND_URI);
-        const data = await response.json()
-        console.log(data);
-
-        setPlayers(data)
-        setFilteredPlayers(data);
-        console.log("filtered player is ", filteredPlayers);
-        setLoading(false)
-      } catch (err) {
-        setError("Failed to fetch players data")
-        setLoading(false)
-        console.error(err)
-      }
-    }
-
     const fetchSpans = async () => {
       try {
-        // const response = await fetch(`${process.env.BACKEND_URI}/services/span`)
-        // const data = await response.json()
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URI}/services/span`
+        )
+        if (!res.ok) {
+          throw new Error(`Failed to fetch spans: ${res.status}`)
+        }
+        const raw = await res.json()
 
-        // Mock data for demonstration
-        const data = [
-          { id: 1, value: "2005-2010", label: "2005-2010" },
-          { id: 2, value: "2010-2015", label: "2010-2015" },
-          { id: 3, value: "2015-2020", label: "2015-2020" },
-          { id: 4, value: "2020-present", label: "2020-present" },
-          { id: 5, value: "all", label: "All Time" },
-        ]
-
-        setSpans(data)
+        const options = raw.map((item, idx) => ({
+          id: idx + 1,
+          value: item.Span,
+          label: item.Span,
+        }))
+        setSpans(options)
       } catch (err) {
         console.error("Failed to fetch spans", err)
       }
     }
 
-    fetchPlayers()
-    fetchSpans()
+
+    fetchPlayers();
+    fetchSpans();
   }, [])
+
+  useEffect(() => {
+    fetchPlayers();
+  }, [format, span, sortBy, sortOrder])
+
 
   useEffect(() => {
     if (players.length === 0) return
@@ -122,8 +139,7 @@ export default function SquadPage() {
                   value={format}
                   onChange={(e) => setFormat(e.target.value)}
                 >
-                  <option value="all">All Formats</option>
-                  <option value="Test">Test</option>
+                  <option value="TEST">Test</option>
                   <option value="ODI">ODI</option>
                   <option value="T20">T20</option>
                 </select>
@@ -143,7 +159,6 @@ export default function SquadPage() {
                   value={span}
                   onChange={(e) => setSpan(e.target.value)}
                 >
-                  <option value="all">All Time</option>
                   {spans.map((s) => (
                     <option key={s.id} value={s.value}>
                       {s.label}
@@ -192,8 +207,8 @@ export default function SquadPage() {
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
                 >
-                  <option value="rank">Rank</option>
-                  <option value="highestrun">Highest Run</option>
+                  <option value="ranking">Rank</option>
+                  <option value="date">Latest</option>
                 </select>
                 <ChevronDown
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#ffde00] pointer-events-none"

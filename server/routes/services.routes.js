@@ -1,10 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const ServicesController = require('../controllers/player.controller');
+const ServicesController = require('../controllers/services.controller');
 
-router.get('/info', ServicesController.getAllData);
-router.get('/batting', ServicesController.getBattingData);
-router.get('/bowling', ServicesController.getBowlingData);
-router.get('/fielding', ServicesController.getFieldingData);
+router.get('/span', ServicesController.getSpan);
 
 module.exports = router;
