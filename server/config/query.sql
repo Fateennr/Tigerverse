@@ -2616,49 +2616,44 @@ BEGIN
   DECLARE order_col  VARCHAR(50) DEFAULT 'p.RANKING';
   DECLARE order_dir  VARCHAR(4)  DEFAULT 'ASC';
 
-  -- 1) map sortBy to actual column
   IF in_sortBy = 'date' THEN
     SET order_col = 's.ID';
   ELSEIF in_sortBy = 'ranking' THEN
     SET order_col = 'p.RANKING';
   END IF;
 
-  -- 2) sanitize sortOrder
   IF UPPER(in_sortOrder) = 'DESC' THEN
     SET order_dir = 'DESC';
-  ELSE
-    SET order_dir = 'ASC';
   END IF;
 
-  -- 3) build the dynamic SQL
   SET @sql_text = CONCAT(
     'SELECT ',
-      'p.ID, p.Name, p.PlayerRole, p.BattingStyle, p.BowlingStyle, p.RANKING,',
-      'c.Name AS CoachName, s.Span ',
+      'p.ID, ',
+      'p.Name                                                    AS Name, ',
+      'p.RANKING                                                 AS Ranking, ',
+      'p.Age                                                     AS Age, ',
+      's.Span, ',
+      'p.PlayerRole                                              AS PlayerRole, ',
+      'CASE WHEN p.Specialist IS NULL THEN ''TEST,ODI,T20''      ',
+      '     ELSE UPPER(p.Specialist)                                     ',
+      'END                                                       AS Specialist ',
     'FROM Squads s ',
       'JOIN SquadPlayers sp ON s.ID = sp.SquadID ',
       'JOIN Players p       ON sp.PlayerID = p.ID ',
-      'LEFT JOIN Coaches c  ON s.CoachID  = c.ID ',
     'WHERE s.MatchType = ? ',
       'AND s.Span      = ? ',
       'AND s.ID = (',
-        'SELECT MAX(ID) ',
-          'FROM Squads ',
-         'WHERE MatchType = ? ',
-           'AND Span      = ?',
+        'SELECT MAX(ID) FROM Squads ',
+        'WHERE MatchType = ? AND Span = ?',
       ') ',
     'ORDER BY ', order_col, ' ', order_dir
   );
 
   PREPARE stmt FROM @sql_text;
-
-  -- 4) copy IN params into user-variables
-  SET @fmt1  = in_format;
-  SET @span1 = in_span;
-  SET @fmt2  = in_format;
-  SET @span2 = in_span;
-
-  -- 5) execute with four binds
+    SET @fmt1  = in_format;
+    SET @span1 = in_span;
+    SET @fmt2  = in_format;
+    SET @span2 = in_span;
   EXECUTE stmt USING @fmt1, @span1, @fmt2, @span2;
   DEALLOCATE PREPARE stmt;
 END;
@@ -2667,8 +2662,6 @@ DELIMITER ;
 
 -- test the query
 CALL GetSquad('ODI','2024-2025', ' ranking', 'ASC');
-
-
 
 
 -- to get the list of the players

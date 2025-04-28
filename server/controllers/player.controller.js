@@ -5,7 +5,7 @@ class PlayerController{
 
   async getAllData (req, res){
     try {
-      const data = await playerServices.fetchData('SELECT * FROM Players JOIN ');
+      const data = await playerServices.getAllData('SELECT * FROM Players');
       res.json(data);
     } catch (err) {
       console.error('Database query error:', err);

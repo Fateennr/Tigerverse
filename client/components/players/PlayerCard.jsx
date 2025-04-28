@@ -4,8 +4,8 @@ import Image from "next/image"
 
 export default function PlayerCard({ player, onClick }) {
   const [isVisible, setIsVisible] = useState(false)
-  const cardRef = useRef(null)
-
+  const cardRef = useRef(null);
+  
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -26,11 +26,15 @@ export default function PlayerCard({ player, onClick }) {
         observer.unobserve(cardRef.current)
       }
     }
-  }, [])
+  }, []);
+
+  const specs = (player.Specialist ?? 'Test,ODI,T20')
+  .split(',')
+  .map(s => s.trim());
 
   // Determine which format badges to show
   const formatBadges = {
-    Test: { bg: "bg-[#006a4e]", text: "Test" },
+    TEST: { bg: "bg-[#006a4e]", text: "Test" },
     ODI: { bg: "bg-[#f42a41]", text: "ODI" },
     T20: { bg: "bg-[#ffde00] text-[#1c1c1c]", text: "T20" },
   }
@@ -46,9 +50,13 @@ export default function PlayerCard({ player, onClick }) {
     >
       <div className="relative h-48 overflow-hidden">
         <Image
-          src={player.image || "/placeholder.svg?height=300&width=300"}
-          alt={player.name}
+          src={
+              `/players/${encodeURIComponent(player.Name)}.png`
+              || '/placeholder.jpg'
+          }
+          alt={player.Name}
           fill
+          sizes="(max-width: 640px) 100vw, 320px"
           className="object-cover transition-transform duration-500 hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
@@ -60,12 +68,19 @@ export default function PlayerCard({ player, onClick }) {
 
         {/* Format Badges */}
         <div className="absolute top-3 left-3 flex flex-col space-y-1">
-          {player.formats.map((format) => (
-            <span key={format} className={`${formatBadges[format].bg} text-xs px-2 py-1 rounded-full font-medium`}>
-              {formatBadges[format].text}
+        {specs.map((fmt, idx) => {
+          const badge = formatBadges[fmt] || { bg: 'bg-gray-200', text: fmt };
+          return (
+            <span
+              key={idx}
+              className={`${badge.bg} text-xs px-2 py-1 rounded-full font-medium`}
+            >
+              {badge.text}
             </span>
-          ))}
+          );
+        })}
         </div>
+
 
         <div className="absolute bottom-0 left-0 right-0 p-3">
           <h3 className="text-base font-bold text-white mb-0 truncate">{player.name}</h3>

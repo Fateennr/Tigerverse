@@ -2,7 +2,7 @@ const db = require('../config/db');
 
 class PlayerServices{
     
-    fetchData(query, params = []){
+    getAllData(query, params = []){
         return new Promise((resolve, reject) => {
             db.query(query, params, (err, results) => {
                 if (err) return reject(err);

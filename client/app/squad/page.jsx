@@ -24,96 +24,14 @@ export default function SquadPage() {
     const fetchPlayers = async () => {
       try {
         setLoading(true)
-        // In a real app, this would be fetched from your API
-        // const response = await fetch(`${process.env.BACKEND_URI}/players`)
-        // const data = await response.json()
-
-        // Mock data for demonstration
-        const data = [
-          {
-            id: 1,
-            name: "Shakib Al Hasan",
-            role: "All-rounder",
-            formats: ["Test", "ODI", "T20"],
-            rank: 1,
-            highestrun: 217,
-            image: "/placeholder.svg?height=300&width=300",
-            span: "2007-present",
-          },
-          {
-            id: 2,
-            name: "Mushfiqur Rahim",
-            role: "Wicket-keeper Batsman",
-            formats: ["Test", "ODI", "T20"],
-            rank: 2,
-            highestrun: 219,
-            image: "/placeholder.svg?height=300&width=300",
-            span: "2005-present",
-          },
-          {
-            id: 3,
-            name: "Tamim Iqbal",
-            role: "Batsman",
-            formats: ["Test", "ODI"],
-            rank: 3,
-            highestrun: 206,
-            image: "/placeholder.svg?height=300&width=300",
-            span: "2007-present",
-          },
-          {
-            id: 4,
-            name: "Mahmudullah",
-            role: "All-rounder",
-            formats: ["Test", "ODI", "T20"],
-            rank: 4,
-            highestrun: 150,
-            image: "/placeholder.svg?height=300&width=300",
-            span: "2009-present",
-          },
-          {
-            id: 5,
-            name: "Mustafizur Rahman",
-            role: "Bowler",
-            formats: ["ODI", "T20"],
-            rank: 5,
-            highestrun: 30,
-            image: "/placeholder.svg?height=300&width=300",
-            span: "2015-present",
-          },
-          {
-            id: 6,
-            name: "Liton Das",
-            role: "Wicket-keeper Batsman",
-            formats: ["Test", "ODI", "T20"],
-            rank: 6,
-            highestrun: 176,
-            image: "/placeholder.svg?height=300&width=300",
-            span: "2015-present",
-          },
-          {
-            id: 7,
-            name: "Mehidy Hasan Miraz",
-            role: "All-rounder",
-            formats: ["Test", "ODI", "T20"],
-            rank: 7,
-            highestrun: 103,
-            image: "/placeholder.svg?height=300&width=300",
-            span: "2016-present",
-          },
-          {
-            id: 8,
-            name: "Taskin Ahmed",
-            role: "Bowler",
-            formats: ["Test", "ODI", "T20"],
-            rank: 8,
-            highestrun: 40,
-            image: "/placeholder.svg?height=300&width=300",
-            span: "2014-present",
-          },
-        ]
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/squad/latest-squad`);
+        console.log(process.env.NEXT_PUBLIC_BACKEND_URI);
+        const data = await response.json()
+        console.log(data);
 
         setPlayers(data)
-        setFilteredPlayers(data)
+        setFilteredPlayers(data);
+        console.log("filtered player is ", filteredPlayers);
         setLoading(false)
       } catch (err) {
         setError("Failed to fetch players data")
@@ -124,7 +42,6 @@ export default function SquadPage() {
 
     const fetchSpans = async () => {
       try {
-        // In a real app, this would be fetched from your API
         // const response = await fetch(`${process.env.BACKEND_URI}/services/span`)
         // const data = await response.json()
 
@@ -147,23 +64,18 @@ export default function SquadPage() {
     fetchSpans()
   }, [])
 
-  // Apply filters
   useEffect(() => {
     if (players.length === 0) return
 
     let result = [...players]
 
-    // Filter by format
-    if (format !== "all") {
-      result = result.filter((player) => player.formats.includes(format))
-    }
+    // if (format !== "all") {
+    //   result = result.filter((player) => player.formats.includes(format))
+    // }
+    // if (span !== "all") {
+    //   result = result.filter((player) => player.span.includes(span))
+    // }
 
-    // Filter by span
-    if (span !== "all") {
-      result = result.filter((player) => player.span.includes(span))
-    }
-
-    // Sort by selected field
     result.sort((a, b) => {
       if (sortOrder === "ASC") {
         return a[sortBy] - b[sortBy]
@@ -336,8 +248,8 @@ export default function SquadPage() {
 
             {/* First row - 4 players */}
             <div className="flex justify-center mb-16 z-10 relative">
-              {filteredPlayers.slice(0, 4).map((player, index) => (
-                <div key={player.id} className="mx-4 transform hover:scale-105 transition-all duration-300">
+              {filteredPlayers.slice(0, 3).map((player, index) => (
+                <div key={player.ID} className="mx-4 transform hover:scale-105 transition-all duration-300">
                   <PlayerCard player={player} onClick={() => handlePlayerClick(player)} />
                 </div>
               ))}
@@ -345,8 +257,8 @@ export default function SquadPage() {
 
             {/* Second row - 5 players */}
             <div className="flex justify-center mb-16 z-10 relative">
-              {filteredPlayers.slice(4, 9).map((player, index) => (
-                <div key={player.id} className="mx-4 transform hover:scale-105 transition-all duration-300">
+              {filteredPlayers.slice(3, 8).map((player, index) => (
+                <div key={player.ID} className="mx-4 transform hover:scale-105 transition-all duration-300">
                   <PlayerCard player={player} onClick={() => handlePlayerClick(player)} />
                 </div>
               ))}
@@ -354,8 +266,8 @@ export default function SquadPage() {
 
             {/* Third row - 2 players */}
             <div className="flex justify-center z-10 relative">
-              {filteredPlayers.slice(9, 11).map((player, index) => (
-                <div key={player.id} className="mx-4 transform hover:scale-105 transition-all duration-300">
+              {filteredPlayers.slice(8, 11).map((player, index) => (
+                <div key={player.ID} className="mx-4 transform hover:scale-105 transition-all duration-300">
                   <PlayerCard player={player} onClick={() => handlePlayerClick(player)} />
                 </div>
               ))}
@@ -367,7 +279,7 @@ export default function SquadPage() {
                 <h3 className="text-xl text-white mb-6">Reserve Players</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                   {filteredPlayers.slice(11).map((player) => (
-                    <PlayerCard key={player.id} player={player} onClick={() => handlePlayerClick(player)} />
+                    <PlayerCard key={player.ID} player={player} onClick={() => handlePlayerClick(player)} />
                   ))}
                 </div>
               </div>
