@@ -22,6 +22,8 @@ app.use('/players',  playerRoutes);
 app.use('/squad',    squadRoutes);
 app.use('/services', servicesRoutes);
 app.use('/gallery',  galleryRoutes);
+app.use('/hall', require('./routes/hall.routes'));
+
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
