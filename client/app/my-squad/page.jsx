@@ -26,75 +26,6 @@ export default function MySquadPage() {
     fetchSavedSquads()
   }, [])
 
-  /* const fetchSavedSquads = async () => {
-    try {
-      setLoading(true)
-      // In a real app, this would be an actual API call
-       /* 
-       console.log(response);
-       const data = await response.json() */
-       
-
-      // Mock data for saved squads
-       /*const data = [
-        {
-          id: 1,
-          title: "My All-Time XI",
-          date: "2023-12-10",
-          isFavorite: true,
-          players: [
-            {
-              id: 1,
-              name: "Tamim Iqbal",
-              role: "Batsman",
-              image: "/placeholder.svg?height=300&width=300",
-            },
-            {
-              id: 2,
-              name: "Shakib Al Hasan",
-              role: "All-rounder",
-              image: "/placeholder.svg?height=300&width=300",
-            },
-            {
-              id: 3,
-              name: "Mushfiqur Rahim",
-              role: "Wicket-keeper Batsman",
-              image: "/placeholder.svg?height=300&width=300",
-            },
-            // ... other players
-          ],
-        },
-        {
-          id: 2,
-          title: "Best T20 Squad",
-          date: "2023-11-15",
-          isFavorite: false,
-          players: [
-            {
-              id: 5,
-              name: "Liton Das",
-              role: "Wicket-keeper Batsman",
-              image: "/placeholder.svg?height=300&width=300",
-            },
-            {
-              id: 6,
-              name: "Mustafizur Rahman",
-              role: "Bowler",
-              image: "/placeholder.svg?height=300&width=300",
-            },
-            // ... other players
-          ],
-        },
-      ]   
-
-      setSavedSquads(data)
-      setLoading(false)
-    } catch (err) {
-      setError("Failed to fetch saved squads")
-      setLoading(false)
-      console.error(err)
-    }
-  } */
   const fetchSavedSquads = async () => {
     try {
       
@@ -226,71 +157,50 @@ export default function MySquadPage() {
     setIsSquadSaved(false)
   }
 
+  
   const handleSaveSquad = async () => {
+   
+    setLoading(true)
+    const payload = {
+      squadName: squadTitle, // The title of the squad
+      coachID: 1, // Replace with the actual selected coach ID
+      captainID: 1, // Replace with the actual selected captain ID
+      matchType: 'odi', // Match type like 'Test', 'ODI', etc.
+      favourite: isFavorite, // Whether the squad is a favorite or not
+      players: squad
+        .filter(player => player !== null) // Filter out null values
+        .map((player, index) => ({
+          playerID: player.id, // This is the player ID
+          index: index  // This is the player index (1-based)
+        }))
+    };
+    console.log(payload)
+  
     try {
-      setLoading(true)
-      // In a real app, this would be an actual API call
-      // const response = await fetch(`${process.env.BACKEND_URI}/mysquad/new`, {
-      //   method: 'PUT',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({
-      //     title: squadTitle,
-      //     isFavorite,
-      //     players: squad.filter(player => player !== null).map(player => player.id),
-      //   }),
-      // })
-      // const data = await response.json()
-
-      // Mock response
-      /* const data = {
-        success: true,
-        message: "Squad saved successfully",
-      } */
-
-        const payload = {
-          squadName: squadTitle,
-          coachID: 1, // Replace with actual selected coach ID
-          captainID: 2, // Replace with actual selected captain ID
-          matchType: "ODI", // or "T20", etc.
-          favourite: isFavorite,
-          players: squad
-            .filter(player => player !== null)
-            .map((player, index) => ({
-              playerID: player.id,
-              position: index +1,
-            })),
-        };
-
-        const response = await fetch(`${process.env.BACKEND_URI}/mysquad/create`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-        });
-    
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/mysquad/create`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload) // Send the payload as JSON
+      });
+  
+      if (response.ok) {
+        // Handle successful response
         const data = await response.json();
-    
-        if (response.ok && data.success) {
-          setIsSquadSaved(true);
-          fetchSavedSquads();
-        } else {
-          setError(data.error || "Failed to save squad");
-        }
-    
-        setLoading(false);
-    
-
-      
+        console.log('Squad saved successfully:', data);
+      } else {
+        // Handle errors (if any)
+        const error = await response.json();
+        console.error('Error saving squad:', error);
+      }
       setLoading(false)
-    } catch (err) {
-      setError("Failed to save squad")
-      setLoading(false)
-      console.error(err)
+    } catch (error) {
+      console.error('Error in API request:', error);
     }
-  }
+
+  };
+  
 
   const handleToggleFavorite = async () => {
     setIsFavorite(!isFavorite)

@@ -97,9 +97,12 @@ export default function SavedSquadsList({ savedSquads, onSquadSelect, loading })
                     </div>
                   ))}
                   {squad.players.length > 5 && (
-                    <div className="inline-block h-6 w-6 rounded-full bg-[#006a4e] ring-2 ring-[#1c1c1c] text-white text-xs flex items-center justify-center">
-                      +{squad.players.length - 5}
-                    </div>
+                   <div
+                   className="inline-block h-6 w-6 rounded-full bg-[#006a4e] ring-2 ring-[#1c1c1c] text-white text-xs flex items-center justify-center cursor-pointer"
+                   onClick={() => setSquade([])}
+                 >
+                   +{squad.players.length - 5}
+                 </div>
                   )}
                 </div>
               </div>
