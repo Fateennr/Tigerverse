@@ -112,6 +112,26 @@ CREATE TABLE SquadPlayers (
     FOREIGN KEY (PlayerID) REFERENCES Players(ID) ON DELETE CASCADE
 );
 
+CREATE TABLE UserSquads (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Namee VARCHAR(255) NOT NULL,
+    Creation DATE,
+    Favourite BOOLEAN,
+    CoachID INT,
+    CaptainID INT,
+    MatchType VARCHAR(50),
+    FOREIGN KEY (CoachID) REFERENCES Coaches(ID) ON DELETE SET NULL
+);
+
+CREATE TABLE UserSquadPlayers (
+    SquadID INT,
+    PlayerID INT,
+    Indexx INT,
+    PRIMARY KEY (SquadID, PlayerID),
+    FOREIGN KEY (SquadID) REFERENCES Squads(ID) ON DELETE CASCADE,
+    FOREIGN KEY (PlayerID) REFERENCES Players(ID) ON DELETE CASCADE
+);
+
 
 
  CREATE TABLE Matches (

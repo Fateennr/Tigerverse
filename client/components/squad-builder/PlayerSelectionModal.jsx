@@ -25,223 +25,10 @@ export default function PlayerSelectionModal({ onClose, onPlayerSelect }) {
     try {
       setLoading(true)
       // In a real app, this would be an actual API call
-      // const response = await fetch(`${process.env.BACKEND_URI}/players`)
-      // const data = await response.json()
+       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/players/playersinfosquadgen`);
+       const data = await response.json();
 
-      // Mock data for players
-      const data = [
-        {
-          id: 1,
-          name: "Tamim Iqbal",
-          role: "Batsman",
-          status: "playing",
-          formats: ["Test", "ODI", "T20"],
-          stats: {
-            highestRuns: 158,
-            highestWickets: 0,
-            matchesPlayed: 375,
-            highestDismissals: 0,
-          },
-          image: "/placeholder.svg?height=300&width=300",
-        },
-        {
-          id: 2,
-          name: "Shakib Al Hasan",
-          role: "All-rounder",
-          status: "playing",
-          formats: ["Test", "ODI", "T20"],
-          stats: {
-            highestRuns: 124,
-            highestWickets: 5,
-            matchesPlayed: 400,
-            highestDismissals: 0,
-          },
-          image: "/placeholder.svg?height=300&width=300",
-        },
-        {
-          id: 3,
-          name: "Mushfiqur Rahim",
-          role: "Wicketkeeper",
-          status: "playing",
-          formats: ["Test", "ODI", "T20"],
-          stats: {
-            highestRuns: 144,
-            highestWickets: 0,
-            matchesPlayed: 380,
-            highestDismissals: 6,
-          },
-          image: "/placeholder.svg?height=300&width=300",
-        },
-        {
-          id: 4,
-          name: "Mashrafe Mortaza",
-          role: "Bowler",
-          status: "retired",
-          formats: ["ODI", "T20"],
-          stats: {
-            highestRuns: 51,
-            highestWickets: 6,
-            matchesPlayed: 220,
-            highestDismissals: 0,
-          },
-          image: "/placeholder.svg?height=300&width=300",
-        },
-        {
-          id: 5,
-          name: "Mustafizur Rahman",
-          role: "Bowler",
-          status: "playing",
-          formats: ["Test", "ODI", "T20"],
-          stats: {
-            highestRuns: 29,
-            highestWickets: 6,
-            matchesPlayed: 150,
-            highestDismissals: 0,
-          },
-          image: "/placeholder.svg?height=300&width=300",
-        },
-        {
-          id: 6,
-          name: "Liton Das",
-          role: "Wicketkeeper",
-          status: "playing",
-          formats: ["Test", "ODI", "T20"],
-          stats: {
-            highestRuns: 176,
-            highestWickets: 0,
-            matchesPlayed: 155,
-            highestDismissals: 6,
-          },
-          image: "/placeholder.svg?height=300&width=300",
-        },
-        {
-          id: 7,
-          name: "Mahmudullah",
-          role: "All-rounder",
-          status: "playing",
-          formats: ["Test", "ODI", "T20"],
-          stats: {
-            highestRuns: 128,
-            highestWickets: 4,
-            matchesPlayed: 310,
-            highestDismissals: 0,
-          },
-          image: "/placeholder.svg?height=300&width=300",
-        },
-        {
-          id: 8,
-          name: "Mohammad Ashraful",
-          role: "Batsman",
-          status: "retired",
-          formats: ["Test", "ODI", "T20"],
-          stats: {
-            highestRuns: 158,
-            highestWickets: 1,
-            matchesPlayed: 261,
-            highestDismissals: 0,
-          },
-          image: "/placeholder.svg?height=300&width=300",
-        },
-        {
-          id: 9,
-          name: "Taskin Ahmed",
-          role: "Bowler",
-          status: "playing",
-          formats: ["Test", "ODI", "T20"],
-          stats: {
-            highestRuns: 33,
-            highestWickets: 5,
-            matchesPlayed: 110,
-            highestDismissals: 0,
-          },
-          image: "/placeholder.svg?height=300&width=300",
-        },
-        {
-          id: 10,
-          name: "Mehidy Hasan Miraz",
-          role: "All-rounder",
-          status: "playing",
-          formats: ["Test", "ODI", "T20"],
-          stats: {
-            highestRuns: 103,
-            highestWickets: 7,
-            matchesPlayed: 145,
-            highestDismissals: 0,
-          },
-          image: "/placeholder.svg?height=300&width=300",
-        },
-        {
-          id: 11,
-          name: "Soumya Sarkar",
-          role: "Batsman",
-          status: "playing",
-          formats: ["ODI", "T20"],
-          stats: {
-            highestRuns: 127,
-            highestWickets: 1,
-            matchesPlayed: 155,
-            highestDismissals: 0,
-          },
-          image: "/placeholder.svg?height=300&width=300",
-        },
-        {
-          id: 12,
-          name: "Sabbir Rahman",
-          role: "Batsman",
-          status: "playing",
-          formats: ["ODI", "T20"],
-          stats: {
-            highestRuns: 102,
-            highestWickets: 0,
-            matchesPlayed: 140,
-            highestDismissals: 0,
-          },
-          image: "/placeholder.svg?height=300&width=300",
-        },
-        {
-          id: 13,
-          name: "Abdur Razzak",
-          role: "Bowler",
-          status: "retired",
-          formats: ["Test", "ODI", "T20"],
-          stats: {
-            highestRuns: 43,
-            highestWickets: 5,
-            matchesPlayed: 153,
-            highestDismissals: 0,
-          },
-          image: "/placeholder.svg?height=300&width=300",
-        },
-        {
-          id: 14,
-          name: "Rubel Hossain",
-          role: "Bowler",
-          status: "playing",
-          formats: ["Test", "ODI", "T20"],
-          stats: {
-            highestRuns: 27,
-            highestWickets: 6,
-            matchesPlayed: 159,
-            highestDismissals: 0,
-          },
-          image: "/placeholder.svg?height=300&width=300",
-        },
-        {
-          id: 15,
-          name: "Imrul Kayes",
-          role: "Batsman",
-          status: "retired",
-          formats: ["Test", "ODI"],
-          stats: {
-            highestRuns: 144,
-            highestWickets: 0,
-            matchesPlayed: 134,
-            highestDismissals: 0,
-          },
-          image: "/placeholder.svg?height=300&width=300",
-        },
-      ]
-
+     
       setPlayers(data)
       setFilteredPlayers(data)
       setLoading(false)
@@ -480,12 +267,16 @@ export default function PlayerSelectionModal({ onClose, onPlayerSelect }) {
                     onClick={() => onPlayerSelect(player)}
                   >
                     <div className="relative h-32">
-                      <Image
-                        src={player.image || "/placeholder.svg?height=300&width=300"}
-                        alt={player.name}
-                        fill
-                        className="object-cover"
-                      />
+                    <Image
+  src={`/players/${player.name.toLowerCase().replace(/\./g, '').replace(/\s+/g, '_')}.png`}
+  alt={player.name}
+  onError={(e) => {
+    e.target.onerror = null;
+    e.target.src = "/placeholder.svg?height=300&width=300";
+  }}
+  fill
+  className="object-cover"
+/>
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                       <div className="absolute top-2 right-2">
                         <span
