@@ -16,9 +16,16 @@ export default function SavedSquadsList({ savedSquads, onSquadSelect, loading })
 
   return (
     <div className="bg-[#1c1c1c]/80 rounded-lg overflow-hidden shadow-lg">
-      <div className="bg-[#006a4e] p-4">
+      <div className="bg-[#006a4e] p-4 flex justify-between items-center">
         <h2 className="text-xl font-bold text-white">Saved Squads</h2>
+        <button
+         className="bg-[#ffde00]/20 text-[#ffde00] p-2 rounded-full w-10 h-10 flex items-center justify-center"
+         title="Add New Squad"
+        >
+         +
+        </button>
       </div>
+
 
       <div className="flex border-b border-[#333]">
         <button
@@ -59,25 +66,25 @@ export default function SavedSquadsList({ savedSquads, onSquadSelect, loading })
           <div className="space-y-3">
             {filteredSquads.map((squad) => (
               <div
-                key={squad.id}
+                key={squad.ID}
                 className="bg-[#333] rounded-lg p-3 cursor-pointer hover:bg-[#444] transition-colors"
                 onClick={() => onSquadSelect(squad)}
               >
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="text-white font-medium">{squad.title}</h3>
+                    <h3 className="text-white font-medium">{squad.Namee}</h3>
                     <div className="flex items-center text-xs text-gray-400 mt-1">
                       <Calendar size={12} className="mr-1" />
-                      <span>{formatDate(squad.date)}</span>
+                      <span>{formatDate(squad.Creation)}</span>
                     </div>
                   </div>
                   <div className="flex items-center">
-                    {squad.isFavorite && <Heart size={14} className="text-[#f42a41] fill-[#f42a41] mr-1" />}
+                    {squad.Favourite && <Heart size={14} className="text-[#f42a41] fill-[#f42a41] mr-1" />}
                     <ChevronRight size={16} className="text-[#ffde00]" />
                   </div>
                 </div>
                 <div className="mt-2 flex -space-x-2 overflow-hidden">
-                  {squad.players.slice(0, 5).map((player, index) => (
+                  {squad?.players?.slice(0, 5).map((player, index) => (
                     <div
                       key={index}
                       className="inline-block h-6 w-6 rounded-full ring-2 ring-[#1c1c1c] overflow-hidden relative"

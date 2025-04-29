@@ -76,6 +76,19 @@ class PlayerController{
       res.status(500).json({ error: 'Failed to fetch data' });
     }
   }
+  async getDetailData(req, res) {
+    const playerId = req.query.playerId;
+    if (!playerId) {
+      return res.status(400).json({ error: 'playerId query parameter is required' });
+    }
+    try {
+      const data = await playerServices.getDetailData(playerId);
+      res.json(data);
+    } catch (err) {
+      console.error('Error fetching batting career:', err);
+      res.status(500).json({ error: 'Failed to fetch batting career' });
+    }
+  }
 
   async getBattingData(req, res) {
     const playerId = req.query.playerId;

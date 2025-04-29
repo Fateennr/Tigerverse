@@ -26,15 +26,17 @@ export default function MySquadPage() {
     fetchSavedSquads()
   }, [])
 
-  const fetchSavedSquads = async () => {
+  /* const fetchSavedSquads = async () => {
     try {
       setLoading(true)
       // In a real app, this would be an actual API call
-      // const response = await fetch(`${process.env.BACKEND_URI}/mysquad/list`)
-      // const data = await response.json()
+       /* 
+       console.log(response);
+       const data = await response.json() */
+       
 
       // Mock data for saved squads
-      const data = [
+       /*const data = [
         {
           id: 1,
           title: "My All-Time XI",
@@ -83,7 +85,7 @@ export default function MySquadPage() {
             // ... other players
           ],
         },
-      ]
+      ]   
 
       setSavedSquads(data)
       setLoading(false)
@@ -92,7 +94,81 @@ export default function MySquadPage() {
       setLoading(false)
       console.error(err)
     }
-  }
+  } */
+  const fetchSavedSquads = async () => {
+    try {
+      
+      setLoading(true);
+      
+  
+      // 1. Fetch squad list
+      const squadListRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/mysquad/list`);
+      
+      const squadList = await squadListRes.json();
+      
+      
+  
+      // 2. For each squad, fetch players (id + index), then fetch full player details
+      const squadsWithPlayers = await Promise.all(
+        squadList.map(async (squad) => {
+          try {
+            
+            const playersRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/mysquad/players/${squad.ID}`);
+            const playersMeta = await playersRes.json(); // [{ PlayerID, Index }]
+  
+            const detailedPlayers = await Promise.all(
+              playersMeta.map(async ({ PlayerID }) => {
+                try {
+                  const playerDetailRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/players/detaildata?playerId=${PlayerID}`);
+                  const playerData = await playerDetailRes.json(); // { id, name, role, image }
+
+                  
+                  
+  
+                  return {
+                    id: playerData.ID,
+                    name: playerData.Name,
+                    role: playerData.PlayerRole,                    
+                    image: "/placeholder.svg?height=300&width=300",
+                    
+                  };
+                } catch (err) {
+                  console.error(`Failed to fetch player ${PlayerID}:`, err);
+                  return {
+                    id: PlayerID,
+                    name: "Unknown Player",
+                    role: "Unknown",
+                    image: "/placeholder.svg?height=300&width=300",
+                  };
+                }
+              })
+            );
+            
+            
+            return {
+              ...squad,
+              players: detailedPlayers,
+            };
+           
+            
+          } catch (err) {
+            console.error(`Error fetching players for squad ${squad.id}:`, err);
+            return { ...squad, players: [] };
+          }
+        })
+      );
+  
+      // 3. Save full result
+      console.log(squadsWithPlayers);
+      setSavedSquads(squadsWithPlayers);
+      setLoading(false);
+    } catch (err) {
+      console.error("Failed to fetch saved squads:", err);
+      setError("Failed to fetch saved squads");
+      setLoading(false);
+    }
+  };
+  
 
   const handleSlotClick = (index) => {
     setSelectedSlot(index)
@@ -168,18 +244,46 @@ export default function MySquadPage() {
       // const data = await response.json()
 
       // Mock response
-      const data = {
+      /* const data = {
         success: true,
         message: "Squad saved successfully",
-      }
+      } */
 
-      if (data.success) {
-        setIsSquadSaved(true)
-        // Refresh saved squads list
-        fetchSavedSquads()
-      } else {
-        setError("Failed to save squad")
-      }
+        const payload = {
+          squadName: squadTitle,
+          coachID: 1, // Replace with actual selected coach ID
+          captainID: 2, // Replace with actual selected captain ID
+          matchType: "ODI", // or "T20", etc.
+          favourite: isFavorite,
+          players: squad
+            .filter(player => player !== null)
+            .map((player, index) => ({
+              playerID: player.id,
+              position: index +1,
+            })),
+        };
+
+        const response = await fetch(`${process.env.BACKEND_URI}/mysquad/create`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+    
+        const data = await response.json();
+    
+        if (response.ok && data.success) {
+          setIsSquadSaved(true);
+          fetchSavedSquads();
+        } else {
+          setError(data.error || "Failed to save squad");
+        }
+    
+        setLoading(false);
+    
+
+      
       setLoading(false)
     } catch (err) {
       setError("Failed to save squad")
@@ -272,6 +376,7 @@ export default function MySquadPage() {
                     <Save size={16} className="mr-2" />
                     {loading ? "Saving..." : "Save Squad"}
                   </button>
+
 
                   <button
                     className="md:hidden flex items-center px-4 py-2 rounded-md bg-[#333] text-white hover:bg-[#444] transition-colors"

@@ -31,7 +31,7 @@ class PlayerServices{
           return reject(err);
         }
         // Debug: See what results look like
-        console.log('DB Results:', JSON.stringify(results));
+       // console.log('DB Results:', JSON.stringify(results));
 
         if (!results || !results[0] || results[0].length === 0) {
           return resolve(undefined);
@@ -119,7 +119,20 @@ class PlayerServices{
         });
         });
     }
-
+    getDetailData(playerId) {
+      const sql = `
+        SELECT *
+        FROM Players
+        WHERE ID = ?
+      `;
+    
+      return new Promise((resolve, reject) => {
+        db.query(sql, [playerId], (err, results) => {
+          if (err) return reject(err);
+          resolve(results[0]); // if you're expecting only one player result
+        });
+      });
+    }
     getBowlingData(playerId){
         const sql = `
           SELECT *
