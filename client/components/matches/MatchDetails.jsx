@@ -20,89 +20,97 @@ export default function MatchDetails({ match, onClose }) {
       setLoading(true)
 
       // In a real app, this would be an actual API call
-      // const response = await fetch(`${process.env.BACKEND_URI}/matches/squad?id=${match.id}`)
-      // const data = await response.json()
+      const response = await fetch(`${process.env.BACKEND_URI}/matches/${match.id}`)
+      const data = await response.json()
 
       // Mock data for squad
-      const data = [
-        {
-          id: 1,
-          name: "Tamim Iqbal",
-          role: "Batsman",
-          image: "/placeholder.svg?height=300&width=300",
-          stats: { runs: 85, balls: 102, fours: 8, sixes: 2 },
-        },
-        {
-          id: 2,
-          name: "Liton Das",
-          role: "Wicket-keeper Batsman",
-          image: "/placeholder.svg?height=300&width=300",
-          stats: { runs: 45, balls: 56, fours: 5, sixes: 0 },
-        },
-        {
-          id: 3,
-          name: "Shakib Al Hasan",
-          role: "All-rounder",
-          image: "/placeholder.svg?height=300&width=300",
-          stats: { runs: 102, balls: 114, fours: 9, sixes: 3, wickets: 2, overs: 10, economy: 4.2 },
-        },
-        {
-          id: 4,
-          name: "Mushfiqur Rahim",
-          role: "Wicket-keeper Batsman",
-          image: "/placeholder.svg?height=300&width=300",
-          stats: { runs: 65, balls: 75, fours: 6, sixes: 1 },
-        },
-        {
-          id: 5,
-          name: "Mahmudullah",
-          role: "All-rounder",
-          image: "/placeholder.svg?height=300&width=300",
-          stats: { runs: 35, balls: 40, fours: 3, sixes: 1, wickets: 1, overs: 6, economy: 5.0 },
-        },
-        {
-          id: 6,
-          name: "Mehidy Hasan Miraz",
-          role: "All-rounder",
-          image: "/placeholder.svg?height=300&width=300",
-          stats: { runs: 15, balls: 20, fours: 1, sixes: 0, wickets: 3, overs: 10, economy: 3.8 },
-        },
-        {
-          id: 7,
-          name: "Mustafizur Rahman",
-          role: "Bowler",
-          image: "/placeholder.svg?height=300&width=300",
-          stats: { wickets: 3, overs: 9.2, economy: 4.5 },
-        },
-        {
-          id: 8,
-          name: "Taskin Ahmed",
-          role: "Bowler",
-          image: "/placeholder.svg?height=300&width=300",
-          stats: { wickets: 2, overs: 8, economy: 5.1 },
-        },
-        {
-          id: 9,
-          name: "Shoriful Islam",
-          role: "Bowler",
-          image: "/placeholder.svg?height=300&width=300",
-          stats: { wickets: 1, overs: 7, economy: 5.7 },
-        },
-        {
-          id: 10,
-          name: "Afif Hossain",
-          role: "Batsman",
-          image: "/placeholder.svg?height=300&width=300",
-          stats: { runs: 25, balls: 30, fours: 2, sixes: 1 },
-        },
-        {
-          id: 11,
-          name: "Nasum Ahmed",
-          role: "Bowler",
-          image: "/placeholder.svg?height=300&width=300",
-          stats: { wickets: 1, overs: 6, economy: 4.8 },
-        },
-      ]
+      // const data = [
+      //   {
+      //     id: 1,
+      //     name: "Tamim Iqbal",
+      //     role: "Batsman",
+      //     image: "/placeholder.svg?height=300&width=300",
+      //     stats: { runs: 85, balls: 102, fours: 8, sixes: 2 },
+      //   },
+      //   {
+      //     id: 2,
+      //     name: "Liton Das",
+      //     role: "Wicket-keeper Batsman",
+      //     image: "/placeholder.svg?height=300&width=300",
+      //     stats: { runs: 45, balls: 56, fours: 5, sixes: 0 },
+      //   },
+      //   {
+      //     id: 3,
+      //     name: "Shakib Al Hasan",
+      //     role: "All-rounder",
+      //     image: "/placeholder.svg?height=300&width=300",
+      //     stats: { runs: 102, balls: 114, fours: 9, sixes: 3, wickets: 2, overs: 10, economy: 4.2 },
+      //   },
+      //   {
+      //     id: 4,
+      //     name: "Mushfiqur Rahim",
+      //     role: "Wicket-keeper Batsman",
+      //     image: "/placeholder.svg?height=300&width=300",
+      //     stats: { runs: 65, balls: 75, fours: 6, sixes: 1 },
+      //   },
+      //   {
+      //     id: 5,
+      //     name: "Mahmudullah",
+      //     role: "All-rounder",
+      //     image: "/placeholder.svg?height=300&width=300",
+      //     stats: { runs: 35, balls: 40, fours: 3, sixes: 1, wickets: 1, overs: 6, economy: 5.0 },
+      //   },
+      //   {
+      //     id: 6,
+      //     name: "Mehidy Hasan Miraz",
+      //     role: "All-rounder",
+      //     image: "/placeholder.svg?height=300&width=300",
+      //     stats: { runs: 15, balls: 20, fours: 1, sixes: 0, wickets: 3, overs: 10, economy: 3.8 },
+      //   },
+      //   {
+      //     id: 7,
+      //     name: "Mustafizur Rahman",
+      //     role: "Bowler",
+      //     image: "/placeholder.svg?height=300&width=300",
+      //     stats: { wickets: 3, overs: 9.2, economy: 4.5 },
+      //   },
+      //   {
+      //     id: 8,
+      //     name: "Taskin Ahmed",
+      //     role: "Bowler",
+      //     image: "/placeholder.svg?height=300&width=300",
+      //     stats: { wickets: 2, overs: 8, economy: 5.1 },
+      //   },
+      //   {
+      //     id: 9,
+      //     name: "Shoriful Islam",
+      //     role: "Bowler",
+      //     image: "/placeholder.svg?height=300&width=300",
+      //     stats: { wickets: 1, overs: 7, economy: 5.7 },
+      //   },
+      //   {
+      //     id: 10,
+      //     name: "Afif Hossain",
+      //     role: "Batsman",
+      //     image: "/placeholder.svg?height=300&width=300",
+      //     stats: { runs: 25, balls: 30, fours: 2, sixes: 1 },
+      //   },
+      //   {
+      //     id: 11,
+      //     name: "Nasum Ahmed",
+      //     role: "Bowler",
+      //     image: "/placeholder.svg?height=300&width=300",
+      //     stats: { wickets: 1, overs: 6, economy: 4.8 },
+      //   },
+      // ]
+
+      const stats = data.map((item, idx) => ({
+        id: item.id,
+        name: item.name,
+        role: item.role,
+        image: '/placeholder.jpg',
+        stats: item.stats
+      }))
 
       setSquad(data)
       setLoading(false)
