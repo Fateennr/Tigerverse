@@ -245,7 +245,6 @@ END;
 //
 DELIMITER ;
 
-
 -- test
 CALL GetMatchesList(
   'Lord\'s Cricket Ground',
@@ -255,6 +254,200 @@ CALL GetMatchesList(
   'highestrun',
   'DESC'
 );
+
+-- to calculate man of the match
+
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS GetMatchTopScorerName;
+//
+CREATE PROCEDURE GetMatchTopScorerName(
+  IN in_matchId INT
+)
+BEGIN
+  DECLARE done       BOOLEAN DEFAULT FALSE;
+  DECLARE pID        INT;
+  DECLARE pName      VARCHAR(255);
+  DECLARE remRun     INT;
+  DECLARE statsJSON  JSON;
+  DECLARE runs       INT;
+  DECLARE maxRuns    INT DEFAULT -1;
+  DECLARE topName    VARCHAR(255) DEFAULT '';
+
+  -- 2) Declare cursor and handler
+  DECLARE cur CURSOR FOR
+    SELECT p.ID, p.Name
+      FROM Squads s
+      JOIN SquadPlayers sp ON s.ID = sp.SquadID
+      JOIN Players p       ON p.ID = sp.PlayerID
+     WHERE s.MatchType = (
+       SELECT `Type` FROM Matches WHERE ID = in_matchId
+     )
+       AND s.ID = (
+         SELECT MAX(ID)
+           FROM Squads
+          WHERE MatchType = (
+            SELECT `Type` FROM Matches WHERE ID = in_matchId
+          )
+       )
+     ORDER BY p.RANKING ASC;
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+  SET remRun = (
+    SELECT Score_BD_Run
+      FROM Matches
+     WHERE ID = in_matchId
+  );
+
+  -- Opening cursor to iterate
+  OPEN cur;
+  read_loop: LOOP
+    FETCH cur INTO pID, pName;
+    IF done THEN
+      LEAVE read_loop;
+    END IF;
+
+    -- Computing stats and extract runs
+    SET statsJSON = getPlayerStats(pID, remRun);
+    SET runs      = CAST(JSON_EXTRACT(statsJSON, '$.runs') AS UNSIGNED);
+
+    -- Subtracting runs from remRun
+    SET remRun = remRun - runs;
+
+    -- Tracking the top scorer
+    IF runs > maxRuns THEN
+      SET maxRuns = runs;
+      SET topName = pName;
+    END IF;
+  END LOOP;
+  CLOSE cur;
+
+  SELECT topName AS TopScorer;
+END;
+//
+DELIMITER ;
+
+-- calculate thestats of the player
+-- Rewritten getPlayerStats function with null-handling
+DELIMITER //
+
+DROP FUNCTION IF EXISTS getPlayerStats;//
+
+CREATE FUNCTION getPlayerStats(
+  in_playerId INT,
+  in_totalrun INT
+) RETURNS JSON
+DETERMINISTIC
+BEGIN
+  DECLARE role       VARCHAR(255);
+  DECLARE ranking    INT;
+  DECLARE remrun     INT;
+  DECLARE baseRun    INT;
+  DECLARE offsetRun  INT;
+  DECLARE theirrun   INT;
+  DECLARE randVal    INT;
+  DECLARE balls      INT;
+  DECLARE fours      INT;
+  DECLARE sixes      INT;
+
+  -- Lookup player role and ranking
+  SELECT PlayerRole, RANKING
+    INTO role, ranking
+    FROM Players
+   WHERE ID = in_playerId;
+
+  -- Default null role to 'Batsman', null ranking to half of totalrun
+  SET role    = IFNULL(role, 'Batsman');
+  SET ranking = IFNULL(ranking, in_totalrun DIV 2);
+
+  -- Initial remrun based on role
+  SET remrun = in_totalrun;
+  IF role = 'Bowler' THEN
+    SET remrun = remrun DIV 3;
+  ELSE
+    -- Batsman and Allrounder and any other default
+    SET remrun = remrun DIV 2;
+  END IF;
+
+  -- Calculate runs: min(remrun, ranking) + random offset
+  SET baseRun   = LEAST(remrun, ranking);
+  SET offsetRun = FLOOR(RAND() * 11) - 5;    -- random between -5 and +5
+  SET theirrun  = GREATEST(0, baseRun + offsetRun);
+
+  -- Update remrun
+  SET remrun = remrun - theirrun;
+
+  -- Balls: runs plus random capped at 15
+  SET randVal = FLOOR(RAND() * 61) - 30;      -- random -30..+30
+  SET balls   = GREATEST(1, LEAST(15, randVal) + theirrun);
+
+  -- Fours: floor((runs - random(10..30)) / 4)
+  SET randVal = FLOOR(RAND() * 21) + 10;       -- random 10..30
+  SET fours   = GREATEST(0, FLOOR((theirrun - randVal) / 4));
+
+  -- Sixes: floor((runs - fours*4 - random(0..40 capped 15)) / 6)
+  SET randVal = LEAST(15, FLOOR(RAND() * 41)); -- random 0..40 capped at 15
+  SET sixes   = GREATEST(0, FLOOR((theirrun - (fours * 4) - randVal) / 6));
+
+  -- Return JSON object
+  RETURN JSON_OBJECT(
+    'runs',  theirrun,
+    'balls', balls,
+    'fours', fours,
+    'sixes', sixes
+  );
+END;//
+
+DELIMITER ;
+
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS GetMatchPlayerStats;
+//
+CREATE PROCEDURE GetMatchPlayerStats(IN in_matchId INT)
+BEGIN
+  DECLARE remRun INT;
+
+  -- 1) load the match’s BD runs
+  SET remRun = (
+    SELECT Score_BD_Run
+      FROM Matches
+     WHERE ID = in_matchId
+  );
+
+  SELECT
+    COALESCE(
+      JSON_ARRAYAGG(
+        JSON_OBJECT(
+          'id',    p.ID,
+          'name',  p.Name,
+          'role',  p.PlayerRole,
+          'stats', getPlayerStats(p.ID, remRun)
+        )
+      ),
+      JSON_ARRAY()
+    ) AS squadStats
+  FROM Squads s
+  JOIN SquadPlayers sp ON sp.SquadID = s.ID
+  JOIN Players p       ON p.ID       = sp.PlayerID
+  WHERE s.MatchType = (
+    SELECT `Type`
+      FROM Matches
+     WHERE ID = in_matchId
+  )
+    AND s.ID = (
+      SELECT MAX(ID)
+        FROM Squads
+       WHERE MatchType = (
+         SELECT `Type` FROM Matches WHERE ID = in_matchId
+       )
+    )
+  ORDER BY p.RANKING ASC;
+END;
+//
+DELIMITER ;
+
+-- hall of fame 
 
 DELIMITER //
 
@@ -904,15 +1097,6 @@ END;
 DELIMITER ;
 
 
-
-
-
-
-
-
-
-
-
 DELIMITER //
 DROP PROCEDURE IF EXISTS GetLongestCareer;
 //
@@ -1133,4 +1317,5 @@ END;
 //
 
 DELIMITER ;
+
 

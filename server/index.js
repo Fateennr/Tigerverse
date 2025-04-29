@@ -1,17 +1,14 @@
-// index.js
-
 const express        = require('express');
 const cors           = require('cors');
 
-// import your routers before you ever call app.use()
 const playerRoutes   = require('./routes/player.routes');
 const squadRoutes    = require('./routes/squad.routes');
 const servicesRoutes = require('./routes/services.routes');
 const galleryRoutes  = require('./routes/gallery.routes');
+const matchesRoutes  = require('./routes/matches.routes');
 
 const app = express();
 
-// now you can safely mount them
 app.use(cors({
   methods: ['GET','POST','PUT','DELETE','OPTIONS'],
   credentials: true
@@ -23,6 +20,7 @@ app.use('/squad',    squadRoutes);
 app.use('/services', servicesRoutes);
 app.use('/gallery',  galleryRoutes);
 app.use('/hall', require('./routes/hall.routes'));
+app.use('/matches', matchesRoutes);
 
 
 const PORT = process.env.PORT || 8080;
