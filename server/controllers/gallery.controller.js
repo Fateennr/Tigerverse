@@ -2,9 +2,6 @@
 const galleryService = require('../services/gallery.services')
 
 class GalleryController {
-  /**
-   * GET /gallery?category=xyz
-   */
   async getAll(req, res) {
     try {
       const { category } = req.query

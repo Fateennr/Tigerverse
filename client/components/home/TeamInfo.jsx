@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useRef } from "react"
 import Image from "next/image"
+import { motion } from "framer-motion"
 import styles from "../../app/home.module.css"
 
 export default function TeamInfo() {
@@ -32,59 +33,101 @@ export default function TeamInfo() {
     }
   }, [])
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6 },
+    },
+  }
+
   return (
     <section className={styles.teamInfoSection}>
       <h2 className={styles.sectionTitle}>Bangladesh Cricket Team</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8" ref={infoRef}>
-        <div className="opacity-0">
-          <p className="text-lg mb-4">
+        <motion.div
+          className="opacity-0"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          <motion.p className="text-lg mb-4" variants={itemVariants}>
             The Bangladesh national cricket team, nicknamed "The Tigers", represents Bangladesh in international
             cricket. The team is administered by the Bangladesh Cricket Board (BCB) and is a Full Member of the
             International Cricket Council (ICC).
-          </p>
+          </motion.p>
 
-          <p className="text-lg mb-4">
+          <motion.p className="text-lg mb-4" variants={itemVariants}>
             Bangladesh's first official foray into international cricket came in the 1979 ICC Trophy in England. Cricket
             has gradually become very popular in Bangladesh, and is now one of the most popular sports in the country.
-          </p>
+          </motion.p>
 
-          <div className="mt-6 space-y-4" ref={statsRef}>
-            <div className={`${styles.statCard} opacity-0`} style={{ animationDelay: "0.2s" }}>
+          <motion.div
+            className="mt-6 space-y-4"
+            ref={statsRef}
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            <motion.div className={`${styles.statCard} opacity-0`} variants={itemVariants}>
               <div className="flex items-center">
                 <div className="w-32 font-bold text-[#ffde00]">ICC Status:</div>
                 <div>Full Member (Test, ODI and T20I)</div>
               </div>
-            </div>
-            <div className={`${styles.statCard} opacity-0`} style={{ animationDelay: "0.4s" }}>
+            </motion.div>
+            <motion.div className={`${styles.statCard} opacity-0`} variants={itemVariants}>
               <div className="flex items-center">
                 <div className="w-32 font-bold text-[#ffde00]">Founded:</div>
                 <div>1979</div>
               </div>
-            </div>
-            <div className={`${styles.statCard} opacity-0`} style={{ animationDelay: "0.6s" }}>
+            </motion.div>
+            <motion.div className={`${styles.statCard} opacity-0`} variants={itemVariants}>
               <div className="flex items-center">
                 <div className="w-32 font-bold text-[#ffde00]">Test Status:</div>
                 <div>2000 - present</div>
               </div>
-            </div>
-            <div className={`${styles.statCard} opacity-0`} style={{ animationDelay: "0.8s" }}>
+            </motion.div>
+            <motion.div className={`${styles.statCard} opacity-0`} variants={itemVariants}>
               <div className="flex items-center">
                 <div className="w-32 font-bold text-[#ffde00]">Captain:</div>
                 <div>Najmul Hossain Shanto (Test & T20I), Shakib Al Hasan (ODI)</div>
               </div>
-            </div>
-            <div className={`${styles.statCard} opacity-0`} style={{ animationDelay: "1s" }}>
+            </motion.div>
+            <motion.div className={`${styles.statCard} opacity-0`} variants={itemVariants}>
               <div className="flex items-center">
                 <div className="w-32 font-bold text-[#ffde00]">Coach:</div>
                 <div>Chandika Hathurusingha</div>
               </div>
-            </div>
-          </div>
-        </div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
 
-        <div className="flex justify-center items-center opacity-0">
-          <div className="relative w-full h-[300px] rounded-lg overflow-hidden hover-scale">
+        <motion.div
+          className="flex justify-center items-center opacity-0"
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <motion.div
+            className="relative w-full h-[300px] rounded-lg overflow-hidden"
+            whileHover={{ scale: 1.03 }}
+            transition={{ duration: 0.3 }}
+          >
             <div className="absolute inset-0 bg-gradient-to-r from-[#006a4e]/50 to-transparent z-10"></div>
             <Image
               src="/placeholder.svg?height=300&width=500"
@@ -96,34 +139,41 @@ export default function TeamInfo() {
               <h3 className="text-xl font-bold text-white">The Tigers</h3>
               <p className="text-sm text-[#ffde00]">Pride of Bangladesh</p>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
 
-      <div className="mt-12 p-6 bg-[#006a4e]/20 rounded-lg border-l-4 border-[#f42a41] opacity-0" ref={achievementsRef}>
+      <motion.div
+        className="mt-12 p-6 bg-[#006a4e]/20 rounded-lg border-l-4 border-[#f42a41] opacity-0"
+        ref={achievementsRef}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+      >
         <h3 className="text-xl font-bold mb-4 text-[#ffde00]">Team Achievements</h3>
         <ul className="space-y-2">
-          <li className={styles.achievementItem}>
+          <motion.li className={styles.achievementItem} whileHover={{ x: 10 }} transition={{ duration: 0.2 }}>
             <span className="text-[#f42a41] mr-2">▶</span> Qualified for the Super 8 stage in the 2007 Cricket World Cup
-          </li>
-          <li className={styles.achievementItem}>
+          </motion.li>
+          <motion.li className={styles.achievementItem} whileHover={{ x: 10 }} transition={{ duration: 0.2 }}>
             <span className="text-[#f42a41] mr-2">▶</span> Reached the quarter-finals of the 2015 Cricket World Cup
-          </li>
-          <li className={styles.achievementItem}>
+          </motion.li>
+          <motion.li className={styles.achievementItem} whileHover={{ x: 10 }} transition={{ duration: 0.2 }}>
             <span className="text-[#f42a41] mr-2">▶</span> Won their first Test match against Zimbabwe in 2005
-          </li>
-          <li className={styles.achievementItem}>
+          </motion.li>
+          <motion.li className={styles.achievementItem} whileHover={{ x: 10 }} transition={{ duration: 0.2 }}>
             <span className="text-[#f42a41] mr-2">▶</span> Defeated Australia in a Test match for the first time in 2017
-          </li>
-          <li className={styles.achievementItem}>
+          </motion.li>
+          <motion.li className={styles.achievementItem} whileHover={{ x: 10 }} transition={{ duration: 0.2 }}>
             <span className="text-[#f42a41] mr-2">▶</span> Reached the final of the Asia Cup in 2012 and 2018
-          </li>
-          <li className={styles.achievementItem}>
+          </motion.li>
+          <motion.li className={styles.achievementItem} whileHover={{ x: 10 }} transition={{ duration: 0.2 }}>
             <span className="text-[#f42a41] mr-2">▶</span> Won the 2019 Ireland Tri-Nation Series, their first
             multi-team ODI tournament
-          </li>
+          </motion.li>
         </ul>
-      </div>
+      </motion.div>
     </section>
   )
 }
