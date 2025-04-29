@@ -358,16 +358,13 @@ BEGIN
     FROM Players
    WHERE ID = in_playerId;
 
-  -- Default null role to 'Batsman', null ranking to half of totalrun
   SET role    = IFNULL(role, 'Batsman');
   SET ranking = IFNULL(ranking, in_totalrun DIV 2);
 
-  -- Initial remrun based on role
   SET remrun = in_totalrun;
   IF role = 'Bowler' THEN
     SET remrun = remrun DIV 3;
   ELSE
-    -- Batsman and Allrounder and any other default
     SET remrun = remrun DIV 2;
   END IF;
 
@@ -376,7 +373,6 @@ BEGIN
   SET offsetRun = FLOOR(RAND() * 11) - 5;    -- random between -5 and +5
   SET theirrun  = GREATEST(0, baseRun + offsetRun);
 
-  -- Update remrun
   SET remrun = remrun - theirrun;
 
   -- Balls: runs plus random capped at 15
@@ -391,7 +387,6 @@ BEGIN
   SET randVal = LEAST(15, FLOOR(RAND() * 41)); -- random 0..40 capped at 15
   SET sixes   = GREATEST(0, FLOOR((theirrun - (fours * 4) - randVal) / 6));
 
-  -- Return JSON object
   RETURN JSON_OBJECT(
     'runs',  theirrun,
     'balls', balls,
