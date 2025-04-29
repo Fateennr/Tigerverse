@@ -23,12 +23,17 @@ export default function PlayerSlot({ player, onRemove, onDragStart, onDrop, onDr
       </button>
 
       <div className="relative h-[120px] overflow-hidden">
-        <Image
-          src={player.image || "/placeholder.svg?height=300&width=300"}
-          alt={player.name}
-          fill
-          className="object-cover"
-        />
+      <Image
+  src={`/players/${player.name.toLowerCase().replace(/\./g, '').replace(/\s+/g, '_')}.png`}
+  alt={player.name}
+  onError={(e) => {
+    e.target.onerror = null;
+    e.target.src = "/placeholder.svg?height=300&width=300";
+  }}
+  fill
+  className="object-cover"
+/>
+
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
 
         <div className="absolute bottom-0 left-0 right-0 p-3">

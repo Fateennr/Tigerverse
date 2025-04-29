@@ -90,7 +90,7 @@ export default function SavedSquadsList({ savedSquads, onSquadSelect, loading })
                       className="inline-block h-6 w-6 rounded-full ring-2 ring-[#1c1c1c] overflow-hidden relative"
                     >
                       <img
-                        src={player.image || "/placeholder.svg?height=100&width=100"}
+                        src={`/players/${player.name.toLowerCase().replace(/\./g, '').replace(/\s+/g, '_')}.png`}
                         alt={player.name}
                         className="h-full w-full object-cover"
                       />
