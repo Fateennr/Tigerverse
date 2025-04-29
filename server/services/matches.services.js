@@ -13,6 +13,14 @@ class MatchesServices{
         const [rows] = await db.promise().query(sql, params);
         return rows[0] || [];
     }
+
+    async getMatchStats({ id = '1' } = {}) {
+        // -- put match id to generate all the summaries of 11 players
+        const sql = 'CALL GetMatchPlayerStats(?)';
+        const params = [id];
+        const [rows] = await db.promise().query(sql, params);
+        return rows[0] || [];
+    }
 };
 
 module.exports = new MatchesServices();
