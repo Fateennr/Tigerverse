@@ -256,6 +256,196 @@ CALL GetMatchesList(
   'DESC'
 );
 
+DELIMITER //
+
+-- 1) Most Wickets in a Single Innings (Best Figures)
+DROP PROCEDURE IF EXISTS get_highest_single_innings_wickets;
+CREATE PROCEDURE get_highest_single_innings_wickets(
+  IN in_opponent      VARCHAR(100),
+  IN in_matchtype     ENUM('Test','ODI','T20'),
+  IN in_locationtype  ENUM('Home','Away','Neutral')
+)
+BEGIN
+  SELECT
+    p.ID                                                                 AS PlayerID,
+    p.Name                                                               AS PlayerName,
+    CONCAT(YEAR(p.IntDebut), '-', COALESCE(YEAR(p.Retired), 'Present'))  AS CareerSpan,
+    COALESCE(
+      (SELECT pic.ImageURL
+         FROM Picture pic
+        WHERE pic.Category = 'player'
+          AND pic.EntityID = p.ID
+        ORDER BY pic.PictureID DESC
+        LIMIT 1),
+      '-1'
+    )                                                                    AS ImageURL,
+    b.MatchType                                                          AS MatchType,
+    b.BestBowlingFigures                                                 AS Figures
+  FROM BowlingCareerAgainst b
+  JOIN Players p ON p.ID = b.PlayerID
+  WHERE (b.Opponent     = in_opponent     OR in_opponent     IS NULL)
+    AND (b.MatchType    = in_matchtype    OR in_matchtype    IS NULL)
+    AND (b.LocationType = in_locationtype OR in_locationtype IS NULL)
+  ORDER BY
+    CAST(SUBSTRING_INDEX(b.BestBowlingFigures,'/',1) AS UNSIGNED) DESC,
+    CAST(SUBSTRING_INDEX(b.BestBowlingFigures,'/',-1) AS UNSIGNED) ASC
+  LIMIT 1;
+END;
+//
+
+-- 2) Best (Lowest) Bowling Average – requires at least min_wkts
+DROP PROCEDURE IF EXISTS get_best_bowling_average;
+CREATE PROCEDURE get_best_bowling_average(
+  IN in_opponent      VARCHAR(100),
+  IN in_matchtype     ENUM('Test','ODI','T20'),
+  IN in_locationtype  ENUM('Home','Away','Neutral'),
+  IN min_wkts         INT
+)
+BEGIN
+  SELECT
+    p.ID                                                                 AS PlayerID,
+    p.Name                                                               AS PlayerName,
+    CONCAT(YEAR(p.IntDebut), '-', COALESCE(YEAR(p.Retired), 'Present'))  AS CareerSpan,
+    COALESCE(
+      (SELECT pic.ImageURL
+         FROM Picture pic
+        WHERE pic.Category = 'player'
+          AND pic.EntityID = p.ID
+        ORDER BY pic.PictureID DESC
+        LIMIT 1),
+      '-1'
+    )                                                                    AS ImageURL,
+    ROUND(SUM(b.RunsConceded) / SUM(b.Wickets), 2)                         AS BowlingAverage
+  FROM BowlingCareerAgainst b
+  JOIN Players p ON p.ID = b.PlayerID
+  WHERE (b.Opponent     = in_opponent     OR in_opponent     IS NULL)
+    AND (b.MatchType    = in_matchtype    OR in_matchtype    IS NULL)
+    AND (b.LocationType = in_locationtype OR in_locationtype IS NULL)
+  GROUP BY b.PlayerID
+  HAVING SUM(b.Wickets) >= min_wkts
+  ORDER BY BowlingAverage ASC
+  LIMIT 1;
+END;
+//
+
+-- 3) Best Bowling Figures (alias of #1)
+DROP PROCEDURE IF EXISTS get_best_bowling_figures;
+CREATE PROCEDURE get_best_bowling_figures(
+  IN in_opponent      VARCHAR(100),
+  IN in_matchtype     ENUM('Test','ODI','T20'),
+  IN in_locationtype  ENUM('Home','Away','Neutral')
+)
+BEGIN
+  CALL get_highest_single_innings_wickets(in_opponent, in_matchtype, in_locationtype);
+END;
+//
+
+-- 4) Highest Career Wicket-Tally
+DROP PROCEDURE IF EXISTS get_highest_career_wickets;
+CREATE PROCEDURE get_highest_career_wickets(
+  IN in_opponent      VARCHAR(100),
+  IN in_matchtype     ENUM('Test','ODI','T20'),
+  IN in_locationtype  ENUM('Home','Away','Neutral')
+)
+BEGIN
+  SELECT
+    p.ID                                                                 AS PlayerID,
+    p.Name                                                               AS PlayerName,
+    CONCAT(YEAR(p.IntDebut), '-', COALESCE(YEAR(p.Retired), 'Present'))  AS CareerSpan,
+    COALESCE(
+      (SELECT pic.ImageURL
+         FROM Picture pic
+        WHERE pic.Category = 'player'
+          AND pic.EntityID = p.ID
+        ORDER BY pic.PictureID DESC
+        LIMIT 1),
+      '-1'
+    )                                                                    AS ImageURL,
+    SUM(b.Wickets)                                                       AS TotalWickets
+  FROM BowlingCareerAgainst b
+  JOIN Players p ON p.ID = b.PlayerID
+  WHERE (b.Opponent     = in_opponent     OR in_opponent     IS NULL)
+    AND (b.MatchType    = in_matchtype    OR in_matchtype    IS NULL)
+    AND (b.LocationType = in_locationtype OR in_locationtype IS NULL)
+  GROUP BY b.PlayerID
+  ORDER BY TotalWickets DESC
+  LIMIT 1;
+END;
+//
+
+-- 5) Most 5-Wicket Hauls
+DROP PROCEDURE IF EXISTS get_most_five_wicket_hauls;
+CREATE PROCEDURE get_most_five_wicket_hauls(
+  IN in_opponent      VARCHAR(100),
+  IN in_matchtype     ENUM('Test','ODI','T20'),
+  IN in_locationtype  ENUM('Home','Away','Neutral')
+)
+BEGIN
+  SELECT
+    p.ID                                                                 AS PlayerID,
+    p.Name                                                               AS PlayerName,
+    CONCAT(YEAR(p.IntDebut), '-', COALESCE(YEAR(p.Retired), 'Present'))  AS CareerSpan,
+    COALESCE(
+      (SELECT pic.ImageURL
+         FROM Picture pic
+        WHERE pic.Category = 'player'
+          AND pic.EntityID = p.ID
+        ORDER BY pic.PictureID DESC
+        LIMIT 1),
+      '-1'
+    )                                                                    AS ImageURL,
+    SUM(b.FiveWicketHauls)                                                AS FiveHauls,
+    COALESCE(in_matchtype, 'All Formats')                                 AS MatchType
+  FROM BowlingCareerAgainst b
+  JOIN Players p ON p.ID = b.PlayerID
+  WHERE (b.Opponent     = in_opponent     OR in_opponent     IS NULL)
+    AND (b.MatchType    = in_matchtype    OR in_matchtype    IS NULL)
+    AND (b.LocationType = in_locationtype OR in_locationtype IS NULL)
+  GROUP BY b.PlayerID
+  ORDER BY FiveHauls DESC
+  LIMIT 1;
+END;
+//
+
+-- 6) Most 10-Wicket Matches
+DROP PROCEDURE IF EXISTS get_most_ten_wicket_hauls;
+CREATE PROCEDURE get_most_ten_wicket_hauls(
+  IN in_opponent      VARCHAR(100),
+  IN in_matchtype     ENUM('Test','ODI','T20'),
+  IN in_locationtype  ENUM('Home','Away','Neutral')
+)
+BEGIN
+  SELECT
+    p.ID                                                                 AS PlayerID,
+    p.Name                                                               AS PlayerName,
+    CONCAT(YEAR(p.IntDebut), '-', COALESCE(YEAR(p.Retired), 'Present'))  AS CareerSpan,
+    COALESCE(
+      (SELECT pic.ImageURL
+         FROM Picture pic
+        WHERE pic.Category = 'player'
+          AND pic.EntityID = p.ID
+        ORDER BY pic.PictureID DESC
+        LIMIT 1),
+      '-1'
+    )                                                                    AS ImageURL,
+    SUM(b.TenWicketHauls)                                                 AS TenHauls,
+    COALESCE(in_matchtype, 'All Formats')                                 AS MatchType
+  FROM BowlingCareerAgainst b
+  JOIN Players p ON p.ID = b.PlayerID
+  WHERE (b.Opponent     = in_opponent     OR in_opponent     IS NULL)
+    AND (b.MatchType    = in_matchtype    OR in_matchtype    IS NULL)
+    AND (b.LocationType = in_locationtype OR in_locationtype IS NULL)
+  GROUP BY b.PlayerID
+  ORDER BY TenHauls DESC
+  LIMIT 1;
+END;
+//
+
+DELIMITER ;
+
+
+
+
 -- summerise bowling career for player
 
 DELIMITER //
@@ -329,126 +519,618 @@ END;
 //
 DELIMITER ;
 
--- calculate thestats of the player
--- Rewritten getPlayerStats function with null-handling
+-- Switch to a custom delimiter so we can define multi‐statement routines
 DELIMITER //
 
-DROP FUNCTION IF EXISTS getPlayerStats;//
-
-CREATE FUNCTION getPlayerStats(
-  in_playerId INT,
-  in_totalrun INT
-) RETURNS JSON
-DETERMINISTIC
+-- 1) Highest Total Runs (optional filters) + full player info & career totals
+DROP PROCEDURE IF EXISTS get_highest_total_runs_by_filters//
+CREATE PROCEDURE get_highest_total_runs_by_filters(
+  IN in_opponent      VARCHAR(100),
+  IN in_matchtype     ENUM('Test','ODI','T20'),
+  IN in_locationtype  ENUM('Home','Away','Neutral')
+)
 BEGIN
-  DECLARE role       VARCHAR(255);
-  DECLARE ranking    INT;
-  DECLARE remrun     INT;
-  DECLARE baseRun    INT;
-  DECLARE offsetRun  INT;
-  DECLARE theirrun   INT;
-  DECLARE randVal    INT;
-  DECLARE balls      INT;
-  DECLARE fours      INT;
-  DECLARE sixes      INT;
+  SELECT
+    p.ID                                              AS PlayerID,
+    p.Name                                            AS PlayerName,
+    CONCAT(YEAR(p.IntDebut), '-', COALESCE(YEAR(p.Retired),'Present')) AS CareerSpan,
+    COALESCE(
+      (SELECT pic.ImageURL
+         FROM Picture pic
+        WHERE pic.Category='player' 
+          AND pic.EntityID = p.ID
+        ORDER BY pic.PictureID DESC
+        LIMIT 1),
+      '-1'
+    )                                                 AS ImageURL,
+    /* metric for this filter */
+    SUM(b.Runs)                                       AS TotalRuns,
+    /* full career aggregates */
+    agg.TotalMatches,
+    agg.TotalInnings,
+    agg.TotalRuns    AS CareerRuns,
+    agg.TotalBalls   AS CareerBallsFaced,
+    agg.TotalNotOuts,
+    ROUND(agg.TotalRuns / NULLIF(agg.TotalInnings - agg.TotalNotOuts,0),2)   AS CareerAverage,
+    ROUND(agg.TotalRuns / NULLIF(agg.TotalBalls,0) *100,2)                  AS CareerStrikeRate
+  FROM BattingCareerAgainst b
+  JOIN Players p ON p.ID = b.PlayerID
+  LEFT JOIN (
+    SELECT
+      PlayerID,
+      SUM(Matches)    AS TotalMatches,
+      SUM(Innings)    AS TotalInnings,
+      SUM(Runs)       AS TotalRuns,
+      SUM(BallsFaced) AS TotalBalls,
+      SUM(NotOuts)    AS TotalNotOuts
+    FROM BattingCareerAgainst
+    GROUP BY PlayerID
+  ) AS agg ON agg.PlayerID = p.ID
+  WHERE (b.Opponent     = in_opponent     OR in_opponent     IS NULL)
+    AND (b.MatchType    = in_matchtype    OR in_matchtype    IS NULL)
+    AND (b.LocationType = in_locationtype OR in_locationtype IS NULL)
+  GROUP BY p.ID
+  ORDER BY TotalRuns DESC
+  LIMIT 1;
+END//
 
-  -- Lookup player role and ranking
-  SELECT PlayerRole, RANKING
-    INTO role, ranking
-    FROM Players
-   WHERE ID = in_playerId;
+-- 2) Highest Score in a Single Innings + full player info & career totals
+DROP PROCEDURE IF EXISTS get_highest_score_by_filters//
+CREATE PROCEDURE get_highest_score_by_filters(
+  IN in_opponent      VARCHAR(100),
+  IN in_matchtype     ENUM('Test','ODI','T20'),
+  IN in_locationtype  ENUM('Home','Away','Neutral')
+)
+BEGIN
+  SELECT
+    p.ID                                              AS PlayerID,
+    p.Name                                            AS PlayerName,
+    CONCAT(YEAR(p.IntDebut), '-', COALESCE(YEAR(p.Retired),'Present')) AS CareerSpan,
+    COALESCE(
+      (SELECT pic.ImageURL
+         FROM Picture pic
+        WHERE pic.Category='player'
+          AND pic.EntityID = p.ID
+        ORDER BY pic.PictureID DESC
+        LIMIT 1),
+      '-1'
+    )                                                 AS ImageURL,
+    b.MatchType                                       AS MatchType,
+    b.HighestScore                                    AS HighestScore,
+    agg.TotalMatches,
+    agg.TotalInnings,
+    agg.TotalRuns    AS CareerRuns,
+    agg.TotalBalls   AS CareerBallsFaced,
+    agg.TotalNotOuts,
+    ROUND(agg.TotalRuns / NULLIF(agg.TotalInnings - agg.TotalNotOuts,0),2)   AS CareerAverage,
+    ROUND(agg.TotalRuns / NULLIF(agg.TotalBalls,0) *100,2)                  AS CareerStrikeRate
+  FROM BattingCareerAgainst b
+  JOIN Players p ON p.ID = b.PlayerID
+  LEFT JOIN (
+    SELECT
+      PlayerID,
+      SUM(Matches)    AS TotalMatches,
+      SUM(Innings)    AS TotalInnings,
+      SUM(Runs)       AS TotalRuns,
+      SUM(BallsFaced) AS TotalBalls,
+      SUM(NotOuts)    AS TotalNotOuts
+    FROM BattingCareerAgainst
+    GROUP BY PlayerID
+  ) AS agg ON agg.PlayerID = p.ID
+  WHERE (b.Opponent     = in_opponent     OR in_opponent     IS NULL)
+    AND (b.MatchType    = in_matchtype    OR in_matchtype    IS NULL)
+    AND (b.LocationType = in_locationtype OR in_locationtype IS NULL)
+  ORDER BY b.HighestScore DESC
+  LIMIT 1;
+END//
 
-  -- Default null role to 'Batsman', null ranking to half of totalrun
-  SET role    = IFNULL(role, 'Batsman');
-  SET ranking = IFNULL(ranking, in_totalrun DIV 2);
+-- 3) Most Centuries (100+) + full player info & career totals
+DROP PROCEDURE IF EXISTS get_most_centuries_by_filters//
+CREATE PROCEDURE get_most_centuries_by_filters(
+  IN in_opponent      VARCHAR(100),
+  IN in_matchtype     ENUM('Test','ODI','T20'),
+  IN in_locationtype  ENUM('Home','Away','Neutral')
+)
+BEGIN
+  SELECT
+    p.ID                                              AS PlayerID,
+    p.Name                                            AS PlayerName,
+    CONCAT(YEAR(p.IntDebut), '-', COALESCE(YEAR(p.Retired),'Present')) AS CareerSpan,
+    COALESCE(
+      (SELECT pic.ImageURL
+         FROM Picture pic
+        WHERE pic.Category='player'
+          AND pic.EntityID = p.ID
+        ORDER BY pic.PictureID DESC
+        LIMIT 1),
+      '-1'
+    )                                                 AS ImageURL,
+    SUM(b.Hundreds)                                   AS TotalCenturies,
+    agg.TotalMatches,
+    agg.TotalInnings,
+    agg.TotalRuns    AS CareerRuns,
+    agg.TotalBalls   AS CareerBallsFaced,
+    agg.TotalNotOuts,
+    ROUND(agg.TotalRuns / NULLIF(agg.TotalInnings - agg.TotalNotOuts,0),2)   AS CareerAverage,
+    ROUND(agg.TotalRuns / NULLIF(agg.TotalBalls,0) *100,2)                  AS CareerStrikeRate
+  FROM BattingCareerAgainst b
+  JOIN Players p ON p.ID = b.PlayerID
+  LEFT JOIN (
+    SELECT
+      PlayerID,
+      SUM(Matches)    AS TotalMatches,
+      SUM(Innings)    AS TotalInnings,
+      SUM(Runs)       AS TotalRuns,
+      SUM(BallsFaced) AS TotalBalls,
+      SUM(NotOuts)    AS TotalNotOuts
+    FROM BattingCareerAgainst
+    GROUP BY PlayerID
+  ) AS agg ON agg.PlayerID = p.ID
+  WHERE (b.Opponent     = in_opponent     OR in_opponent     IS NULL)
+    AND (b.MatchType    = in_matchtype    OR in_matchtype    IS NULL)
+    AND (b.LocationType = in_locationtype OR in_locationtype IS NULL)
+  GROUP BY p.ID
+  ORDER BY TotalCenturies DESC
+  LIMIT 1;
+END//
 
-  -- Initial remrun based on role
-  SET remrun = in_totalrun;
-  IF role = 'Bowler' THEN
-    SET remrun = remrun DIV 3;
-  ELSE
-    -- Batsman and Allrounder and any other default
-    SET remrun = remrun DIV 2;
-  END IF;
+-- 4) Most Half-Centuries (50+) + full player info & career totals
+DROP PROCEDURE IF EXISTS get_most_half_centuries_by_filters//
+CREATE PROCEDURE get_most_half_centuries_by_filters(
+  IN in_opponent      VARCHAR(100),
+  IN in_matchtype     ENUM('Test','ODI','T20'),
+  IN in_locationtype  ENUM('Home','Away','Neutral')
+)
+BEGIN
+  SELECT
+    p.ID                                              AS PlayerID,
+    p.Name                                            AS PlayerName,
+    CONCAT(YEAR(p.IntDebut), '-', COALESCE(YEAR(p.Retired),'Present')) AS CareerSpan,
+    COALESCE(
+      (SELECT pic.ImageURL
+         FROM Picture pic
+        WHERE pic.Category='player'
+          AND pic.EntityID = p.ID
+        ORDER BY pic.PictureID DESC
+        LIMIT 1),
+      '-1'
+    )                                                 AS ImageURL,
+    SUM(b.Fifties)                                    AS TotalHalfCenturies,
+    agg.TotalMatches,
+    agg.TotalInnings,
+    agg.TotalRuns    AS CareerRuns,
+    agg.TotalBalls   AS CareerBallsFaced,
+    agg.TotalNotOuts,
+    ROUND(agg.TotalRuns / NULLIF(agg.TotalInnings - agg.TotalNotOuts,0),2)   AS CareerAverage,
+    ROUND(agg.TotalRuns / NULLIF(agg.TotalBalls,0) *100,2)                  AS CareerStrikeRate
+  FROM BattingCareerAgainst b
+  JOIN Players p ON p.ID = b.PlayerID
+  LEFT JOIN (
+    SELECT
+      PlayerID,
+      SUM(Matches)    AS TotalMatches,
+      SUM(Innings)    AS TotalInnings,
+      SUM(Runs)       AS TotalRuns,
+      SUM(BallsFaced) AS TotalBalls,
+      SUM(NotOuts)    AS TotalNotOuts
+    FROM BattingCareerAgainst
+    GROUP BY PlayerID
+  ) AS agg ON agg.PlayerID = p.ID
+  WHERE (b.Opponent     = in_opponent     OR in_opponent     IS NULL)
+    AND (b.MatchType    = in_matchtype    OR in_matchtype    IS NULL)
+    AND (b.LocationType = in_locationtype OR in_locationtype IS NULL)
+  GROUP BY p.ID
+  ORDER BY TotalHalfCenturies DESC
+  LIMIT 1;
+END//
 
-  -- Calculate runs: min(remrun, ranking) + random offset
-  SET baseRun   = LEAST(remrun, ranking);
-  SET offsetRun = FLOOR(RAND() * 11) - 5;    -- random between -5 and +5
-  SET theirrun  = GREATEST(0, baseRun + offsetRun);
+-- 5) Highest Strike Rate + full player info & career totals
+DROP PROCEDURE IF EXISTS get_highest_strike_rate_by_filters//
+CREATE PROCEDURE get_highest_strike_rate_by_filters(
+  IN in_opponent      VARCHAR(100),
+  IN in_matchtype     ENUM('Test','ODI','T20'),
+  IN in_locationtype  ENUM('Home','Away','Neutral')
+)
+BEGIN
+  SELECT
+    p.ID                                              AS PlayerID,
+    p.Name                                            AS PlayerName,
+    CONCAT(YEAR(p.IntDebut), '-', COALESCE(YEAR(p.Retired),'Present')) AS CareerSpan,
+    COALESCE(
+      (SELECT pic.ImageURL
+         FROM Picture pic
+        WHERE pic.Category='player'
+          AND pic.EntityID = p.ID
+        ORDER BY pic.PictureID DESC
+        LIMIT 1),
+      '-1'
+    )                                                 AS ImageURL,
+    ROUND(SUM(b.Runs)/SUM(b.BallsFaced)*100,2)        AS StrikeRate,
+    agg.TotalMatches,
+    agg.TotalInnings,
+    agg.TotalRuns    AS CareerRuns,
+    agg.TotalBalls   AS CareerBallsFaced,
+    agg.TotalNotOuts,
+    ROUND(agg.TotalRuns / NULLIF(agg.TotalInnings - agg.TotalNotOuts,0),2)   AS CareerAverage,
+    ROUND(agg.TotalRuns / NULLIF(agg.TotalBalls,0) *100,2)                  AS CareerStrikeRate
+  FROM BattingCareerAgainst b
+  JOIN Players p ON p.ID = b.PlayerID
+  LEFT JOIN (
+    SELECT
+      PlayerID,
+      SUM(Matches)    AS TotalMatches,
+      SUM(Innings)    AS TotalInnings,
+      SUM(Runs)       AS TotalRuns,
+      SUM(BallsFaced) AS TotalBalls,
+      SUM(NotOuts)    AS TotalNotOuts
+    FROM BattingCareerAgainst
+    GROUP BY PlayerID
+  ) AS agg ON agg.PlayerID = p.ID
+  WHERE (b.Opponent     = in_opponent     OR in_opponent     IS NULL)
+    AND (b.MatchType    = in_matchtype    OR in_matchtype    IS NULL)
+    AND (b.LocationType = in_locationtype OR in_locationtype IS NULL)
+    AND b.BallsFaced > 0
+  GROUP BY p.ID
+  ORDER BY StrikeRate DESC
+  LIMIT 1;
+END//
 
-  -- Update remrun
-  SET remrun = remrun - theirrun;
+-- 6) Highest Batting Average + full player info & career totals
+DROP PROCEDURE IF EXISTS get_highest_average_by_filters//
+CREATE PROCEDURE get_highest_average_by_filters(
+  IN in_opponent      VARCHAR(100),
+  IN in_matchtype     ENUM('Test','ODI','T20'),
+  IN in_locationtype  ENUM('Home','Away','Neutral')
+)
+BEGIN
+  SELECT
+    p.ID                                              AS PlayerID,
+    p.Name                                            AS PlayerName,
+    CONCAT(YEAR(p.IntDebut), '-', COALESCE(YEAR(p.Retired),'Present')) AS CareerSpan,
+    COALESCE(
+      (SELECT pic.ImageURL
+         FROM Picture pic
+        WHERE pic.Category='player'
+          AND pic.EntityID = p.ID
+        ORDER BY pic.PictureID DESC
+        LIMIT 1),
+      '-1'
+    )                                                 AS ImageURL,
+    ROUND(SUM(b.Runs)/NULLIF(SUM(b.Innings)-SUM(b.NotOuts),0),2) AS BattingAverage,
+    agg.TotalMatches,
+    agg.TotalInnings,
+    agg.TotalRuns    AS CareerRuns,
+    agg.TotalBalls   AS CareerBallsFaced,
+    agg.TotalNotOuts,
+    ROUND(agg.TotalRuns / NULLIF(agg.TotalInnings - agg.TotalNotOuts,0),2)   AS CareerAverage,
+    ROUND(agg.TotalRuns / NULLIF(agg.TotalBalls,0) *100,2)                  AS CareerStrikeRate
+  FROM BattingCareerAgainst b
+  JOIN Players p ON p.ID = b.PlayerID
+  LEFT JOIN (
+    SELECT
+      PlayerID,
+      SUM(Matches)    AS TotalMatches,
+      SUM(Innings)    AS TotalInnings,
+      SUM(Runs)       AS TotalRuns,
+      SUM(BallsFaced) AS TotalBalls,
+      SUM(NotOuts)    AS TotalNotOuts
+    FROM BattingCareerAgainst
+    GROUP BY PlayerID
+  ) AS agg ON agg.PlayerID = p.ID
+  WHERE (b.Opponent     = in_opponent     OR in_opponent     IS NULL)
+    AND (b.MatchType    = in_matchtype    OR in_matchtype    IS NULL)
+    AND (b.LocationType = in_locationtype OR in_locationtype IS NULL)
+  GROUP BY p.ID
+  HAVING SUM(b.Innings)-SUM(b.NotOuts) > 0
+  ORDER BY BattingAverage DESC
+  LIMIT 1;
+END//
 
-  -- Balls: runs plus random capped at 15
-  SET randVal = FLOOR(RAND() * 61) - 30;      -- random -30..+30
-  SET balls   = GREATEST(1, LEAST(15, randVal) + theirrun);
-
-  -- Fours: floor((runs - random(10..30)) / 4)
-  SET randVal = FLOOR(RAND() * 21) + 10;       -- random 10..30
-  SET fours   = GREATEST(0, FLOOR((theirrun - randVal) / 4));
-
-  -- Sixes: floor((runs - fours*4 - random(0..40 capped 15)) / 6)
-  SET randVal = LEAST(15, FLOOR(RAND() * 41)); -- random 0..40 capped at 15
-  SET sixes   = GREATEST(0, FLOOR((theirrun - (fours * 4) - randVal) / 6));
-
-  -- Return JSON object
-  RETURN JSON_OBJECT(
-    'runs',  theirrun,
-    'balls', balls,
-    'fours', fours,
-    'sixes', sixes
-  );
-END;//
-
+-- Restore standard delimiter
 DELIMITER ;
 
 DELIMITER //
 
-DROP PROCEDURE IF EXISTS GetMatchPlayerStats;
+
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS GetMostMatchesPlayedByProfile;
 //
-CREATE PROCEDURE GetMatchPlayerStats(IN in_matchId INT)
+CREATE PROCEDURE GetMostMatchesPlayedByProfile()
 BEGIN
-  DECLARE remRun INT;
-
-  -- 1) load the match’s BD runs
-  SET remRun = (
-    SELECT Score_BD_Run
-      FROM Matches
-     WHERE ID = in_matchId
-  );
-
   SELECT
-    COALESCE(
-      JSON_ARRAYAGG(
-        JSON_OBJECT(
-          'id',    p.ID,
-          'name',  p.Name,
-          'role',  p.PlayerRole,
-          'stats', getPlayerStats(p.ID, remRun)
-        )
-      ),
-      JSON_ARRAY()
-    ) AS squadStats
-  FROM Squads s
-  JOIN SquadPlayers sp ON sp.SquadID = s.ID
-  JOIN Players p       ON p.ID       = sp.PlayerID
-  WHERE s.MatchType = (
-    SELECT `Type`
-      FROM Matches
-     WHERE ID = in_matchId
-  )
-    AND s.ID = (
-      SELECT MAX(ID)
-        FROM Squads
-       WHERE MatchType = (
-         SELECT `Type` FROM Matches WHERE ID = in_matchId
-       )
-    )
-  ORDER BY p.RANKING ASC;
+    p.ID                        AS PlayerID,
+    p.Name                      AS PlayerName,
+
+    /* 1) ProfileType */
+    CASE
+      WHEN LOWER(p.Profile) LIKE '%all-rounder%' THEN 'Allrounder'
+      WHEN LOWER(p.Profile) LIKE '%bowler%'
+           AND LOWER(p.Profile) NOT LIKE '%batsman%' THEN 'Bowler'
+      WHEN LOWER(p.Profile) LIKE '%batsman%'
+           AND LOWER(p.Profile) NOT LIKE '%bowler%' THEN 'Batsman'
+      WHEN LOWER(p.Profile) LIKE '%bowler%' 
+       AND LOWER(p.Profile) LIKE '%batsman%' THEN 'Allrounder'
+      ELSE 'Unknown'
+    END                          AS ProfileType,
+
+    /* 2) TotalMatches */
+    CASE
+      WHEN LOWER(p.Profile) LIKE '%bowler%'
+           AND LOWER(p.Profile) NOT LIKE '%batsman%' 
+        THEN COALESCE(bw.BowlMatches, 0)
+      WHEN LOWER(p.Profile) LIKE '%batsman%'
+           AND LOWER(p.Profile) NOT LIKE '%bowler%' 
+        THEN COALESCE(bc.BatMatches, 0)
+      WHEN LOWER(p.Profile) LIKE '%all-rounder%'
+           OR (LOWER(p.Profile) LIKE '%bowler%'
+               AND LOWER(p.Profile) LIKE '%batsman%')
+        THEN (COALESCE(bc.BatMatches,0) + COALESCE(bw.BowlMatches,0)) / 2
+      ELSE 0
+    END                          AS TotalMatches,
+
+    /* 3) CareerSpan with ASCII hyphen */
+    CONCAT(
+      YEAR(p.IntDebut),
+      '-',
+      IF(p.Retired IS NULL, 'Present', YEAR(p.Retired))
+    )                            AS CareerSpan,
+
+    /* 4) Picture URL */
+    pic.ImageURL                 AS PictureURL
+
+  FROM Players p
+
+  LEFT JOIN (
+    SELECT PlayerID, SUM(Matches) AS BatMatches
+    FROM BattingCareerAgainst
+    GROUP BY PlayerID
+  ) AS bc ON p.ID = bc.PlayerID
+
+  LEFT JOIN (
+    SELECT PlayerID, SUM(Matches) AS BowlMatches
+    FROM BowlingCareerAgainst
+    GROUP BY PlayerID
+  ) AS bw ON p.ID = bw.PlayerID
+
+  LEFT JOIN Picture pic
+    ON pic.Category = 'player'
+   AND pic.EntityID = p.ID
+
+  ORDER BY TotalMatches DESC
+  LIMIT 1;
 END;
 //
 DELIMITER ;
 
 
 
+
+
+
+
+
+
+
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS GetLongestCareer;
+//
+CREATE PROCEDURE GetLongestCareer()
+BEGIN
+  SELECT
+    p.ID                           AS PlayerID,
+    p.Name                         AS PlayerName,
+    -- e.g. "2005–Present" or "2005–2019"
+    CONCAT(
+      YEAR(p.IntDebut),
+      '–',
+      IF(p.Retired IS NULL, 'Present', YEAR(p.Retired))
+    )                              AS CareerSpan,
+    -- full years between debut and retired/current_date
+    FLOOR(
+      DATEDIFF(
+        IF(p.Retired IS NOT NULL, p.Retired, CURRENT_DATE()),
+        p.IntDebut
+      ) / 365
+    )                              AS YearsPlayed,
+    pic.ImageURL                   AS PictureURL
+  FROM Players p
+  LEFT JOIN Picture pic
+    ON pic.Category = 'player'
+   AND pic.EntityID = p.ID
+  ORDER BY YearsPlayed DESC
+  LIMIT 1;
+END;
+//
+DELIMITER ;
+
+
+------bowling halloffame
+DELIMITER //
+
+-- 1) Most Wickets in a Single Innings (Best Figures)
+DROP PROCEDURE IF EXISTS get_highest_single_innings_wickets;
+CREATE PROCEDURE get_highest_single_innings_wickets(
+  IN in_opponent      VARCHAR(100),
+  IN in_matchtype     ENUM('Test','ODI','T20'),
+  IN in_locationtype  ENUM('Home','Away','Neutral')
+)
+BEGIN
+  SELECT
+    p.ID                                                                 AS PlayerID,
+    p.Name                                                               AS PlayerName,
+    CONCAT(YEAR(p.IntDebut), '-', COALESCE(YEAR(p.Retired), 'Present'))  AS CareerSpan,
+    COALESCE(
+      (SELECT pic.ImageURL
+         FROM Picture pic
+        WHERE pic.Category = 'player'
+          AND pic.EntityID = p.ID
+        ORDER BY pic.PictureID DESC
+        LIMIT 1),
+      '-1'
+    )                                                                    AS ImageURL,
+    b.MatchType                                                          AS MatchType,
+    b.BestBowlingFigures                                                 AS Figures
+  FROM BowlingCareerAgainst b
+  JOIN Players p ON p.ID = b.PlayerID
+  WHERE (b.Opponent     = in_opponent     OR in_opponent     IS NULL)
+    AND (b.MatchType    = in_matchtype    OR in_matchtype    IS NULL)
+    AND (b.LocationType = in_locationtype OR in_locationtype IS NULL)
+  ORDER BY
+    CAST(SUBSTRING_INDEX(b.BestBowlingFigures,'/',1) AS UNSIGNED) DESC,
+    CAST(SUBSTRING_INDEX(b.BestBowlingFigures,'/',-1) AS UNSIGNED) ASC
+  LIMIT 1;
+END;
+//
+
+-- 2) Best (Lowest) Bowling Average – requires at least min_wkts
+DROP PROCEDURE IF EXISTS get_best_bowling_average;
+CREATE PROCEDURE get_best_bowling_average(
+  IN in_opponent      VARCHAR(100),
+  IN in_matchtype     ENUM('Test','ODI','T20'),
+  IN in_locationtype  ENUM('Home','Away','Neutral'),
+  IN min_wkts         INT
+)
+BEGIN
+  SELECT
+    p.ID                                                                 AS PlayerID,
+    p.Name                                                               AS PlayerName,
+    CONCAT(YEAR(p.IntDebut), '-', COALESCE(YEAR(p.Retired), 'Present'))  AS CareerSpan,
+    COALESCE(
+      (SELECT pic.ImageURL
+         FROM Picture pic
+        WHERE pic.Category = 'player'
+          AND pic.EntityID = p.ID
+        ORDER BY pic.PictureID DESC
+        LIMIT 1),
+      '-1'
+    )                                                                    AS ImageURL,
+    ROUND(SUM(b.RunsConceded) / SUM(b.Wickets), 2)                         AS BowlingAverage
+  FROM BowlingCareerAgainst b
+  JOIN Players p ON p.ID = b.PlayerID
+  WHERE (b.Opponent     = in_opponent     OR in_opponent     IS NULL)
+    AND (b.MatchType    = in_matchtype    OR in_matchtype    IS NULL)
+    AND (b.LocationType = in_locationtype OR in_locationtype IS NULL)
+  GROUP BY b.PlayerID
+  HAVING SUM(b.Wickets) >= min_wkts
+  ORDER BY BowlingAverage ASC
+  LIMIT 1;
+END;
+//
+
+-- 3) Best Bowling Figures (alias of #1)
+DROP PROCEDURE IF EXISTS get_best_bowling_figures;
+CREATE PROCEDURE get_best_bowling_figures(
+  IN in_opponent      VARCHAR(100),
+  IN in_matchtype     ENUM('Test','ODI','T20'),
+  IN in_locationtype  ENUM('Home','Away','Neutral')
+)
+BEGIN
+  CALL get_highest_single_innings_wickets(in_opponent, in_matchtype, in_locationtype);
+END;
+//
+
+-- 4) Highest Career Wicket-Tally
+DROP PROCEDURE IF EXISTS get_highest_career_wickets;
+CREATE PROCEDURE get_highest_career_wickets(
+  IN in_opponent      VARCHAR(100),
+  IN in_matchtype     ENUM('Test','ODI','T20'),
+  IN in_locationtype  ENUM('Home','Away','Neutral')
+)
+BEGIN
+  SELECT
+    p.ID                                                                 AS PlayerID,
+    p.Name                                                               AS PlayerName,
+    CONCAT(YEAR(p.IntDebut), '-', COALESCE(YEAR(p.Retired), 'Present'))  AS CareerSpan,
+    COALESCE(
+      (SELECT pic.ImageURL
+         FROM Picture pic
+        WHERE pic.Category = 'player'
+          AND pic.EntityID = p.ID
+        ORDER BY pic.PictureID DESC
+        LIMIT 1),
+      '-1'
+    )                                                                    AS ImageURL,
+    SUM(b.Wickets)                                                       AS TotalWickets
+  FROM BowlingCareerAgainst b
+  JOIN Players p ON p.ID = b.PlayerID
+  WHERE (b.Opponent     = in_opponent     OR in_opponent     IS NULL)
+    AND (b.MatchType    = in_matchtype    OR in_matchtype    IS NULL)
+    AND (b.LocationType = in_locationtype OR in_locationtype IS NULL)
+  GROUP BY b.PlayerID
+  ORDER BY TotalWickets DESC
+  LIMIT 1;
+END;
+//
+
+-- 5) Most 5-Wicket Hauls
+DROP PROCEDURE IF EXISTS get_most_five_wicket_hauls;
+CREATE PROCEDURE get_most_five_wicket_hauls(
+  IN in_opponent      VARCHAR(100),
+  IN in_matchtype     ENUM('Test','ODI','T20'),
+  IN in_locationtype  ENUM('Home','Away','Neutral')
+)
+BEGIN
+  SELECT
+    p.ID                                                                 AS PlayerID,
+    p.Name                                                               AS PlayerName,
+    CONCAT(YEAR(p.IntDebut), '-', COALESCE(YEAR(p.Retired), 'Present'))  AS CareerSpan,
+    COALESCE(
+      (SELECT pic.ImageURL
+         FROM Picture pic
+        WHERE pic.Category = 'player'
+          AND pic.EntityID = p.ID
+        ORDER BY pic.PictureID DESC
+        LIMIT 1),
+      '-1'
+    )                                                                    AS ImageURL,
+    SUM(b.FiveWicketHauls)                                                AS FiveHauls,
+    COALESCE(in_matchtype, 'All Formats')                                 AS MatchType
+  FROM BowlingCareerAgainst b
+  JOIN Players p ON p.ID = b.PlayerID
+  WHERE (b.Opponent     = in_opponent     OR in_opponent     IS NULL)
+    AND (b.MatchType    = in_matchtype    OR in_matchtype    IS NULL)
+    AND (b.LocationType = in_locationtype OR in_locationtype IS NULL)
+  GROUP BY b.PlayerID
+  ORDER BY FiveHauls DESC
+  LIMIT 1;
+END;
+//
+
+-- 6) Most 10-Wicket Matches
+DROP PROCEDURE IF EXISTS get_most_ten_wicket_hauls;
+CREATE PROCEDURE get_most_ten_wicket_hauls(
+  IN in_opponent      VARCHAR(100),
+  IN in_matchtype     ENUM('Test','ODI','T20'),
+  IN in_locationtype  ENUM('Home','Away','Neutral')
+)
+BEGIN
+  SELECT
+    p.ID                                                                 AS PlayerID,
+    p.Name                                                               AS PlayerName,
+    CONCAT(YEAR(p.IntDebut), '-', COALESCE(YEAR(p.Retired), 'Present'))  AS CareerSpan,
+    COALESCE(
+      (SELECT pic.ImageURL
+         FROM Picture pic
+        WHERE pic.Category = 'player'
+          AND pic.EntityID = p.ID
+        ORDER BY pic.PictureID DESC
+        LIMIT 1),
+      '-1'
+    )                                                                    AS ImageURL,
+    SUM(b.TenWicketHauls)                                                 AS TenHauls,
+    COALESCE(in_matchtype, 'All Formats')                                 AS MatchType
+  FROM BowlingCareerAgainst b
+  JOIN Players p ON p.ID = b.PlayerID
+  WHERE (b.Opponent     = in_opponent     OR in_opponent     IS NULL)
+    AND (b.MatchType    = in_matchtype    OR in_matchtype    IS NULL)
+    AND (b.LocationType = in_locationtype OR in_locationtype IS NULL)
+  GROUP BY b.PlayerID
+  ORDER BY TenHauls DESC
+  LIMIT 1;
+END;
+//
+
+DELIMITER ;
 
