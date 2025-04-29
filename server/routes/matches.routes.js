@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const MatchesController = require('../controllers/player.controller');
+const MatchesController = require('../controllers/matches.controller');
 
-router.get('/batting', MatchesController.getBattingData);
-router.get('/bowling', MatchesController.getBowlingData);
-router.get('/fielding', null);
+router.get('/all', MatchesController.getFilteredMatchesList);
 
 module.exports = router;

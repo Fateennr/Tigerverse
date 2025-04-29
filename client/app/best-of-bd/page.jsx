@@ -22,186 +22,119 @@ export default function BestOfBDPage() {
   const [sortBy, setSortBy] = useState("winrun")
   const [sortOrder, setSortOrder] = useState("DESC")
 
+  const buildUrl = () => {
+    const params = new URLSearchParams({
+      selectedVenue,
+      selectedOpponent,
+      selectedFormat,
+      statType,
+      sortBy,
+      sortOrder,
+    })
+    return `${process.env.NEXT_PUBLIC_BACKEND_URI}/matches/all?${params.toString()}`
+  }
+
+  const processString = () =>{
+
+  };
+
+
+  const fetchMatches = async () => {
+    setLoading(true)
+    try {
+      const url = buildUrl()
+      const res = await fetch(url)
+      if (!res.ok) throw new Error(res.statusText)
+      const data = await res.json()
+  
+      const processMatch = (item) => {
+        const byWicket = item.Wonbywicket === 1 && item.Wonbyrun === 0
+        let description, highlights
+  
+        if (item.Result === 'Bangladesh') {
+          if (byWicket) {
+            description = `Bangladesh won by ${item.Winwicket} wickets`
+            highlights = `Bangladesh chased down ${item.Opponent}'s total with ${item.Winwicket} wickets`
+          } else {
+            description = `Bangladesh won by ${item.Winrun} runs`
+            highlights = `Bangladesh stopped ${item.Opponent} before ${item.Winrun} runs`
+          }
+        } else {
+          if (byWicket) {
+            description = `${item.Opponent} won by ${item.Winwicket} wickets`
+            highlights = `${item.Opponent} chased down Bangladesh's total with ${item.Winwicket} wickets`
+          } else {
+            description = `${item.Opponent} won by ${item.Winrun} runs`
+            highlights = `${item.Opponent} stopped Bangladesh before ${item.Winrun} runs`
+          }
+        }
+  
+        return {
+          id:             item.ID,
+          opponent:       item.Opponent,
+          format:         item.Type,
+          date:           item.Date,
+          description,
+          bdScore:        `${item.Score_BD_Run}/${item.Score_BD_wicket}`,
+          opponentScore:  `${item.Score_Opp_Run}/${item.Score_Opp_wicket}`,
+          winrun:         item.Winrun,
+          winwicket:      item.Winwicket,
+          matchLength:    item.Score_BD_Over_Played + item.Score_Opp_Over_Played,
+          highestrun:     Math.max(item.Score_BD_Run, item.Score_Opp_Run),
+          motm:           'Everyone',          // or derive this too
+          image:          '/stadium.webp',
+          highlights
+        }
+      }
+  
+      const matchesArray = data.map(processMatch)
+      setMatches(matchesArray)
+      setFilteredMatches(matchesArray)
+      setError(null)
+    } catch (err) {
+      console.error("Failed to fetch matches data", err)
+      setError("Could not load match")
+    } finally {
+      setLoading(false)
+    }
+  }
+  
+
+
   // Fetch data
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true)
 
-        const venuesResponse = await fetch(`${process.env.BACKEND_URI}/services/venues`)
-        const opponentsResponse = await fetch(`${process.env.BACKEND_URI}/services/opponents`)
-        const matchesResponse = await fetch(`${process.env.BACKEND_URI}/matches`)
+        // const matchesResponse = await fetch(`${process.env.BACKEND_URI}/matches`)
 
-        // Mock data for venues
-        const venuesData = [
-          { id: 1, name: "Shere Bangla National Stadium, Dhaka" },
-          { id: 2, name: "Zahur Ahmed Chowdhury Stadium, Chattogram" },
-          { id: 3, name: "Sylhet International Cricket Stadium" },
-          { id: 4, name: "Sheikh Abu Naser Stadium, Khulna" },
-          { id: 5, name: "Lords, London" },
-          { id: 6, name: "Melbourne Cricket Ground" },
-        ]
+        const venues = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URI}/services/venues`
+        ) || [];
 
-        // Mock data for opponents
-        const opponentsData = [
-          { id: 1, name: "India" },
-          { id: 2, name: "Pakistan" },
-          { id: 3, name: "Australia" },
-          { id: 4, name: "England" },
-          { id: 5, name: "New Zealand" },
-          { id: 6, name: "South Africa" },
-          { id: 7, name: "Sri Lanka" },
-          { id: 8, name: "West Indies" },
-          { id: 9, name: "Zimbabwe" },
-          { id: 10, name: "Afghanistan" },
-        ]
+  
+        const opponents = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URI}/services/opponents`
+        ) || [];
 
-        // Mock data for matches
-        const matchesData = [
-          {
-            id: 1,
-            opponent: "India",
-            format: "ODI",
-            venue: "Shere Bangla National Stadium, Dhaka",
-            date: "2023-12-10",
-            result: "Bangladesh won by 6 wickets",
-            bdScore: "256/4",
-            opponentScore: "252/10",
-            winrun: 6,
-            winwicket: 6,
-            matchLength: 87, // overs
-            highestrun: 102, // highest individual score
-            motm: "Shakib Al Hasan",
-            image: "/placeholder.svg?height=300&width=500",
-            highlights:
-              "Bangladesh chased down India's total with 6 wickets in hand, thanks to a century from Shakib Al Hasan.",
-          },
-          {
-            id: 2,
-            opponent: "Pakistan",
-            format: "T20",
-            venue: "Zahur Ahmed Chowdhury Stadium, Chattogram",
-            date: "2023-11-15",
-            result: "Bangladesh won by 7 runs",
-            bdScore: "176/7",
-            opponentScore: "169/8",
-            winrun: 7,
-            winwicket: 2,
-            matchLength: 40, // overs
-            highestrun: 78, // highest individual score
-            motm: "Mustafizur Rahman",
-            image: "/placeholder.svg?height=300&width=500",
-            highlights: "Mustafizur Rahman's 4 wickets helped Bangladesh defend their total against Pakistan.",
-          },
-          {
-            id: 3,
-            opponent: "Australia",
-            format: "Test",
-            venue: "Shere Bangla National Stadium, Dhaka",
-            date: "2023-08-27",
-            result: "Bangladesh won by 20 runs",
-            bdScore: "260 & 200",
-            opponentScore: "210 & 230",
-            winrun: 20,
-            winwicket: 0,
-            matchLength: 4, // days
-            highestrun: 114, // highest individual score
-            motm: "Mehidy Hasan Miraz",
-            image: "/placeholder.svg?height=300&width=500",
-            highlights: "Historic Test win against Australia with Mehidy Hasan Miraz taking 8 wickets in the match.",
-          },
-          {
-            id: 4,
-            opponent: "England",
-            format: "ODI",
-            venue: "Lords, London",
-            date: "2023-07-05",
-            result: "Bangladesh won by 5 wickets",
-            bdScore: "290/5",
-            opponentScore: "289/8",
-            winrun: 0,
-            winwicket: 5,
-            matchLength: 100, // overs
-            highestrun: 95, // highest individual score
-            motm: "Mushfiqur Rahim",
-            image: "/placeholder.svg?height=300&width=500",
-            highlights:
-              "Bangladesh chased down England's total at the iconic Lord's stadium with Mushfiqur Rahim scoring 95.",
-          },
-          {
-            id: 5,
-            opponent: "New Zealand",
-            format: "T20",
-            venue: "Sylhet International Cricket Stadium",
-            date: "2023-09-12",
-            result: "Bangladesh won by 8 wickets",
-            bdScore: "150/2",
-            opponentScore: "147/8",
-            winrun: 0,
-            winwicket: 8,
-            matchLength: 40, // overs
-            highestrun: 72, // highest individual score
-            motm: "Liton Das",
-            image: "/placeholder.svg?height=300&width=500",
-            highlights: "Liton Das's explosive 72 helped Bangladesh chase down New Zealand's total with ease.",
-          },
-          {
-            id: 6,
-            opponent: "South Africa",
-            format: "Test",
-            venue: "Sheikh Abu Naser Stadium, Khulna",
-            date: "2023-10-21",
-            result: "Bangladesh won by an innings and 40 runs",
-            bdScore: "450/6d",
-            opponentScore: "220 & 190",
-            winrun: 40,
-            winwicket: 10,
-            matchLength: 3, // days
-            highestrun: 150, // highest individual score
-            motm: "Tamim Iqbal",
-            image: "/placeholder.svg?height=300&width=500",
-            highlights: "Dominant performance by Bangladesh, winning by an innings with Tamim Iqbal scoring 150.",
-          },
-          {
-            id: 7,
-            opponent: "Sri Lanka",
-            format: "ODI",
-            venue: "Shere Bangla National Stadium, Dhaka",
-            date: "2023-05-25",
-            result: "Bangladesh won by 33 runs",
-            bdScore: "280/7",
-            opponentScore: "247/10",
-            winrun: 33,
-            winwicket: 0,
-            matchLength: 100, // overs
-            highestrun: 87, // highest individual score
-            motm: "Mahmudullah",
-            image: "/placeholder.svg?height=300&width=500",
-            highlights: "All-round performance by Bangladesh with Mahmudullah scoring 87 and taking 2 wickets.",
-          },
-          {
-            id: 8,
-            opponent: "Australia",
-            format: "T20",
-            venue: "Melbourne Cricket Ground",
-            date: "2023-02-14",
-            result: "Bangladesh won by 4 wickets",
-            bdScore: "160/6",
-            opponentScore: "159/8",
-            winrun: 0,
-            winwicket: 4,
-            matchLength: 40, // overs
-            highestrun: 65, // highest individual score
-            motm: "Taskin Ahmed",
-            image: "/placeholder.svg?height=300&width=500",
-            highlights: "Historic win at the MCG with Taskin Ahmed's crucial 3 wickets restricting Australia.",
-          },
-        ]
+        const rawVenue = await venues.json()
+  
+        const venueArray = rawVenue.map((item, idx) => ({
+          id: idx + 1,
+          name: item.Venue
+        }))
+  
+        const rawOpponent = await opponents.json()
+  
+        const opponentArray = rawOpponent.map((item, idx) => ({
+          id: idx + 1,
+          name: item.Opponent
+        }))
 
-        setVenues(venuesData)
-        setOpponents(opponentsData)
-        setMatches(matchesData)
-        setFilteredMatches(matchesData)
+        setVenues(venueArray);
+        setOpponents(opponentArray);
+        fetchMatches();
         setLoading(false)
       } catch (err) {
         setError("Failed to fetch data")
@@ -215,45 +148,8 @@ export default function BestOfBDPage() {
 
   // Apply filters
   useEffect(() => {
-    if (matches.length === 0) return
-
-    let result = [...matches]
-
-    // Filter by venue
-    if (selectedVenue !== "all") {
-      result = result.filter((match) => match.venue === selectedVenue)
-    }
-
-    // Filter by format
-    if (selectedFormat !== "all") {
-      result = result.filter((match) => match.format === selectedFormat)
-    }
-
-    // Filter by opponent
-    if (selectedOpponent !== "all") {
-      result = result.filter((match) => match.opponent === selectedOpponent)
-    }
-
-    // Filter by stat type
-    if (statType !== "both") {
-      if (statType === "run") {
-        result = result.filter((match) => match.winrun > 0)
-      } else if (statType === "wicket") {
-        result = result.filter((match) => match.winwicket > 0)
-      }
-    }
-
-    // Sort by selected field
-    result.sort((a, b) => {
-      if (sortOrder === "ASC") {
-        return a[sortBy] - b[sortBy]
-      } else {
-        return b[sortBy] - a[sortBy]
-      }
-    })
-
-    setFilteredMatches(result)
-  }, [matches, selectedVenue, selectedFormat, selectedOpponent, statType, sortBy, sortOrder])
+    fetchMatches();
+  }, [selectedVenue, selectedFormat, selectedOpponent, statType, sortBy, sortOrder])
 
   const handleMatchClick = (match) => {
     setSelectedMatch(match)
@@ -313,8 +209,8 @@ export default function BestOfBDPage() {
                   value={selectedFormat}
                   onChange={(e) => setSelectedFormat(e.target.value)}
                 >
-                  <option value="all">All Formats</option>
-                  <option value="Test">Test</option>
+                  <option value="ALL">All Formats</option>
+                  <option value="TEST">Test</option>
                   <option value="ODI">ODI</option>
                   <option value="T20">T20</option>
                 </select>
@@ -379,7 +275,7 @@ export default function BestOfBDPage() {
                 >
                   <option value="winrun">Win by Runs</option>
                   <option value="winwicket">Win by Wickets</option>
-                  <option value="matchLength">Match Length</option>
+                  <option value="longest">Match Length</option>
                   <option value="highestrun">Highest Run</option>
                 </select>
                 <ChevronDown
