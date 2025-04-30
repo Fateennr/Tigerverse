@@ -1,4 +1,4 @@
---get the list of the squads 
+-- get the list of the squads 
 
 DELIMITER $$
 

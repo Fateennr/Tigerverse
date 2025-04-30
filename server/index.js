@@ -6,6 +6,7 @@ const squadRoutes    = require('./routes/squad.routes');
 const servicesRoutes = require('./routes/services.routes');
 const galleryRoutes  = require('./routes/gallery.routes');
 const matchesRoutes  = require('./routes/matches.routes');
+const mysquadRoutes  = require('./routes/mysquad.routes');
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use('/services', servicesRoutes);
 app.use('/gallery',  galleryRoutes);
 app.use('/hall', require('./routes/hall.routes'));
 app.use('/matches', matchesRoutes);
+app.use('/mysquad', mysquadRoutes);
 
 
 const PORT = process.env.PORT || 8080;
