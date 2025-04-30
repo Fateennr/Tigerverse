@@ -1,8 +1,10 @@
+
 DROP DATABASE TIGERVERSE;
 CREATE DATABASE TIGERVERSE;
 USE TIGERVERSE;
+
  
-CREATE TABLE Players (
+ CREATE TABLE Players (
     ID INT AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(255) NOT NULL,
     DOB DATE,
@@ -16,6 +18,7 @@ CREATE TABLE Players (
     BowlingStyle VARCHAR(255),
     Specialist VARCHAR(255)
 );
+
 
 CREATE TABLE Coaches (
     ID INT AUTO_INCREMENT PRIMARY KEY,
@@ -89,6 +92,7 @@ CREATE TABLE FieldingCareer (
   CONSTRAINT fk_fielding_player
     FOREIGN KEY (PlayerID) REFERENCES Players(ID)
 );
+
 
 
 CREATE TABLE Squads (
@@ -184,7 +188,7 @@ INSERT INTO Picture (Category, EntityID, ImageURL) VALUES
   ('coach', 12, 'https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_640,q_50/lsci/db/PICTURES/CMS/316500/316509.png'),                                                      -- Brendon McCullum
   ('coach', 10, 'https://www.livehindustan.com/lh-img/smart/img/2025/04/21/1200x900/PTI03-28-2025-000310B-0_1745233849668_1745233942516.jpg'),                                      -- Mahela Jayawardene
   ('coach', 11, 'https://e0.365dm.com/21/09/1600x900/skysports-ravi-shastri-india_5501356.jpg?20210905112518');                                                                   -- Ravi Shastri
-USE TIGERVERSE;
+
 
 INSERT INTO Picture (Category, EntityID, ImageURL) VALUES
   ('match',  2,  'https://i.dawn.com/large/2015/06/5586fe9646e9b.jpg'),
@@ -287,6 +291,8 @@ VALUES
 ('Justin Langer', '1970-11-21', 53, 'Australia', 16, '2018-05-03', NULL),
 ('Phil Simmons', '1963-04-18', 60, 'West Indies', 20, '2015-11-01', NULL),
 ('Graham Ford', '1960-11-16', 63, 'South Africa', 24, '2016-12-01', NULL);
+
+
 
 
 INSERT INTO Squads (CoachID, CaptainID, Span, MatchType)
@@ -479,7 +485,7 @@ INSERT INTO Matches (
 ('Pakistan', 't20', '2021-11-22', 'Mirpur, Bangladesh', 'Pakistan', 1, 0, 0, 5, 20, 124, 6, 15, 127, 5),
 ('Pakistan', 't20', '2019-11-20', 'Mirpur, Bangladesh', 'Pakistan', 1, 0, 0, 8, 18.1, 108, 3, 20, 109, 11),
 ('Pakistan', 'test', '2024-08-30', 'Mirpur, Bangladesh', 'Bangladesh', 1, 0, 0, 6, 157.4, 447, 14, 146.0, 446, 14),
-('Pakistan', 'test', '2024-08-21', 'Lord\'s, England', 'Bangladesh', 1, 0, 0, 10, 195, 595, 10, 154.0, 594, 14),
+('Pakistan', 'test', '2024-08-21', 'Lord''s, England', 'Bangladesh', 1, 0, 0, 10, 195, 595, 10, 154.0, 594, 14),
 ('Pakistan', 'test', '2023-12-04', 'Sydney Cricket Ground, AUS', 'Pakistan', 0, 1, 8, 0, 136.4, 497, 10, 110.0, 505, 14),
 ('Pakistan', 'test', '2022-11-26', 'Dhaka, Bangladesh', 'Pakistan', 1, 0, 0, 8, 174, 487, 14, 145, 489, 10),
 ('Pakistan', 'test', '2020-02-07', 'Eden Gardens, India', 'Pakistan', 0, 1, 44, 0, 157, 401, 14, 118, 445, 10),
@@ -526,6 +532,906 @@ INSERT INTO Matches (
 ('Sri Lanka', 'test', '2022-01-25', 'Pallekele International Cricket Stadium', 'Sri Lanka', 0, 1, 45, 0, 105, 475, 7, 125, 520, 8),
 ('Sri Lanka', 'test', '2019-02-02', 'Zahur Ahmed Chowdhury Stadium', 'Bangladesh', 1, 0, 0, 4, 95, 450, 12, 180, 410, 3),
 ('Sri Lanka', 'test', '2021-02-08', 'Sinhalese Sports Club Ground', 'Bangladesh', 1, 0, 0, 5, 88, 350, 10, 160, 310, 6);
+
+INSERT INTO BattingCareerAgainst (PlayerID, Opponent, MatchType, LocationType, Matches, Innings, Runs, BallsFaced, HighestScore, Average, StrikeRate, Hundreds, Fifties, Fours, Sixes, Ducks, NotOuts)
+VALUES 
+(37, 'India', 'Test', 'Home', 5, 9, 320, 580, 110, 35.56, 55.17, 1, 2, 45, 8, 1, 2),
+(37, 'India', 'ODI', 'Away', 7, 7, 270, 290, 85, 38.57, 93.10, 0, 3, 30, 6, 0, 2),
+(37, 'India', 'T20', 'Neutral', 4, 4, 130, 90, 65, 43.33, 144.44, 0, 1, 15, 10, 0, 1),
+
+(37, 'Zimbabwe', 'Test', 'Away', 3, 5, 280, 400, 125, 56.00, 70.00, 1, 1, 35, 5, 0, 2),
+(37, 'Zimbabwe', 'ODI', 'Neutral', 6, 6, 190, 210, 70, 31.67, 90.48, 0, 2, 20, 4, 1, 1),
+(37, 'Zimbabwe', 'T20', 'Home', 3, 3, 110, 75, 50, 55.00, 146.67, 0, 1, 12, 6, 0, 1),
+
+(37, 'Pakistan', 'Test', 'Neutral', 4, 6, 310, 500, 140, 44.29, 62.00, 1, 2, 40, 7, 1, 1),
+(37, 'Pakistan', 'ODI', 'Home', 5, 5, 225, 240, 88, 45.00, 93.75, 0, 2, 28, 5, 0, 2),
+(37, 'Pakistan', 'T20', 'Away', 4, 4, 120, 85, 55, 40.00, 141.18, 0, 1, 13, 7, 0, 1),
+
+(37, 'Australia', 'Test', 'Home', 6, 10, 450, 750, 145, 50.00, 60.00, 2, 2, 55, 10, 1, 1),
+(37, 'Australia', 'ODI', 'Away', 7, 7, 290, 310, 90, 41.43, 93.55, 0, 3, 32, 7, 0, 2),
+(37, 'Australia', 'T20', 'Neutral', 3, 3, 100, 70, 48, 50.00, 142.86, 0, 1, 11, 6, 0, 1),
+
+(37, 'Sri Lanka', 'Test', 'Away', 4, 7, 330, 530, 130, 47.14, 62.26, 1, 2, 42, 9, 1, 1),
+(37, 'Sri Lanka', 'ODI', 'Neutral', 6, 6, 260, 280, 95, 52.00, 92.86, 0, 3, 30, 6, 0, 1),
+(37, 'Sri Lanka', 'T20', 'Home', 3, 3, 125, 90, 58, 62.50, 138.89, 0, 1, 14, 7, 0, 1),
+
+(39, 'India', 'Test', 'Away', 5, 8, 340, 600, 115, 42.50, 56.67, 1, 2, 50, 7, 1, 2),
+(39, 'India', 'ODI', 'Neutral', 6, 6, 250, 270, 88, 41.67, 92.59, 0, 3, 29, 6, 0, 1),
+(39, 'India', 'T20', 'Home', 4, 4, 140, 95, 70, 46.67, 147.37, 0, 1, 17, 9, 0, 1),
+
+(39, 'Zimbabwe', 'Test', 'Neutral', 3, 5, 290, 420, 128, 58.00, 69.05, 1, 1, 38, 6, 0, 2),
+(39, 'Zimbabwe', 'ODI', 'Home', 7, 7, 210, 230, 72, 35.00, 91.30, 0, 2, 23, 5, 1, 1),
+(39, 'Zimbabwe', 'T20', 'Away', 3, 3, 120, 80, 60, 60.00, 150.00, 0, 1, 14, 6, 0, 1),
+
+(39, 'Pakistan', 'Test', 'Home', 4, 7, 315, 510, 135, 45.00, 61.76, 1, 2, 41, 8, 1, 1),
+(39, 'Pakistan', 'ODI', 'Away', 6, 6, 230, 250, 83, 46.00, 92.00, 0, 2, 27, 6, 0, 2),
+(39, 'Pakistan', 'T20', 'Neutral', 4, 4, 130, 90, 62, 43.33, 144.44, 0, 1, 16, 7, 0, 1),
+
+(39, 'Australia', 'Test', 'Away', 5, 9, 420, 700, 140, 52.50, 60.00, 2, 2, 52, 9, 1, 2),
+(39, 'Australia', 'ODI', 'Home', 7, 7, 280, 300, 95, 46.67, 93.33, 0, 3, 32, 7, 0, 2),
+(39, 'Australia', 'T20', 'Neutral', 3, 3, 110, 75, 53, 55.00, 146.67, 0, 1, 12, 6, 0, 1),
+
+(39, 'Sri Lanka', 'Test', 'Neutral', 4, 7, 325, 520, 132, 48.57, 62.50, 1, 2, 43, 9, 1, 1),
+(39, 'Sri Lanka', 'ODI', 'Away', 6, 6, 255, 275, 92, 51.00, 92.73, 0, 3, 29, 6, 0, 1),
+(39, 'Sri Lanka', 'T20', 'Home', 3, 3, 130, 95, 60, 65.00, 136.84, 0, 1, 15, 7, 0, 1);
+
+INSERT INTO BattingCareerAgainst (PlayerID, Opponent, MatchType, LocationType, Matches, Innings, Runs, BallsFaced, HighestScore, Average, StrikeRate, Hundreds, Fifties, Fours, Sixes, Ducks, NotOuts)
+VALUES 
+
+-- Player 1 (Debuted in 2023)
+(1, 'India', 'Test', 'Home', 2, 4, 95, 180, 52, 31.67, 52.78, 0, 1, 12, 2, 1, 1),
+(1, 'India', 'ODI', 'Away', 3, 3, 120, 140, 62, 40.00, 85.71, 0, 1, 15, 3, 0, 1),
+(1, 'India', 'T20', 'Neutral', 2, 2, 75, 50, 43, 75.00, 150.00, 0, 1, 8, 4, 0, 1),
+
+(1, 'Zimbabwe', 'Test', 'Away', 1, 2, 80, 130, 80, 80.00, 61.54, 0, 1, 10, 1, 0, 1),
+(1, 'Zimbabwe', 'ODI', 'Neutral', 2, 2, 85, 100, 50, 42.50, 85.00, 0, 1, 10, 2, 0, 1),
+(1, 'Zimbabwe', 'T20', 'Home', 2, 2, 45, 30, 25, 45.00, 150.00, 0, 0, 5, 3, 1, 1),
+
+(1, 'Pakistan', 'Test', 'Neutral', 1, 2, 60, 110, 40, 30.00, 54.55, 0, 0, 8, 1, 0, 1),
+(1, 'Pakistan', 'ODI', 'Home', 3, 3, 110, 125, 57, 36.67, 88.00, 0, 1, 12, 3, 0, 1),
+(1, 'Pakistan', 'T20', 'Away', 2, 2, 70, 50, 45, 70.00, 140.00, 0, 1, 7, 4, 0, 1),
+
+(1, 'Australia', 'Test', 'Home', 2, 4, 120, 200, 55, 30.00, 60.00, 0, 1, 14, 2, 1, 1),
+(1, 'Australia', 'ODI', 'Away', 3, 3, 140, 160, 65, 46.67, 87.50, 0, 1, 18, 4, 0, 1),
+(1, 'Australia', 'T20', 'Neutral', 2, 2, 65, 45, 37, 65.00, 144.44, 0, 1, 6, 3, 0, 1),
+
+(1, 'Sri Lanka', 'Test', 'Away', 1, 2, 90, 160, 90, 90.00, 56.25, 0, 1, 10, 2, 0, 1),
+(1, 'Sri Lanka', 'ODI', 'Neutral', 2, 2, 95, 110, 55, 47.50, 86.36, 0, 1, 12, 2, 0, 1),
+(1, 'Sri Lanka', 'T20', 'Home', 2, 2, 50, 40, 32, 50.00, 125.00, 0, 0, 6, 3, 0, 1),
+
+-- Player 11 (Debuted in 2023)
+(11, 'India', 'Test', 'Away', 2, 4, 105, 190, 58, 35.00, 55.26, 0, 1, 14, 2, 1, 1),
+(11, 'India', 'ODI', 'Neutral', 3, 3, 115, 135, 67, 38.33, 85.19, 0, 1, 14, 3, 0, 1),
+(11, 'India', 'T20', 'Home', 2, 2, 70, 55, 45, 70.00, 127.27, 0, 1, 7, 4, 0, 1),
+
+(11, 'Zimbabwe', 'Test', 'Neutral', 1, 2, 85, 140, 85, 85.00, 60.71, 0, 1, 9, 1, 0, 1),
+(11, 'Zimbabwe', 'ODI', 'Home', 2, 2, 90, 105, 48, 45.00, 85.71, 0, 1, 11, 2, 0, 1),
+(11, 'Zimbabwe', 'T20', 'Away', 2, 2, 50, 35, 28, 50.00, 142.86, 0, 0, 5, 3, 1, 1),
+
+(11, 'Pakistan', 'Test', 'Home', 1, 2, 70, 115, 45, 35.00, 60.87, 0, 0, 8, 1, 0, 1),
+(11, 'Pakistan', 'ODI', 'Away', 3, 3, 100, 120, 55, 33.33, 83.33, 0, 1, 12, 3, 0, 1),
+(11, 'Pakistan', 'T20', 'Neutral', 2, 2, 65, 45, 40, 65.00, 144.44, 0, 1, 7, 4, 0, 1),
+
+(11, 'Australia', 'Test', 'Away', 2, 4, 130, 210, 55, 32.50, 61.90, 0, 1, 15, 2, 1, 1),
+(11, 'Australia', 'ODI', 'Home', 3, 3, 125, 145, 60, 41.67, 86.21, 0, 1, 16, 3, 0, 1),
+(11, 'Australia', 'T20', 'Neutral', 2, 2, 55, 38, 30, 55.00, 144.74, 0, 0, 6, 3, 0, 1),
+
+(11, 'Sri Lanka', 'Test', 'Neutral', 1, 2, 95, 175, 95, 95.00, 54.29, 0, 1, 11, 2, 0, 1),
+(11, 'Sri Lanka', 'ODI', 'Away', 2, 2, 105, 120, 58, 52.50, 87.50, 0, 1, 12, 2, 0, 1),
+(11, 'Sri Lanka', 'T20', 'Home', 2, 2, 60, 45, 40, 60.00, 133.33, 0, 1, 7, 3, 0, 1);
+
+INSERT INTO BattingCareerAgainst (PlayerID, Opponent, MatchType, LocationType, Matches, Innings, Runs, BallsFaced, HighestScore, Average, StrikeRate, Hundreds, Fifties, Fours, Sixes, Ducks, NotOuts)
+VALUES 
+
+-- Player 6 (Debuted in 2007, one of the best batsmen)
+(6, 'India', 'Test', 'Home', 15, 28, 1450, 2600, 210, 57.14, 55.77, 5, 7, 180, 32, 2, 3),
+(6, 'India', 'ODI', 'Away', 20, 19, 950, 1000, 143, 52.78, 95.00, 3, 5, 112, 28, 1, 1),
+(6, 'India', 'T20', 'Neutral', 12, 12, 550, 350, 94, 50.00, 157.14, 0, 4, 62, 36, 1, 2),
+
+(6, 'Zimbabwe', 'Test', 'Away', 10, 18, 900, 1700, 178, 52.94, 52.94, 3, 6, 112, 18, 1, 2),
+(6, 'Zimbabwe', 'ODI', 'Neutral', 15, 15, 850, 920, 132, 53.13, 92.39, 2, 4, 98, 24, 1, 1),
+(6, 'Zimbabwe', 'T20', 'Home', 8, 8, 400, 275, 80, 50.00, 145.45, 0, 3, 45, 28, 0, 1),
+
+(6, 'Pakistan', 'Test', 'Neutral', 18, 32, 1600, 2900, 235, 58.18, 55.17, 6, 8, 190, 30, 1, 4),
+(6, 'Pakistan', 'ODI', 'Home', 22, 22, 1200, 1300, 155, 54.55, 92.31, 4, 6, 128, 34, 1, 2),
+(6, 'Pakistan', 'T20', 'Away', 14, 14, 680, 400, 98, 52.31, 170.00, 0, 5, 72, 42, 0, 1),
+
+(6, 'Australia', 'Test', 'Home', 20, 36, 1900, 3400, 245, 60.00, 55.88, 7, 10, 230, 38, 2, 4),
+(6, 'Australia', 'ODI', 'Away', 25, 25, 1450, 1550, 175, 58.00, 93.55, 5, 7, 156, 42, 1, 2),
+(6, 'Australia', 'T20', 'Neutral', 16, 16, 720, 450, 105, 55.38, 160.00, 1, 6, 75, 48, 0, 2),
+
+(6, 'Sri Lanka', 'Test', 'Away', 12, 24, 1300, 2400, 200, 56.52, 54.17, 5, 7, 160, 28, 1, 3),
+(6, 'Sri Lanka', 'ODI', 'Neutral', 18, 18, 1100, 1200, 140, 57.89, 91.67, 4, 6, 130, 38, 1, 2),
+(6, 'Sri Lanka', 'T20', 'Home', 10, 10, 500, 320, 86, 50.00, 156.25, 0, 4, 52, 32, 1, 1);
+
+INSERT INTO BattingCareerAgainst (PlayerID, Opponent, MatchType, LocationType, Matches, Innings, Runs, BallsFaced, HighestScore, Average, StrikeRate, Hundreds, Fifties, Fours, Sixes, Ducks, NotOuts)
+VALUES 
+
+-- Shakib Al Hasan (PlayerID: 32, Debuted in 2006, World’s Best All-Rounder)
+
+-- Performance Against India
+(32, 'India', 'Test', 'Home', 10, 18, 950, 2000, 137, 40.91, 47.50, 2, 5, 120, 18, 3, 5),
+(32, 'India', 'ODI', 'Away', 20, 18, 1200, 1300, 134, 50.00, 92.31, 3, 7, 140, 22, 2, 4),
+(32, 'India', 'T20', 'Neutral', 15, 15, 600, 450, 89, 42.86, 133.33, 0, 5, 58, 30, 1, 2),
+
+-- Performance Against Zimbabwe
+(32, 'Zimbabwe', 'Test', 'Away', 8, 14, 870, 1700, 158, 48.33, 51.18, 3, 4, 95, 12, 2, 3),
+(32, 'Zimbabwe', 'ODI', 'Neutral', 12, 12, 950, 980, 120, 52.78, 96.94, 2, 6, 100, 16, 1, 3),
+(32, 'Zimbabwe', 'T20', 'Home', 10, 10, 500, 350, 75, 50.00, 142.86, 0, 4, 48, 22, 1, 2),
+
+-- Performance Against Pakistan
+(32, 'Pakistan', 'Test', 'Neutral', 12, 22, 1100, 2100, 150, 45.83, 52.38, 3, 6, 125, 18, 2, 4),
+(32, 'Pakistan', 'ODI', 'Home', 18, 18, 1150, 1200, 140, 50.00, 95.83, 4, 5, 132, 20, 1, 3),
+(32, 'Pakistan', 'T20', 'Away', 12, 12, 550, 400, 81, 42.31, 137.50, 0, 4, 50, 24, 1, 1),
+
+-- Performance Against Australia
+(32, 'Australia', 'Test', 'Home', 7, 14, 750, 1600, 144, 39.47, 46.88, 2, 3, 85, 14, 3, 2),
+(32, 'Australia', 'ODI', 'Away', 15, 15, 1050, 1100, 124, 52.50, 95.45, 3, 5, 118, 24, 1, 2),
+(32, 'Australia', 'T20', 'Neutral', 9, 9, 450, 300, 77, 45.00, 150.00, 0, 3, 42, 22, 0, 1),
+
+-- Performance Against Sri Lanka
+(32, 'Sri Lanka', 'Test', 'Away', 14, 26, 1200, 2200, 165, 48.00, 54.55, 4, 6, 140, 20, 1, 4),
+(32, 'Sri Lanka', 'ODI', 'Neutral', 16, 16, 1100, 1150, 135, 50.00, 95.65, 3, 6, 125, 26, 1, 2),
+(32, 'Sri Lanka', 'T20', 'Home', 12, 12, 600, 400, 85, 50.00, 150.00, 0, 4, 55, 28, 0, 1);
+INSERT INTO BattingCareerAgainst (PlayerID, Opponent, MatchType, LocationType, Matches, Innings, Runs, BallsFaced, HighestScore, Average, StrikeRate, Hundreds, Fifties, Fours, Sixes, Ducks, NotOuts)
+VALUES 
+
+-- Performance Against India
+(16, 'India', 'Test', 'Home', 2, 4, 130, 300, 75, 32.50, 43.33, 0, 1, 14, 2, 1, 0),
+(16, 'India', 'ODI', 'Away', 3, 3, 110, 125, 60, 36.67, 88.00, 0, 1, 12, 3, 0, 1),
+(16, 'India', 'T20', 'Neutral', 2, 2, 55, 40, 40, 27.50, 137.50, 0, 0, 6, 5, 0, 0),
+
+-- Performance Against Zimbabwe
+(16, 'Zimbabwe', 'Test', 'Away', 1, 2, 80, 170, 60, 40.00, 47.06, 0, 1, 10, 1, 0, 0),
+(16, 'Zimbabwe', 'ODI', 'Neutral', 3, 3, 130, 140, 72, 43.33, 92.86, 0, 1, 14, 2, 0, 1),
+(16, 'Zimbabwe', 'T20', 'Home', 3, 3, 90, 65, 50, 45.00, 138.46, 0, 1, 8, 6, 0, 1),
+
+-- Performance Against Pakistan
+(16, 'Pakistan', 'Test', 'Neutral', 2, 3, 120, 250, 75, 40.00, 48.00, 0, 1, 15, 3, 1, 0),
+(16, 'Pakistan', 'ODI', 'Home', 2, 2, 85, 90, 55, 42.50, 94.44, 0, 0, 9, 2, 0, 1),
+(16, 'Pakistan', 'T20', 'Away', 3, 3, 105, 80, 60, 52.50, 131.25, 0, 1, 10, 7, 0, 1),
+
+-- Performance Against Australia
+(16, 'Australia', 'Test', 'Home', 2, 3, 110, 240, 70, 36.67, 45.83, 0, 1, 12, 2, 1, 1),
+(16, 'Australia', 'ODI', 'Away', 3, 3, 95, 105, 50, 31.67, 90.48, 0, 0, 10, 3, 1, 0),
+(16, 'Australia', 'T20', 'Neutral', 2, 2, 75, 55, 50, 37.50, 136.36, 0, 0, 7, 5, 0, 1),
+
+-- Performance Against Sri Lanka
+(16, 'Sri Lanka', 'Test', 'Away', 1, 2, 95, 210, 68, 47.50, 45.24, 0, 1, 11, 1, 0, 1),
+(16, 'Sri Lanka', 'ODI', 'Neutral', 3, 3, 100, 115, 62, 33.33, 86.96, 0, 1, 11, 3, 0, 1),
+(16, 'Sri Lanka', 'T20', 'Home', 3, 3, 85, 60, 48, 42.50, 141.67, 0, 1, 9, 6, 0, 1);
+
+INSERT INTO BattingCareerAgainst (PlayerID, Opponent, MatchType, LocationType, Matches, Innings, Runs, BallsFaced, HighestScore, Average, StrikeRate, Hundreds, Fifties, Fours, Sixes, Ducks, NotOuts)
+VALUES 
+
+-- Performance Against India
+(19, 'India', 'Test', 'Home', 8, 14, 720, 1500, 156, 40.00, 48.00, 2, 3, 85, 12, 2, 4),
+(19, 'India', 'ODI', 'Away', 12, 12, 540, 600, 112, 45.00, 90.00, 1, 4, 50, 15, 1, 2),
+(19, 'India', 'T20', 'Neutral', 9, 9, 340, 220, 82, 42.50, 154.54, 0, 3, 32, 18, 1, 3),
+
+-- Performance Against Zimbabwe
+(19, 'Zimbabwe', 'Test', 'Away', 5, 8, 410, 900, 105, 45.56, 45.56, 1, 2, 45, 6, 0, 2),
+(19, 'Zimbabwe', 'ODI', 'Neutral', 10, 10, 480, 510, 99, 48.00, 94.12, 0, 5, 55, 12, 0, 1),
+(19, 'Zimbabwe', 'T20', 'Home', 6, 6, 250, 175, 65, 50.00, 142.86, 0, 2, 22, 14, 0, 2),
+
+-- Performance Against Pakistan
+(19, 'Pakistan', 'Test', 'Neutral', 7, 12, 610, 1200, 134, 50.83, 50.83, 1, 3, 62, 10, 1, 3),
+(19, 'Pakistan', 'ODI', 'Home', 11, 11, 520, 540, 101, 47.27, 96.30, 1, 3, 49, 14, 1, 2),
+(19, 'Pakistan', 'T20', 'Away', 7, 7, 300, 190, 78, 42.85, 157.89, 0, 2, 30, 16, 1, 2),
+
+-- Performance Against Australia
+(19, 'Australia', 'Test', 'Home', 6, 10, 550, 1100, 127, 50.00, 50.00, 1, 3, 59, 8, 0, 2),
+(19, 'Australia', 'ODI', 'Away', 12, 12, 570, 580, 109, 52.00, 98.28, 1, 4, 57, 17, 1, 3),
+(19, 'Australia', 'T20', 'Neutral', 8, 8, 320, 210, 74, 45.71, 152.38, 0, 2, 29, 13, 0, 2),
+
+-- Performance Against Sri Lanka
+(19, 'Sri Lanka', 'Test', 'Away', 5, 9, 480, 1000, 121, 53.33, 48.00, 1, 2, 55, 9, 0, 2),
+(19, 'Sri Lanka', 'ODI', 'Neutral', 10, 10, 500, 530, 110, 50.00, 94.34, 1, 4, 53, 12, 0, 2),
+(19, 'Sri Lanka', 'T20', 'Home', 7, 7, 310, 200, 69, 51.67, 155.00, 0, 3, 28, 14, 0, 2);
+
+
+INSERT INTO BattingCareerAgainst (PlayerID, Opponent, MatchType, LocationType, Matches, Innings, Runs, BallsFaced, HighestScore, Average, StrikeRate, Hundreds, Fifties, Fours, Sixes, Ducks, NotOuts)
+VALUES 
+
+-- Performance Against India
+(20, 'India', 'Test', 'Home', 7, 13, 640, 1350, 142, 42.67, 47.41, 2, 3, 80, 10, 1, 3),
+(20, 'India', 'ODI', 'Away', 12, 12, 530, 580, 110, 48.18, 91.38, 1, 4, 52, 16, 1, 2),
+(20, 'India', 'T20', 'Neutral', 8, 8, 310, 200, 77, 44.29, 155.00, 0, 2, 30, 15, 1, 3),
+
+-- Performance Against Zimbabwe
+(20, 'Zimbabwe', 'Test', 'Away', 5, 8, 420, 900, 106, 46.67, 46.67, 1, 2, 48, 7, 0, 2),
+(20, 'Zimbabwe', 'ODI', 'Neutral', 9, 9, 460, 480, 98, 51.11, 95.83, 0, 5, 49, 14, 0, 1),
+(20, 'Zimbabwe', 'T20', 'Home', 7, 7, 270, 180, 69, 54.00, 150.00, 0, 3, 26, 13, 0, 2),
+
+-- Performance Against Pakistan
+(20, 'Pakistan', 'Test', 'Neutral', 6, 10, 580, 1150, 128, 48.33, 50.43, 1, 3, 60, 11, 1, 3),
+(20, 'Pakistan', 'ODI', 'Home', 11, 11, 540, 560, 107, 49.09, 96.43, 1, 3, 50, 14, 1, 2),
+(20, 'Pakistan', 'T20', 'Away', 7, 7, 320, 210, 72, 45.71, 152.38, 0, 2, 28, 15, 1, 2),
+
+-- Performance Against Australia
+(20, 'Australia', 'Test', 'Home', 6, 9, 520, 1050, 125, 52.00, 49.52, 1, 2, 58, 8, 0, 2),
+(20, 'Australia', 'ODI', 'Away', 12, 12, 560, 570, 109, 50.91, 98.25, 1, 4, 55, 16, 1, 3),
+(20, 'Australia', 'T20', 'Neutral', 8, 8, 300, 210, 74, 50.00, 142.86, 0, 2, 27, 13, 0, 2),
+
+-- Performance Against Sri Lanka
+(20, 'Sri Lanka', 'Test', 'Away', 5, 9, 460, 950, 119, 51.11, 48.42, 1, 2, 54, 9, 0, 2),
+(20, 'Sri Lanka', 'ODI', 'Neutral', 10, 10, 520, 530, 111, 52.00, 98.11, 1, 4, 51, 13, 0, 2),
+(20, 'Sri Lanka', 'T20', 'Home', 7, 7, 310, 190, 71, 51.67, 163.16, 0, 3, 29, 14, 0, 2);
+
+INSERT INTO BattingCareerAgainst (PlayerID, Opponent, MatchType, LocationType, Matches, Innings, Runs, BallsFaced, HighestScore, Average, StrikeRate, Hundreds, Fifties, Fours, Sixes, Ducks, NotOuts)
+VALUES 
+
+-- Performance Against India
+(27, 'India', 'Test', 'Home', 6, 11, 580, 1200, 135, 41.43, 48.33, 2, 2, 72, 12, 1, 3),
+(27, 'India', 'ODI', 'Away', 10, 10, 490, 520, 102, 54.44, 94.23, 1, 4, 48, 13, 1, 2),
+(27, 'India', 'T20', 'Neutral', 9, 9, 350, 220, 80, 43.75, 159.09, 0, 3, 32, 18, 1, 3),
+
+-- Performance Against Zimbabwe
+(27, 'Zimbabwe', 'Test', 'Away', 4, 7, 410, 870, 105, 51.25, 47.13, 1, 2, 45, 9, 0, 2),
+(27, 'Zimbabwe', 'ODI', 'Neutral', 8, 8, 440, 450, 96, 55.00, 97.78, 0, 5, 46, 14, 0, 1),
+(27, 'Zimbabwe', 'T20', 'Home', 6, 6, 260, 175, 68, 52.00, 148.57, 0, 3, 24, 11, 0, 2),
+
+-- Performance Against Pakistan
+(27, 'Pakistan', 'Test', 'Neutral', 5, 8, 500, 990, 126, 45.45, 50.51, 1, 3, 55, 10, 1, 3),
+(27, 'Pakistan', 'ODI', 'Home', 11, 11, 515, 535, 108, 46.82, 96.26, 1, 3, 49, 15, 1, 2),
+(27, 'Pakistan', 'T20', 'Away', 7, 7, 290, 190, 74, 41.43, 152.63, 0, 2, 26, 14, 1, 2),
+
+-- Performance Against Australia
+(27, 'Australia', 'Test', 'Home', 6, 10, 530, 1020, 129, 48.18, 51.96, 1, 2, 56, 11, 0, 2),
+(27, 'Australia', 'ODI', 'Away', 10, 10, 545, 555, 112, 49.55, 98.19, 1, 4, 52, 16, 1, 2),
+(27, 'Australia', 'T20', 'Neutral', 7, 7, 315, 200, 76, 52.50, 157.50, 0, 2, 28, 12, 0, 2),
+
+-- Performance Against Sri Lanka
+(27, 'Sri Lanka', 'Test', 'Away', 5, 9, 470, 920, 121, 52.22, 51.09, 1, 2, 53, 10, 0, 2),
+(27, 'Sri Lanka', 'ODI', 'Neutral', 9, 9, 500, 510, 110, 55.56, 98.04, 1, 4, 50, 14, 0, 2),
+(27, 'Sri Lanka', 'T20', 'Home', 6, 6, 325, 190, 73, 54.17, 171.05, 0, 3, 29, 15, 0, 2);
+
+INSERT INTO BattingCareerAgainst (PlayerID, Opponent, MatchType, LocationType, Matches, Innings, Runs, BallsFaced, HighestScore, Average, StrikeRate, Hundreds, Fifties, Fours, Sixes, Ducks, NotOuts)
+VALUES 
+
+-- Performance Against India
+(35, 'India', 'Test', 'Home', 7, 12, 650, 1300, 145, 54.17, 50.00, 2, 3, 80, 12, 0, 3),
+(35, 'India', 'ODI', 'Away', 11, 11, 540, 570, 110, 49.09, 94.74, 1, 4, 55, 15, 1, 2),
+(35, 'India', 'T20', 'Neutral', 8, 8, 320, 210, 75, 40.00, 152.38, 0, 3, 30, 14, 1, 2),
+
+-- Performance Against Zimbabwe
+(35, 'Zimbabwe', 'Test', 'Away', 5, 9, 440, 880, 105, 48.89, 50.00, 1, 2, 52, 9, 0, 2),
+(35, 'Zimbabwe', 'ODI', 'Neutral', 9, 9, 460, 480, 98, 51.11, 95.83, 0, 5, 47, 14, 0, 1),
+(35, 'Zimbabwe', 'T20', 'Home', 7, 7, 280, 180, 70, 46.67, 155.56, 0, 2, 24, 12, 0, 2),
+
+-- Performance Against Pakistan
+(35, 'Pakistan', 'Test', 'Neutral', 6, 10, 540, 1050, 130, 50.00, 51.43, 1, 3, 58, 11, 0, 2),
+(35, 'Pakistan', 'ODI', 'Home', 12, 12, 570, 590, 118, 47.50, 96.61, 1, 5, 53, 16, 1, 3),
+(35, 'Pakistan', 'T20', 'Away', 8, 8, 330, 220, 80, 41.25, 150.00, 0, 3, 29, 14, 1, 2),
+
+-- Performance Against Australia
+(35, 'Australia', 'Test', 'Home', 6, 10, 520, 1050, 120, 47.27, 49.52, 1, 3, 57, 10, 0, 2),
+(35, 'Australia', 'ODI', 'Away', 11, 11, 550, 560, 115, 50.00, 98.21, 1, 4, 54, 17, 1, 2),
+(35, 'Australia', 'T20', 'Neutral', 7, 7, 310, 200, 73, 44.29, 155.00, 0, 3, 28, 12, 0, 2),
+
+-- Performance Against Sri Lanka
+(35, 'Sri Lanka', 'Test', 'Away', 5, 9, 460, 930, 118, 51.11, 49.46, 1, 2, 54, 9, 0, 2),
+(35, 'Sri Lanka', 'ODI', 'Neutral', 10, 10, 490, 510, 108, 49.00, 96.08, 1, 4, 49, 14, 1, 2),
+(35, 'Sri Lanka', 'T20', 'Home', 6, 6, 280, 170, 66, 46.67, 164.71, 0, 2, 26, 13, 0, 2);
+
+INSERT INTO BattingCareerAgainst (PlayerID, Opponent, MatchType, LocationType, Matches, Innings, Runs, BallsFaced, HighestScore, Average, StrikeRate, Hundreds, Fifties, Fours, Sixes, Ducks, NotOuts)
+VALUES 
+
+-- Performance Against India
+(5, 'India', 'Test', 'Home', 3, 5, 72, 100, 34, 14.40, 72.00, 0, 0, 7, 1, 1, 1),
+(5, 'India', 'ODI', 'Away', 5, 5, 45, 58, 19, 9.00, 77.59, 0, 0, 4, 0, 0, 1),
+(5, 'India', 'T20', 'Neutral', 4, 4, 25, 34, 11, 6.25, 73.53, 0, 0, 2, 0, 1, 0),
+
+-- Performance Against Zimbabwe
+(5, 'Zimbabwe', 'Test', 'Away', 2, 4, 55, 85, 27, 13.75, 64.71, 0, 0, 6, 1, 1, 1),
+(5, 'Zimbabwe', 'ODI', 'Neutral', 4, 4, 38, 52, 16, 9.50, 73.08, 0, 0, 3, 0, 1, 1),
+(5, 'Zimbabwe', 'T20', 'Home', 3, 3, 18, 25, 8, 6.00, 72.00, 0, 0, 2, 0, 1, 0),
+
+-- Performance Against Pakistan
+(5, 'Pakistan', 'Test', 'Neutral', 4, 6, 65, 90, 28, 10.83, 72.22, 0, 0, 7, 1, 1, 1),
+(5, 'Pakistan', 'ODI', 'Home', 6, 6, 55, 70, 22, 9.17, 78.57, 0, 0, 6, 0, 1, 1),
+(5, 'Pakistan', 'T20', 'Away', 3, 3, 22, 30, 10, 7.33, 73.33, 0, 0, 3, 0, 1, 0),
+
+-- Performance Against Australia
+(5, 'Australia', 'Test', 'Home', 4, 7, 95, 135, 40, 13.57, 70.37, 0, 0, 10, 1, 1, 1),
+(5, 'Australia', 'ODI', 'Away', 7, 7, 60, 80, 26, 8.57, 75.00, 0, 0, 6, 0, 1, 1),
+(5, 'Australia', 'T20', 'Neutral', 5, 5, 20, 28, 9, 4.00, 71.43, 0, 0, 2, 0, 1, 0),
+
+-- Performance Against Sri Lanka
+(5, 'Sri Lanka', 'Test', 'Away', 3, 5, 75, 110, 34, 15.00, 68.18, 0, 0, 8, 1, 1, 1),
+(5, 'Sri Lanka', 'ODI', 'Neutral', 6, 6, 50, 60, 22, 8.33, 83.33, 0, 0, 5, 0, 1, 1),
+(5, 'Sri Lanka', 'T20', 'Home', 4, 4, 19, 25, 10, 4.75, 76.00, 0, 0, 2, 0, 1, 0);
+
+
+INSERT INTO BattingCareerAgainst (PlayerID, Opponent, MatchType, LocationType, Matches, Innings, Runs, BallsFaced, HighestScore, Average, StrikeRate, Hundreds, Fifties, Fours, Sixes, Ducks, NotOuts)
+VALUES 
+
+-- Performance Against India
+(8, 'India', 'Test', 'Home', 1, 2, 5, 8, 3, 2.50, 62.50, 0, 0, 1, 0, 0, 1),
+(8, 'India', 'ODI', 'Away', 2, 2, 4, 6, 2, 2.00, 66.67, 0, 0, 0, 0, 1, 1),
+(8, 'India', 'T20', 'Neutral', 1, 1, 3, 5, 3, 3.00, 60.00, 0, 0, 0, 0, 0, 1),
+
+-- Performance Against Zimbabwe
+(8, 'Zimbabwe', 'Test', 'Away', 1, 2, 3, 4, 3, 1.50, 75.00, 0, 0, 0, 0, 0, 1),
+(8, 'Zimbabwe', 'ODI', 'Neutral', 1, 1, 2, 4, 2, 2.00, 50.00, 0, 0, 0, 0, 1, 0),
+(8, 'Zimbabwe', 'T20', 'Home', 1, 1, 1, 3, 1, 1.00, 33.33, 0, 0, 0, 0, 1, 0),
+
+-- Performance Against Pakistan
+(8, 'Pakistan', 'Test', 'Neutral', 1, 2, 4, 6, 3, 2.00, 66.67, 0, 0, 1, 0, 0, 1),
+(8, 'Pakistan', 'ODI', 'Home', 2, 2, 5, 8, 3, 2.50, 62.50, 0, 0, 1, 0, 0, 1),
+(8, 'Pakistan', 'T20', 'Away', 1, 1, 2, 3, 2, 2.00, 66.67, 0, 0, 0, 0, 1, 0),
+
+-- Performance Against Australia
+(8, 'Australia', 'Test', 'Home', 1, 2, 2, 4, 2, 2.00, 50.00, 0, 0, 0, 0, 0, 1),
+(8, 'Australia', 'ODI', 'Away', 2, 2, 4, 6, 2, 2.00, 66.67, 0, 0, 0, 0, 1, 1),
+(8, 'Australia', 'T20', 'Neutral', 1, 1, 1, 3, 1, 1.00, 33.33, 0, 0, 0, 0, 1, 0),
+
+-- Performance Against Sri Lanka
+(8, 'Sri Lanka', 'Test', 'Away', 1, 2, 3, 5, 2, 1.50, 60.00, 0, 0, 0, 0, 1, 1),
+(8, 'Sri Lanka', 'ODI', 'Neutral', 2, 2, 4, 7, 2, 2.00, 57.14, 0, 0, 1, 0, 0, 1),
+(8, 'Sri Lanka', 'T20', 'Home', 1, 1, 1, 2, 1, 1.00, 50.00, 0, 0, 0, 0, 1, 0);
+
+
+INSERT INTO BowlingCareerAgainst (PlayerID, Opponent, MatchType, LocationType, Matches, Innings, OversBowled, BallsBowled, RunsConceded, Wickets, Economy, Average, StrikeRate, FiveWicketHauls, TenWicketHauls, BestBowlingFigures, Maidens)
+VALUES
+(37, 'India', 'Test', 'Home', 2, 1, 0.0, 0, 0, 0, 0.00, 0.00, 0.00, 0, 0, '0/0', 0),
+(37, 'India', 'ODI', 'Away', 3, 1, 0.0, 0, 0, 0, 0.00, 0.00, 0.00, 0, 0, '0/0', 0),
+(37, 'India', 'T20', 'Neutral', 1, 1, 0.0, 0, 0, 0, 0.00, 0.00, 0.00, 0, 0, '0/0', 0),
+
+(37, 'Zimbabwe', 'Test', 'Home', 1, 1, 0.0, 0, 0, 0, 0.00, 0.00, 0.00, 0, 0, '0/0', 0),
+(37, 'Zimbabwe', 'ODI', 'Away', 2, 1, 0.0, 0, 0, 0, 0.00, 0.00, 0.00, 0, 0, '0/0', 0),
+(37, 'Zimbabwe', 'T20', 'Neutral', 1, 1, 0.0, 0, 0, 0, 0.00, 0.00, 0.00, 0, 0, '0/0', 0),
+
+(37, 'Pakistan', 'Test', 'Home', 2, 1, 0.0, 0, 0, 0, 0.00, 0.00, 0.00, 0, 0, '0/0', 0),
+(37, 'Pakistan', 'ODI', 'Away', 3, 1, 0.0, 0, 0, 0, 0.00, 0.00, 0.00, 0, 0, '0/0', 0),
+(37, 'Pakistan', 'T20', 'Neutral', 1, 1, 0.0, 0, 0, 0, 0.00, 0.00, 0.00, 0, 0, '0/0', 0),
+
+(37, 'Australia', 'Test', 'Home', 3, 1, 0.0, 0, 0, 0, 0.00, 0.00, 0.00, 0, 0, '0/0', 0),
+(37, 'Australia', 'ODI', 'Away', 2, 1, 0.0, 0, 0, 0, 0.00, 0.00, 0.00, 0, 0, '0/0', 0),
+(37, 'Australia', 'T20', 'Neutral', 1, 1, 0.0, 0, 0, 0, 0.00, 0.00, 0.00, 0, 0, '0/0', 0),
+
+(37, 'Sri Lanka', 'Test', 'Home', 2, 1, 0.0, 0, 0, 0, 0.00, 0.00, 0.00, 0, 0, '0/0', 0),
+(37, 'Sri Lanka', 'ODI', 'Away', 3, 1, 0.0, 0, 0, 0, 0.00, 0.00, 0.00, 0, 0, '0/0', 0),
+(37, 'Sri Lanka', 'T20', 'Neutral', 1, 1, 0.0, 0, 0, 0, 0.00, 0.00, 0.00, 0, 0, '0/0', 0);
+
+INSERT INTO BowlingCareerAgainst (PlayerID, Opponent, MatchType, LocationType, Matches, Innings, OversBowled, BallsBowled, RunsConceded, Wickets, Economy, Average, StrikeRate, FiveWicketHauls, TenWicketHauls, BestBowlingFigures, Maidens)
+VALUES
+(39, 'India', 'Test', 'Home', 2, 1, 5.4, 34, 123, 1, 6.46, 123.00, 204.00, 0, 0, '1/45', 1),
+(39, 'India', 'ODI', 'Away', 3, 1, 8.0, 48, 160, 2, 6.00, 80.00, 144.00, 0, 0, '2/60', 2),
+(39, 'India', 'T20', 'Neutral', 1, 1, 4.0, 24, 55, 0, 6.87, 0.00, 0.00, 0, 0, '0/55', 0),
+
+(39, 'Zimbabwe', 'Test', 'Home', 1, 1, 10.0, 60, 250, 3, 6.25, 83.33, 120.00, 0, 0, '3/75', 3),
+(39, 'Zimbabwe', 'ODI', 'Away', 2, 1, 6.0, 36, 80, 1, 5.33, 80.00, 120.00, 0, 0, '1/40', 1),
+(39, 'Zimbabwe', 'T20', 'Neutral', 1, 1, 3.0, 18, 40, 0, 6.67, 0.00, 0.00, 0, 0, '0/40', 0),
+
+(39, 'Pakistan', 'Test', 'Home', 2, 1, 7.0, 42, 130, 1, 5.71, 130.00, 210.00, 0, 0, '1/50', 0),
+(39, 'Pakistan', 'ODI', 'Away', 3, 1, 5.0, 30, 90, 0, 5.40, 0.00, 0.00, 0, 0, '0/40', 1),
+(39, 'Pakistan', 'T20', 'Neutral', 1, 1, 4.0, 24, 70, 1, 6.87, 70.00, 120.00, 0, 0, '1/30', 0),
+
+(39, 'Australia', 'Test', 'Home', 3, 1, 9.0, 54, 180, 2, 6.00, 90.00, 135.00, 0, 0, '2/55', 2),
+(39, 'Australia', 'ODI', 'Away', 2, 1, 6.0, 36, 100, 1, 5.56, 100.00, 180.00, 0, 0, '1/45', 1),
+(39, 'Australia', 'T20', 'Neutral', 1, 1, 4.0, 24, 60, 1, 7.50, 60.00, 120.00, 0, 0, '1/30', 0),
+
+(39, 'Sri Lanka', 'Test', 'Home', 2, 1, 8.0, 48, 140, 1, 5.25, 140.00, 240.00, 0, 0, '1/55', 1),
+(39, 'Sri Lanka', 'ODI', 'Away', 3, 1, 7.0, 42, 110, 1, 5.29, 110.00, 210.00, 0, 0, '1/40', 1),
+(39, 'Sri Lanka', 'T20', 'Neutral', 1, 1, 4.0, 24, 65, 0, 6.50, 0.00, 0.00, 0, 0, '0/65', 0);
+
+INSERT INTO BowlingCareerAgainst (PlayerID, Opponent, MatchType, LocationType, Matches, Innings, OversBowled, BallsBowled, RunsConceded, Wickets, Economy, Average, StrikeRate, FiveWicketHauls, TenWicketHauls, BestBowlingFigures, Maidens) VALUES
+(5, 'India', 'Test', 'Home', 8, 14, 320.5, 1923, 850, 40, 2.65, 21.25, 48.08, 3, 1, '6/45', 95),
+(5, 'India', 'Test', 'Away', 6, 12, 280.2, 1681, 780, 32, 2.78, 24.38, 52.53, 2, 0, '5/50', 88),
+(5, 'India', 'ODI', 'Home', 10, 10, 90.4, 544, 420, 18, 4.63, 23.33, 30.22, 1, 0, '4/25', 15),
+(5, 'India', 'ODI', 'Away', 12, 12, 110.0, 660, 510, 20, 4.64, 25.50, 33.00, 1, 0, '4/30', 18),
+(5, 'India', 'T20', 'Neutral', 5, 5, 20.0, 120, 180, 8, 9.00, 22.50, 15.00, 0, 0, '3/28', 5),
+
+(5, 'Zimbabwe', 'Test', 'Home', 4, 6, 150.0, 900, 400, 22, 2.67, 18.18, 40.91, 2, 0, '7/50', 50),
+(5, 'Zimbabwe', 'Test', 'Away', 5, 8, 170.0, 1020, 460, 25, 2.71, 18.40, 40.80, 2, 0, '6/40', 60),
+(5, 'Zimbabwe', 'ODI', 'Home', 6, 6, 55.0, 330, 250, 12, 4.54, 20.83, 27.50, 1, 0, '4/20', 12),
+(5, 'Zimbabwe', 'ODI', 'Away', 5, 5, 50.0, 300, 220, 10, 4.40, 22.00, 30.00, 0, 0, '3/18', 10),
+(5, 'Zimbabwe', 'T20', 'Neutral', 2, 2, 8.0, 48, 60, 5, 7.50, 12.00, 9.60, 0, 0, '3/15', 2),
+
+(5, 'Pakistan', 'Test', 'Home', 7, 12, 290.3, 1743, 860, 38, 2.96, 22.63, 45.87, 3, 1, '6/48', 92),
+(5, 'Pakistan', 'Test', 'Away', 8, 14, 315.0, 1890, 900, 42, 2.86, 21.43, 45.00, 3, 0, '5/55', 100),
+(5, 'Pakistan', 'ODI', 'Home', 11, 11, 100.2, 601, 450, 22, 4.49, 20.45, 27.32, 1, 0, '4/22', 20),
+(5, 'Pakistan', 'ODI', 'Away', 10, 10, 95.0, 570, 460, 18, 4.84, 25.56, 31.67, 1, 0, '4/30', 17),
+(5, 'Pakistan', 'T20', 'Neutral', 6, 6, 24.0, 144, 190, 9, 7.92, 21.11, 16.00, 0, 0, '3/20', 5),
+
+(5, 'Australia', 'Test', 'Home', 5, 10, 250.0, 1500, 750, 30, 3.00, 25.00, 50.00, 2, 0, '5/60', 85),
+(5, 'Australia', 'Test', 'Away', 7, 12, 290.0, 1740, 890, 35, 3.07, 25.43, 49.71, 2, 0, '6/55', 98),
+(5, 'Australia', 'ODI', 'Home', 9, 9, 90.0, 540, 480, 17, 5.33, 28.24, 31.76, 1, 0, '4/33', 15),
+(5, 'Australia', 'ODI', 'Away', 10, 10, 100.0, 600, 520, 19, 5.20, 27.37, 31.58, 1, 0, '4/28', 18),
+(5, 'Australia', 'T20', 'Neutral', 4, 4, 16.0, 96, 130, 6, 8.12, 21.67, 16.00, 0, 0, '2/25', 4),
+
+(5, 'Sri Lanka', 'Test', 'Home', 6, 10, 280.4, 1684, 820, 36, 2.92, 22.78, 46.78, 3, 1, '6/52', 90),
+(5, 'Sri Lanka', 'Test', 'Away', 5, 9, 260.0, 1560, 750, 33, 2.88, 22.73, 47.27, 2, 0, '5/40', 85),
+(5, 'Sri Lanka', 'ODI', 'Home', 8, 8, 80.0, 480, 420, 16, 5.25, 26.25, 30.00, 1, 0, '4/27', 14),
+(5, 'Sri Lanka', 'ODI', 'Away', 7, 7, 75.0, 450, 400, 15, 5.33, 26.67, 30.00, 1, 0, '4/22', 13),
+(5, 'Sri Lanka', 'T20', 'Neutral', 3, 3, 12.0, 72, 90, 5, 7.50, 18.00, 14.40, 0, 0, '3/18', 3);
+
+INSERT INTO BowlingCareerAgainst (PlayerID, Opponent, MatchType, LocationType, Matches, Innings, OversBowled, BallsBowled, RunsConceded, Wickets, Economy, Average, StrikeRate, FiveWicketHauls, TenWicketHauls, BestBowlingFigures, Maidens) VALUES
+(8, 'India', 'Test', 'Home', 2, 4, 80.0, 480, 230, 7, 2.88, 32.86, 68.57, 0, 0, '4/60', 20),
+(8, 'India', 'ODI', 'Away', 3, 3, 26.0, 156, 140, 5, 5.38, 28.00, 31.20, 0, 0, '3/40', 5),
+(8, 'India', 'T20', 'Neutral', 2, 2, 7.0, 42, 65, 3, 9.29, 21.67, 14.00, 0, 0, '2/28', 1),
+
+(8, 'Zimbabwe', 'Test', 'Away', 1, 2, 50.0, 300, 180, 6, 3.60, 30.00, 50.00, 0, 0, '4/55', 12),
+(8, 'Zimbabwe', 'ODI', 'Home', 2, 2, 20.0, 120, 90, 4, 4.50, 22.50, 30.00, 0, 0, '3/30', 4),
+(8, 'Zimbabwe', 'T20', 'Neutral', 1, 1, 4.0, 24, 40, 2, 10.00, 20.00, 12.00, 0, 0, '2/20', 0),
+
+(8, 'Pakistan', 'Test', 'Home', 2, 3, 60.0, 360, 250, 5, 4.17, 50.00, 72.00, 0, 0, '3/70', 15),
+(8, 'Pakistan', 'ODI', 'Away', 3, 3, 30.0, 180, 135, 6, 4.50, 22.50, 30.00, 0, 0, '3/35', 6),
+(8, 'Pakistan', 'T20', 'Neutral', 2, 2, 8.0, 48, 72, 2, 9.00, 36.00, 24.00, 0, 0, '2/25', 1),
+
+(8, 'Australia', 'Test', 'Away', 1, 2, 45.0, 270, 210, 4, 4.67, 52.50, 67.50, 0, 0, '2/80', 10),
+(8, 'Australia', 'ODI', 'Home', 2, 2, 22.0, 132, 115, 3, 5.23, 38.33, 44.00, 0, 0, '2/45', 4),
+(8, 'Australia', 'T20', 'Neutral', 1, 1, 4.0, 24, 36, 1, 9.00, 36.00, 24.00, 0, 0, '1/30', 0),
+
+(8, 'Sri Lanka', 'Test', 'Home', 2, 3, 55.0, 330, 240, 6, 4.36, 40.00, 55.00, 0, 0, '3/60', 13),
+(8, 'Sri Lanka', 'ODI', 'Away', 2, 2, 24.0, 144, 110, 5, 4.58, 22.00, 28.80, 0, 0, '3/28', 5),
+(8, 'Sri Lanka', 'T20', 'Neutral', 1, 1, 3.0, 18, 33, 1, 11.00, 33.00, 18.00, 0, 0, '1/33', 0);
+
+INSERT INTO BowlingCareerAgainst (PlayerID, Opponent, MatchType, LocationType, Matches, Innings, OversBowled, BallsBowled, RunsConceded, Wickets, Economy, Average, StrikeRate, FiveWicketHauls, TenWicketHauls, BestBowlingFigures, Maidens) VALUES
+(6, 'India', 'Test', 'Home', 10, 15, 280.0, 1680, 900, 35, 3.21, 25.71, 48.00, 2, 0, '5/42', 80),
+(6, 'India', 'ODI', 'Away', 12, 12, 110.0, 660, 500, 22, 4.54, 22.73, 30.00, 1, 0, '4/29', 18),
+(6, 'India', 'T20', 'Neutral', 8, 8, 30.0, 180, 220, 12, 7.33, 18.33, 15.00, 0, 0, '3/25', 6),
+
+(6, 'Zimbabwe', 'Test', 'Away', 6, 9, 210.0, 1260, 540, 28, 2.57, 19.29, 45.00, 3, 0, '6/38', 55),
+(6, 'Zimbabwe', 'ODI', 'Home', 8, 8, 72.0, 432, 310, 15, 4.31, 20.67, 28.80, 1, 0, '4/20', 14),
+(6, 'Zimbabwe', 'T20', 'Neutral', 5, 5, 18.0, 108, 140, 7, 7.78, 20.00, 15.43, 0, 0, '3/18', 4),
+
+(6, 'Pakistan', 'Test', 'Home', 11, 16, 300.0, 1800, 870, 37, 2.90, 23.51, 48.65, 2, 1, '5/50', 88),
+(6, 'Pakistan', 'ODI', 'Away', 10, 10, 98.0, 588, 470, 19, 4.80, 24.74, 30.95, 1, 0, '4/25', 17),
+(6, 'Pakistan', 'T20', 'Neutral', 6, 6, 25.0, 150, 185, 9, 7.40, 20.56, 16.67, 0, 0, '3/22', 5),
+
+(6, 'Australia', 'Test', 'Away', 9, 14, 280.0, 1680, 910, 34, 3.25, 26.76, 49.41, 2, 0, '5/45', 82),
+(6, 'Australia', 'ODI', 'Home', 11, 11, 100.0, 600, 480, 20, 4.80, 24.00, 30.00, 1, 0, '4/27', 19),
+(6, 'Australia', 'T20', 'Neutral', 7, 7, 28.0, 168, 210, 11, 7.50, 19.09, 15.27, 0, 0, '3/21', 7),
+
+(6, 'Sri Lanka', 'Test', 'Home', 10, 15, 270.0, 1620, 860, 36, 3.19, 23.89, 45.00, 2, 0, '5/50', 78),
+(6, 'Sri Lanka', 'ODI', 'Away', 9, 9, 85.0, 510, 410, 17, 4.82, 24.12, 30.00, 1, 0, '4/22', 15),
+(6, 'Sri Lanka', 'T20', 'Neutral', 6, 6, 24.0, 144, 185, 8, 7.71, 23.13, 18.00, 0, 0, '3/24', 4);
+
+INSERT INTO BowlingCareerAgainst (PlayerID, Opponent, MatchType, LocationType, Matches, Innings, OversBowled, BallsBowled, RunsConceded, Wickets, Economy, Average, StrikeRate, FiveWicketHauls, TenWicketHauls, BestBowlingFigures, Maidens) VALUES
+(32, 'India', 'Test', 'Home', 9, 14, 265.0, 1590, 880, 33, 3.32, 26.67, 48.18, 2, 0, '5/48', 76),
+(32, 'India', 'ODI', 'Away', 10, 10, 95.0, 570, 450, 19, 4.74, 23.68, 30.00, 1, 0, '4/30', 16),
+(32, 'India', 'T20', 'Neutral', 7, 7, 26.0, 156, 205, 10, 7.88, 20.50, 15.60, 0, 0, '3/22', 5),
+
+(32, 'Zimbabwe', 'Test', 'Away', 6, 9, 220.0, 1320, 550, 29, 2.50, 18.97, 45.52, 3, 0, '6/36', 57),
+(32, 'Zimbabwe', 'ODI', 'Home', 7, 7, 68.0, 408, 295, 14, 4.34, 21.07, 29.14, 1, 0, '4/19', 12),
+(32, 'Zimbabwe', 'T20', 'Neutral', 5, 5, 20.0, 120, 145, 8, 7.25, 18.13, 15.00, 0, 0, '3/20', 3),
+
+(32, 'Pakistan', 'Test', 'Home', 10, 15, 275.0, 1650, 850, 35, 3.09, 24.29, 47.14, 2, 1, '5/52', 80),
+(32, 'Pakistan', 'ODI', 'Away', 9, 9, 90.0, 540, 430, 18, 4.78, 23.89, 30.00, 1, 0, '4/28', 14),
+(32, 'Pakistan', 'T20', 'Neutral', 6, 6, 22.0, 132, 175, 7, 7.95, 25.00, 18.86, 0, 0, '3/26', 4),
+
+(32, 'Australia', 'Test', 'Away', 9, 14, 280.0, 1680, 910, 34, 3.25, 26.76, 49.41, 2, 0, '5/45', 82),
+(32, 'Australia', 'ODI', 'Home', 11, 11, 100.0, 600, 480, 20, 4.80, 24.00, 30.00, 1, 0, '4/27', 19),
+(32, 'Australia', 'T20', 'Neutral', 7, 7, 28.0, 168, 210, 11, 7.50, 19.09, 15.27, 0, 0, '3/21', 7),
+
+(32, 'Sri Lanka', 'Test', 'Home', 10, 15, 270.0, 1620, 860, 36, 3.19, 23.89, 45.00, 2, 0, '5/50', 78),
+(32, 'Sri Lanka', 'ODI', 'Away', 9, 9, 85.0, 510, 410, 17, 4.82, 24.12, 30.00, 1, 0, '4/22', 15),
+(32, 'Sri Lanka', 'T20', 'Neutral', 6, 6, 24.0, 144, 185, 8, 7.71, 23.13, 18.00, 0, 0, '3/24', 4);
+
+INSERT INTO BowlingCareerAgainst (PlayerID, Opponent, MatchType, LocationType, Matches, Innings, OversBowled, BallsBowled, RunsConceded, Wickets, Economy, Average, StrikeRate, FiveWicketHauls, TenWicketHauls, BestBowlingFigures, Maidens) VALUES
+(16, 'India', 'Test', 'Home', 2, 3, 45.0, 270, 150, 5, 3.33, 30.00, 54.00, 0, 0, '3/45', 12),
+(16, 'India', 'ODI', 'Away', 3, 3, 18.0, 108, 140, 4, 7.78, 35.00, 27.00, 0, 0, '2/38', 3),
+(16, 'India', 'T20', 'Neutral', 2, 2, 6.0, 36, 50, 2, 8.33, 25.00, 18.00, 0, 0, '1/22', 1),
+
+(16, 'Zimbabwe', 'Test', 'Away', 1, 2, 35.0, 210, 120, 4, 3.43, 30.00, 52.50, 0, 0, '2/40', 9),
+(16, 'Zimbabwe', 'ODI', 'Home', 2, 2, 15.0, 90, 100, 3, 6.67, 33.33, 30.00, 0, 0, '2/30', 2),
+(16, 'Zimbabwe', 'T20', 'Neutral', 2, 2, 5.0, 30, 40, 1, 8.00, 40.00, 30.00, 0, 0, '1/18', 1),
+
+(16, 'Pakistan', 'Test', 'Home', 2, 3, 40.0, 240, 160, 5, 4.00, 32.00, 48.00, 0, 0, '3/50', 10),
+(16, 'Pakistan', 'ODI', 'Away', 2, 2, 16.0, 96, 120, 3, 7.50, 40.00, 32.00, 0, 0, '2/32', 2),
+(16, 'Pakistan', 'T20', 'Neutral', 2, 2, 6.0, 36, 55, 2, 9.17, 27.50, 18.00, 0, 0, '1/24', 1),
+
+(16, 'Australia', 'Test', 'Away', 2, 3, 38.0, 228, 180, 4, 4.74, 45.00, 57.00, 0, 0, '2/55', 8),
+(16, 'Australia', 'ODI', 'Home', 3, 3, 20.0, 120, 130, 3, 6.50, 43.33, 40.00, 0, 0, '2/40', 3),
+(16, 'Australia', 'T20', 'Neutral', 2, 2, 5.0, 30, 45, 1, 9.00, 45.00, 30.00, 0, 0, '1/25', 1),
+
+(16, 'Sri Lanka', 'Test', 'Home', 1, 2, 30.0, 180, 110, 3, 3.67, 36.67, 60.00, 0, 0, '2/42', 6),
+(16, 'Sri Lanka', 'ODI', 'Away', 2, 2, 14.0, 84, 95, 2, 6.79, 47.50, 42.00, 0, 0, '1/28', 2),
+(16, 'Sri Lanka', 'T20', 'Neutral', 2, 2, 5.0, 30, 40, 1, 8.00, 40.00, 30.00, 0, 0, '1/22', 1);
+INSERT INTO BowlingCareerAgainst (PlayerID, Opponent, MatchType, LocationType, Matches, Innings, OversBowled, BallsBowled, RunsConceded, Wickets, Economy, Average, StrikeRate, FiveWicketHauls, TenWicketHauls, BestBowlingFigures, Maidens) VALUES
+(19, 'India', 'Test', 'Home', 6, 9, 180.0, 1080, 600, 20, 3.33, 30.00, 54.00, 1, 0, '5/55', 40),
+(19, 'India', 'ODI', 'Away', 8, 8, 70.0, 420, 350, 14, 5.00, 25.00, 30.00, 0, 0, '4/40', 12),
+(19, 'India', 'T20', 'Neutral', 5, 5, 20.0, 120, 160, 7, 8.00, 22.86, 17.14, 0, 0, '3/30', 3),
+
+(19, 'Zimbabwe', 'Test', 'Away', 5, 7, 150.0, 900, 450, 18, 3.00, 25.00, 50.00, 1, 0, '5/38', 35),
+(19, 'Zimbabwe', 'ODI', 'Home', 7, 7, 60.0, 360, 280, 12, 4.67, 23.33, 30.00, 0, 0, '3/25', 10),
+(19, 'Zimbabwe', 'T20', 'Neutral', 4, 4, 16.0, 96, 130, 6, 8.13, 21.67, 16.00, 0, 0, '2/28', 2),
+
+(19, 'Pakistan', 'Test', 'Home', 7, 10, 200.0, 1200, 700, 22, 3.50, 31.82, 54.55, 1, 0, '4/45', 45),
+(19, 'Pakistan', 'ODI', 'Away', 9, 9, 75.0, 450, 360, 15, 4.80, 24.00, 30.00, 0, 0, '3/32', 14),
+(19, 'Pakistan', 'T20', 'Neutral', 6, 6, 22.0, 132, 155, 8, 7.05, 19.38, 16.50, 0, 0, '3/26', 4),
+
+(19, 'Australia', 'Test', 'Away', 6, 9, 190.0, 1140, 680, 19, 3.58, 35.79, 60.00, 1, 0, '5/52', 42),
+(19, 'Australia', 'ODI', 'Home', 10, 10, 85.0, 510, 420, 16, 4.94, 26.25, 31.88, 0, 0, '4/35', 15),
+(19, 'Australia', 'T20', 'Neutral', 5, 5, 20.0, 120, 150, 7, 7.50, 21.43, 17.14, 0, 0, '3/24', 3),
+
+(19, 'Sri Lanka', 'Test', 'Home', 7, 10, 195.0, 1170, 660, 21, 3.38, 31.43, 55.71, 1, 0, '4/50', 44),
+(19, 'Sri Lanka', 'ODI', 'Away', 8, 8, 72.0, 432, 340, 14, 4.72, 24.29, 30.86, 0, 0, '3/29', 13),
+(19, 'Sri Lanka', 'T20', 'Neutral', 5, 5, 18.0, 108, 140, 6, 7.78, 23.33, 18.00, 0, 0, '2/30', 2);
+
+INSERT INTO BowlingCareerAgainst (PlayerID, Opponent, MatchType, LocationType, Matches, Innings, OversBowled, BallsBowled, RunsConceded, Wickets, Economy, Average, StrikeRate, FiveWicketHauls, TenWicketHauls, BestBowlingFigures, Maidens) VALUES
+(20, 'India', 'Test', 'Home', 8, 12, 220.0, 1320, 700, 25, 3.18, 28.00, 52.80, 1, 0, '5/40', 55),
+(20, 'India', 'ODI', 'Away', 10, 10, 85.0, 510, 400, 16, 4.71, 25.00, 31.88, 0, 0, '4/34', 14),
+(20, 'India', 'T20', 'Neutral', 7, 7, 28.0, 168, 200, 9, 7.14, 22.22, 18.67, 0, 0, '3/30', 4),
+
+(20, 'Zimbabwe', 'Test', 'Away', 4, 6, 140.0, 840, 350, 18, 2.50, 19.44, 42.00, 1, 0, '4/25', 30),
+(20, 'Zimbabwe', 'ODI', 'Home', 6, 6, 50.0, 300, 250, 10, 5.00, 25.00, 30.00, 0, 0, '3/30', 8),
+(20, 'Zimbabwe', 'T20', 'Neutral', 4, 4, 16.0, 96, 120, 5, 7.50, 24.00, 19.20, 0, 0, '2/24', 2),
+
+(20, 'Pakistan', 'Test', 'Home', 7, 11, 180.0, 1080, 550, 22, 3.06, 25.00, 49.09, 1, 0, '4/38', 40),
+(20, 'Pakistan', 'ODI', 'Away', 8, 8, 65.0, 390, 310, 12, 4.77, 25.83, 32.50, 0, 0, '3/40', 10),
+(20, 'Pakistan', 'T20', 'Neutral', 5, 5, 20.0, 120, 150, 6, 7.50, 25.00, 20.00, 0, 0, '3/28', 3),
+
+(20, 'Australia', 'Test', 'Away', 6, 9, 170.0, 1020, 600, 19, 3.53, 31.58, 51.58, 1, 0, '5/60', 45),
+(20, 'Australia', 'ODI', 'Home', 9, 9, 75.0, 450, 350, 14, 4.67, 25.00, 32.14, 0, 0, '3/28', 13),
+(20, 'Australia', 'T20', 'Neutral', 6, 6, 24.0, 144, 180, 7, 7.50, 25.71, 20.57, 0, 0, '2/32', 3),
+
+(20, 'Sri Lanka', 'Test', 'Home', 5, 8, 160.0, 960, 480, 21, 3.00, 22.86, 45.71, 1, 0, '4/45', 38),
+(20, 'Sri Lanka', 'ODI', 'Away', 7, 7, 60.0, 360, 290, 12, 4.83, 24.17, 30.00, 0, 0, '3/30', 9),
+(20, 'Sri Lanka', 'T20', 'Neutral', 4, 4, 18.0, 108, 130, 6, 6.83, 21.67, 18.00, 0, 0, '2/28', 3);
+
+INSERT INTO BowlingCareerAgainst (PlayerID, Opponent, MatchType, LocationType, Matches, Innings, OversBowled, BallsBowled, RunsConceded, Wickets, Economy, Average, StrikeRate, FiveWicketHauls, TenWicketHauls, BestBowlingFigures, Maidens) VALUES
+(27, 'India', 'Test', 'Home', 10, 15, 300.0, 1800, 850, 30, 2.83, 28.33, 60.00, 2, 0, '6/45', 70),
+(27, 'India', 'ODI', 'Away', 12, 12, 100.0, 600, 450, 20, 4.50, 22.50, 30.00, 1, 0, '5/35', 18),
+(27, 'India', 'T20', 'Neutral', 8, 8, 32.0, 192, 160, 10, 6.00, 16.00, 19.20, 0, 0, '3/20', 4),
+
+(27, 'Zimbabwe', 'Test', 'Away', 6, 9, 180.0, 1080, 500, 25, 3.00, 20.00, 43.20, 2, 0, '5/40', 55),
+(27, 'Zimbabwe', 'ODI', 'Home', 9, 9, 75.0, 450, 350, 14, 4.67, 25.00, 32.14, 1, 0, '4/30', 12),
+(27, 'Zimbabwe', 'T20', 'Neutral', 5, 5, 18.0, 108, 120, 6, 6.67, 20.00, 18.00, 0, 0, '2/22', 3),
+
+(27, 'Pakistan', 'Test', 'Home', 8, 12, 240.0, 1440, 720, 28, 3.00, 25.71, 51.43, 2, 0, '5/50', 65),
+(27, 'Pakistan', 'ODI', 'Away', 10, 10, 80.0, 480, 380, 16, 4.75, 23.75, 30.00, 1, 0, '4/33', 14),
+(27, 'Pakistan', 'T20', 'Neutral', 6, 6, 24.0, 144, 130, 7, 5.42, 18.57, 20.57, 0, 0, '3/25', 3),
+
+(27, 'Australia', 'Test', 'Away', 7, 10, 210.0, 1260, 600, 24, 2.86, 25.00, 52.50, 2, 0, '5/45', 60),
+(27, 'Australia', 'ODI', 'Home', 11, 11, 90.0, 540, 380, 15, 4.73, 25.33, 36.00, 1, 0, '4/30', 16),
+(27, 'Australia', 'T20', 'Neutral', 6, 6, 24.0, 144, 130, 8, 5.42, 16.25, 18.00, 0, 0, '3/18', 3),
+
+(27, 'Sri Lanka', 'Test', 'Home', 9, 13, 260.0, 1560, 700, 27, 3.00, 25.93, 54.67, 2, 0, '6/60', 65),
+(27, 'Sri Lanka', 'ODI', 'Away', 8, 8, 70.0, 420, 330, 14, 4.71, 23.57, 30.00, 1, 0, '3/28', 12),
+(27, 'Sri Lanka', 'T20', 'Neutral', 5, 5, 20.0, 120, 130, 7, 6.50, 18.57, 17.14, 0, 0, '2/22', 3);
+
+INSERT INTO BowlingCareerAgainst (PlayerID, Opponent, MatchType, LocationType, Matches, Innings, OversBowled, BallsBowled, RunsConceded, Wickets, Economy, Average, StrikeRate, FiveWicketHauls, TenWicketHauls, BestBowlingFigures, Maidens) VALUES
+(35, 'India', 'Test', 'Home', 6, 9, 160.0, 960, 520, 18, 3.00, 28.89, 53.33, 1, 0, '5/50', 40),
+(35, 'India', 'ODI', 'Away', 8, 8, 70.0, 420, 350, 14, 5.00, 25.00, 30.00, 0, 0, '3/45', 12),
+(35, 'India', 'T20', 'Neutral', 5, 5, 20.0, 120, 140, 7, 7.00, 20.00, 17.14, 0, 0, '2/30', 3),
+
+(35, 'Zimbabwe', 'Test', 'Away', 4, 6, 120.0, 720, 380, 15, 3.17, 25.33, 48.00, 1, 0, '4/30', 30),
+(35, 'Zimbabwe', 'ODI', 'Home', 7, 7, 55.0, 330, 280, 12, 4.55, 23.33, 27.50, 0, 0, '3/40', 10),
+(35, 'Zimbabwe', 'T20', 'Neutral', 4, 4, 16.0, 96, 120, 6, 7.50, 20.00, 16.00, 0, 0, '2/28', 2),
+
+(35, 'Pakistan', 'Test', 'Home', 5, 8, 140.0, 840, 400, 16, 2.86, 25.00, 52.50, 1, 0, '5/45', 35),
+(35, 'Pakistan', 'ODI', 'Away', 9, 9, 75.0, 450, 380, 14, 5.07, 27.14, 32.14, 0, 0, '3/38', 12),
+(35, 'Pakistan', 'T20', 'Neutral', 6, 6, 24.0, 144, 150, 8, 6.25, 18.75, 18.00, 0, 0, '3/32', 3),
+
+(35, 'Australia', 'Test', 'Away', 6, 9, 180.0, 1080, 550, 20, 3.06, 27.50, 54.00, 1, 0, '5/55', 42),
+(35, 'Australia', 'ODI', 'Home', 10, 10, 80.0, 480, 360, 15, 4.50, 24.00, 32.00, 0, 0, '3/30', 14),
+(35, 'Australia', 'T20', 'Neutral', 5, 5, 18.0, 108, 130, 6, 6.83, 21.67, 18.00, 0, 0, '2/26', 3),
+
+(35, 'Sri Lanka', 'Test', 'Home', 7, 10, 180.0, 1080, 520, 21, 3.46, 24.76, 51.43, 1, 0, '4/50', 50),
+(35, 'Sri Lanka', 'ODI', 'Away', 8, 8, 65.0, 390, 320, 12, 4.92, 26.67, 32.50, 0, 0, '3/35', 11),
+(35, 'Sri Lanka', 'T20', 'Neutral', 5, 5, 20.0, 120, 150, 7, 7.50, 21.43, 17.14, 0, 0, '2/30', 3);
+
+INSERT INTO FieldingCareer (PlayerID, MatchType, Opponent, LocationType, Matches, Innings, Catches, Stumpings, RunOuts, DirectHits) VALUES
+(5, 'Test', 'India', 'Home', 20, 40, 8, 0, 2, 1),
+(5, 'ODI', 'India', 'Away', 30, 60, 15, 0, 3, 2),
+(5, 'T20', 'India', 'Neutral', 10, 20, 4, 0, 1, 0),
+
+(5, 'Test', 'Zimbabwe', 'Home', 15, 30, 6, 0, 1, 1),
+(5, 'ODI', 'Zimbabwe', 'Away', 25, 50, 12, 0, 2, 1),
+(5, 'T20', 'Zimbabwe', 'Neutral', 8, 16, 3, 0, 1, 0),
+
+(5, 'Test', 'Pakistan', 'Home', 18, 36, 7, 0, 3, 1),
+(5, 'ODI', 'Pakistan', 'Away', 28, 56, 14, 0, 4, 2),
+(5, 'T20', 'Pakistan', 'Neutral', 12, 24, 5, 0, 2, 0),
+
+(5, 'Test', 'Australia', 'Home', 25, 50, 10, 0, 2, 1),
+(5, 'ODI', 'Australia', 'Away', 35, 70, 18, 0, 5, 2),
+(5, 'T20', 'Australia', 'Neutral', 14, 28, 6, 0, 1, 1),
+
+(5, 'Test', 'Sri Lanka', 'Home', 22, 44, 9, 0, 1, 1),
+(5, 'ODI', 'Sri Lanka', 'Away', 32, 64, 16, 0, 3, 1),
+(5, 'T20', 'Sri Lanka', 'Neutral', 13, 26, 5, 0, 2, 0);
+
+INSERT INTO FieldingCareer (PlayerID, MatchType, Opponent, LocationType, Matches, Innings, Catches, Stumpings, RunOuts, DirectHits) VALUES
+(8, 'Test', 'India', 'Home', 1, 2, 1, 0, 0, 0),
+(8, 'ODI', 'India', 'Away', 2, 4, 1, 0, 0, 0),
+(8, 'T20', 'India', 'Neutral', 1, 2, 1, 0, 0, 0),
+
+(8, 'Test', 'Zimbabwe', 'Home', 1, 2, 0, 0, 0, 0),
+(8, 'ODI', 'Zimbabwe', 'Away', 2, 4, 1, 0, 0, 0),
+(8, 'T20', 'Zimbabwe', 'Neutral', 1, 2, 0, 0, 0, 0),
+
+(8, 'Test', 'Pakistan', 'Home', 1, 2, 0, 0, 0, 0),
+(8, 'ODI', 'Pakistan', 'Away', 1, 2, 0, 0, 0, 0),
+(8, 'T20', 'Pakistan', 'Neutral', 1, 2, 0, 0, 0, 0),
+
+(8, 'Test', 'Australia', 'Home', 1, 2, 1, 0, 0, 0),
+(8, 'ODI', 'Australia', 'Away', 1, 2, 0, 0, 0, 0),
+(8, 'T20', 'Australia', 'Neutral', 1, 2, 0, 0, 0, 0),
+
+(8, 'Test', 'Sri Lanka', 'Home', 1, 2, 1, 0, 0, 0),
+(8, 'ODI', 'Sri Lanka', 'Away', 1, 2, 0, 0, 0, 0),
+(8, 'T20', 'Sri Lanka', 'Neutral', 1, 2, 0, 0, 0, 0);
+
+INSERT INTO FieldingCareer (PlayerID, MatchType, Opponent, LocationType, Matches, Innings, Catches, Stumpings, RunOuts, DirectHits) VALUES
+(37, 'Test', 'India', 'Home', 2, 4, 1, 0, 0, 0),
+(37, 'ODI', 'India', 'Away', 3, 6, 2, 0, 0, 0),
+(37, 'T20', 'India', 'Neutral', 1, 2, 1, 0, 0, 0),
+
+(37, 'Test', 'Zimbabwe', 'Home', 1, 2, 0, 0, 0, 0),
+(37, 'ODI', 'Zimbabwe', 'Away', 2, 4, 1, 0, 0, 0),
+(37, 'T20', 'Zimbabwe', 'Neutral', 1, 2, 0, 0, 0, 0),
+
+(37, 'Test', 'Pakistan', 'Home', 1, 2, 0, 0, 0, 0),
+(37, 'ODI', 'Pakistan', 'Away', 2, 4, 1, 0, 0, 0),
+(37, 'T20', 'Pakistan', 'Neutral', 1, 2, 0, 0, 0, 0),
+
+(37, 'Test', 'Australia', 'Home', 1, 2, 0, 0, 0, 0),
+(37, 'ODI', 'Australia', 'Away', 2, 4, 1, 0, 0, 0),
+(37, 'T20', 'Australia', 'Neutral', 1, 2, 0, 0, 0, 0),
+
+(37, 'Test', 'Sri Lanka', 'Home', 1, 2, 1, 0, 0, 0),
+(37, 'ODI', 'Sri Lanka', 'Away', 2, 4, 1, 0, 0, 0),
+(37, 'T20', 'Sri Lanka', 'Neutral', 1, 2, 0, 0, 0, 0);
+
+
+INSERT INTO FieldingCareer (PlayerID, MatchType, Opponent, LocationType, Matches, Innings, Catches, Stumpings, RunOuts, DirectHits) VALUES
+(39, 'Test', 'India', 'Home', 3, 6, 2, 0, 1, 0),
+(39, 'ODI', 'India', 'Away', 4, 8, 3, 0, 1, 0),
+(39, 'T20', 'India', 'Neutral', 2, 4, 1, 0, 0, 0),
+
+(39, 'Test', 'Zimbabwe', 'Home', 2, 4, 1, 0, 0, 0),
+(39, 'ODI', 'Zimbabwe', 'Away', 3, 6, 2, 0, 1, 0),
+(39, 'T20', 'Zimbabwe', 'Neutral', 1, 2, 0, 0, 0, 0),
+
+(39, 'Test', 'Pakistan', 'Home', 3, 6, 2, 0, 1, 0),
+(39, 'ODI', 'Pakistan', 'Away', 4, 8, 3, 0, 1, 0),
+(39, 'T20', 'Pakistan', 'Neutral', 2, 4, 1, 0, 0, 0),
+
+(39, 'Test', 'Australia', 'Home', 2, 4, 1, 0, 0, 0),
+(39, 'ODI', 'Australia', 'Away', 3, 6, 2, 0, 0, 0),
+(39, 'T20', 'Australia', 'Neutral', 1, 2, 0, 0, 0, 0),
+
+(39, 'Test', 'Sri Lanka', 'Home', 2, 4, 1, 0, 0, 0),
+(39, 'ODI', 'Sri Lanka', 'Away', 3, 6, 2, 0, 1, 0),
+(39, 'T20', 'Sri Lanka', 'Neutral', 1, 2, 0, 0, 0, 0);
+
+INSERT INTO FieldingCareer (PlayerID, MatchType, Opponent, LocationType, Matches, Innings, Catches, Stumpings, RunOuts, DirectHits) VALUES
+-- India
+(6, 'Test', 'India', 'Home', 18, 35, 12, 0, 4, 2),
+(6, 'ODI', 'India', 'Away', 25, 50, 18, 0, 5, 3),
+(6, 'T20', 'India', 'Neutral', 15, 30, 7, 0, 3, 1),
+
+-- Zimbabwe
+(6, 'Test', 'Zimbabwe', 'Home', 12, 24, 8, 0, 2, 1),
+(6, 'ODI', 'Zimbabwe', 'Away', 20, 40, 14, 0, 3, 2),
+(6, 'T20', 'Zimbabwe', 'Neutral', 10, 20, 5, 0, 1, 1),
+
+-- Pakistan
+(6, 'Test', 'Pakistan', 'Home', 16, 32, 10, 0, 3, 2),
+(6, 'ODI', 'Pakistan', 'Away', 22, 44, 16, 0, 4, 2),
+(6, 'T20', 'Pakistan', 'Neutral', 14, 28, 6, 0, 2, 1),
+
+-- Australia
+(6, 'Test', 'Australia', 'Home', 20, 40, 11, 0, 4, 2),
+(6, 'ODI', 'Australia', 'Away', 28, 56, 19, 0, 5, 3),
+(6, 'T20', 'Australia', 'Neutral', 17, 34, 8, 0, 3, 1),
+
+-- Sri Lanka
+(6, 'Test', 'Sri Lanka', 'Home', 15, 30, 9, 0, 3, 2),
+(6, 'ODI', 'Sri Lanka', 'Away', 24, 48, 17, 0, 4, 2),
+(6, 'T20', 'Sri Lanka', 'Neutral', 13, 26, 7, 0, 2, 1);
+
+INSERT INTO FieldingCareer (PlayerID, MatchType, Opponent, LocationType, Matches, Innings, Catches, Stumpings, RunOuts, DirectHits) VALUES
+-- India
+(32, 'Test', 'India', 'Home', 16, 32, 10, 0, 3, 2),
+(32, 'ODI', 'India', 'Away', 23, 46, 16, 0, 4, 2),
+(32, 'T20', 'India', 'Neutral', 14, 28, 6, 0, 2, 1),
+
+-- Zimbabwe
+(32, 'Test', 'Zimbabwe', 'Home', 11, 22, 7, 0, 2, 1),
+(32, 'ODI', 'Zimbabwe', 'Away', 19, 38, 13, 0, 3, 2),
+(32, 'T20', 'Zimbabwe', 'Neutral', 9, 18, 4, 0, 1, 1),
+
+-- Pakistan
+(32, 'Test', 'Pakistan', 'Home', 15, 30, 9, 0, 3, 2),
+(32, 'ODI', 'Pakistan', 'Away', 21, 42, 15, 0, 4, 2),
+(32, 'T20', 'Pakistan', 'Neutral', 13, 26, 6, 0, 2, 1),
+
+-- Australia
+(32, 'Test', 'Australia', 'Home', 18, 36, 11, 0, 3, 2),
+(32, 'ODI', 'Australia', 'Away', 26, 52, 18, 0, 5, 3),
+(32, 'T20', 'Australia', 'Neutral', 15, 30, 7, 0, 3, 1),
+
+-- Sri Lanka
+(32, 'Test', 'Sri Lanka', 'Home', 14, 28, 8, 0, 2, 2),
+(32, 'ODI', 'Sri Lanka', 'Away', 22, 44, 16, 0, 4, 2),
+(32, 'T20', 'Sri Lanka', 'Neutral', 12, 24, 6, 0, 2, 1);
+
+INSERT INTO FieldingCareer (PlayerID, MatchType, Opponent, LocationType, Matches, Innings, Catches, Stumpings, RunOuts, DirectHits) VALUES
+-- India
+(1, 'Test', 'India', 'Home', 5, 10, 3, 0, 1, 1),
+(1, 'ODI', 'India', 'Away', 8, 16, 5, 0, 2, 1),
+(1, 'T20', 'India', 'Neutral', 6, 12, 3, 0, 1, 0),
+
+-- Zimbabwe
+(1, 'Test', 'Zimbabwe', 'Home', 3, 6, 2, 0, 1, 0),
+(1, 'ODI', 'Zimbabwe', 'Away', 6, 12, 4, 0, 1, 1),
+(1, 'T20', 'Zimbabwe', 'Neutral', 4, 8, 2, 0, 1, 0),
+
+-- Pakistan
+(1, 'Test', 'Pakistan', 'Home', 4, 8, 3, 0, 1, 1),
+(1, 'ODI', 'Pakistan', 'Away', 7, 14, 5, 0, 2, 1),
+(1, 'T20', 'Pakistan', 'Neutral', 5, 10, 3, 0, 1, 0),
+
+-- Australia
+(1, 'Test', 'Australia', 'Home', 5, 10, 3, 0, 1, 1),
+(1, 'ODI', 'Australia', 'Away', 9, 18, 6, 0, 2, 1),
+(1, 'T20', 'Australia', 'Neutral', 6, 12, 3, 0, 1, 0),
+
+-- Sri Lanka
+(1, 'Test', 'Sri Lanka', 'Home', 4, 8, 3, 0, 1, 1),
+(1, 'ODI', 'Sri Lanka', 'Away', 7, 14, 5, 0, 2, 1),
+(1, 'T20', 'Sri Lanka', 'Neutral', 5, 10, 3, 0, 1, 0);
+
+INSERT INTO FieldingCareer (PlayerID, MatchType, Opponent, LocationType, Matches, Innings, Catches, Stumpings, RunOuts, DirectHits) VALUES
+-- India
+(11, 'Test', 'India', 'Home', 3, 6, 2, 0, 1, 0),
+(11, 'ODI', 'India', 'Away', 5, 10, 3, 0, 1, 1),
+(11, 'T20', 'India', 'Neutral', 4, 8, 2, 0, 1, 0),
+
+-- Zimbabwe
+(11, 'Test', 'Zimbabwe', 'Home', 2, 4, 1, 0, 0, 0),
+(11, 'ODI', 'Zimbabwe', 'Away', 4, 8, 2, 0, 1, 0),
+(11, 'T20', 'Zimbabwe', 'Neutral', 3, 6, 1, 0, 0, 0),
+
+-- Pakistan
+(11, 'Test', 'Pakistan', 'Home', 3, 6, 2, 0, 1, 0),
+(11, 'ODI', 'Pakistan', 'Away', 5, 10, 3, 0, 1, 1),
+(11, 'T20', 'Pakistan', 'Neutral', 4, 8, 2, 0, 1, 0),
+
+-- Australia
+(11, 'Test', 'Australia', 'Home', 3, 6, 2, 0, 1, 0),
+(11, 'ODI', 'Australia', 'Away', 6, 12, 4, 0, 2, 1),
+(11, 'T20', 'Australia', 'Neutral', 4, 8, 2, 0, 1, 0),
+
+-- Sri Lanka
+(11, 'Test', 'Sri Lanka', 'Home', 2, 4, 1, 0, 0, 0),
+(11, 'ODI', 'Sri Lanka', 'Away', 4, 8, 2, 0, 1, 0),
+(11, 'T20', 'Sri Lanka', 'Neutral', 3, 6, 1, 0, 0, 0);
+
+INSERT INTO FieldingCareer (PlayerID, MatchType, Opponent, LocationType, Matches, Innings, Catches, Stumpings, RunOuts, DirectHits) VALUES
+-- India
+(16, 'Test', 'India', 'Home', 1, 2, 1, 0, 0, 0),
+(16, 'ODI', 'India', 'Away', 2, 4, 1, 0, 1, 0),
+(16, 'T20', 'India', 'Neutral', 2, 4, 1, 0, 1, 0),
+
+-- Zimbabwe
+(16, 'Test', 'Zimbabwe', 'Home', 1, 2, 0, 0, 0, 0),
+(16, 'ODI', 'Zimbabwe', 'Away', 2, 4, 1, 0, 1, 0),
+(16, 'T20', 'Zimbabwe', 'Neutral', 2, 4, 1, 0, 1, 0),
+
+-- Pakistan
+(16, 'Test', 'Pakistan', 'Home', 1, 2, 1, 0, 0, 0),
+(16, 'ODI', 'Pakistan', 'Away', 2, 4, 1, 0, 1, 0),
+(16, 'T20', 'Pakistan', 'Neutral', 2, 4, 1, 0, 1, 0),
+
+-- Australia
+(16, 'Test', 'Australia', 'Home', 1, 2, 1, 0, 0, 0),
+(16, 'ODI', 'Australia', 'Away', 2, 4, 1, 0, 1, 0),
+(16, 'T20', 'Australia', 'Neutral', 2, 4, 1, 0, 1, 0),
+
+-- Sri Lanka
+(16, 'Test', 'Sri Lanka', 'Home', 1, 2, 0, 0, 0, 0),
+(16, 'ODI', 'Sri Lanka', 'Away', 2, 4, 1, 0, 1, 0),
+(16, 'T20', 'Sri Lanka', 'Neutral', 2, 4, 1, 0, 1, 0);
+
+INSERT INTO FieldingCareer (PlayerID, MatchType, Opponent, LocationType, Matches, Innings, Catches, Stumpings, RunOuts, DirectHits) VALUES
+-- India
+(19, 'Test', 'India', 'Home', 10, 20, 6, 0, 2, 1),
+(19, 'ODI', 'India', 'Away', 15, 30, 9, 0, 3, 2),
+(19, 'T20', 'India', 'Neutral', 12, 24, 5, 0, 2, 1),
+
+-- Zimbabwe
+(19, 'Test', 'Zimbabwe', 'Home', 7, 14, 4, 0, 1, 1),
+(19, 'ODI', 'Zimbabwe', 'Away', 12, 24, 7, 0, 2, 1),
+(19, 'T20', 'Zimbabwe', 'Neutral', 9, 18, 4, 0, 1, 1),
+
+-- Pakistan
+(19, 'Test', 'Pakistan', 'Home', 9, 18, 5, 0, 2, 1),
+(19, 'ODI', 'Pakistan', 'Away', 14, 28, 8, 0, 3, 2),
+(19, 'T20', 'Pakistan', 'Neutral', 11, 22, 5, 0, 2, 1),
+
+-- Australia
+(19, 'Test', 'Australia', 'Home', 11, 22, 6, 0, 2, 1),
+(19, 'ODI', 'Australia', 'Away', 17, 34, 10, 0, 3, 2),
+(19, 'T20', 'Australia', 'Neutral', 13, 26, 6, 0, 2, 1),
+
+-- Sri Lanka
+(19, 'Test', 'Sri Lanka', 'Home', 8, 16, 5, 0, 1, 1),
+(19, 'ODI', 'Sri Lanka', 'Away', 13, 26, 8, 0, 3, 2),
+(19, 'T20', 'Sri Lanka', 'Neutral', 10, 20, 5, 0, 2, 1);
+
+INSERT INTO FieldingCareer (PlayerID, MatchType, Opponent, LocationType, Matches, Innings, Catches, Stumpings, RunOuts, DirectHits) VALUES
+-- India
+(20, 'Test', 'India', 'Home', 12, 24, 7, 0, 3, 2),
+(20, 'ODI', 'India', 'Away', 18, 36, 10, 0, 4, 2),
+(20, 'T20', 'India', 'Neutral', 15, 30, 6, 0, 3, 1),
+
+-- Zimbabwe
+(20, 'Test', 'Zimbabwe', 'Home', 9, 18, 5, 0, 2, 1),
+(20, 'ODI', 'Zimbabwe', 'Away', 14, 28, 8, 0, 3, 1),
+(20, 'T20', 'Zimbabwe', 'Neutral', 11, 22, 5, 0, 2, 1),
+
+-- Pakistan
+(20, 'Test', 'Pakistan', 'Home', 10, 20, 6, 0, 3, 1),
+(20, 'ODI', 'Pakistan', 'Away', 16, 32, 9, 0, 4, 2),
+(20, 'T20', 'Pakistan', 'Neutral', 13, 26, 6, 0, 3, 1),
+
+-- Australia
+(20, 'Test', 'Australia', 'Home', 13, 26, 7, 0, 3, 2),
+(20, 'ODI', 'Australia', 'Away', 19, 38, 11, 0, 5, 3),
+(20, 'T20', 'Australia', 'Neutral', 16, 32, 7, 0, 3, 1),
+
+-- Sri Lanka
+(20, 'Test', 'Sri Lanka', 'Home', 11, 22, 6, 0, 2, 1),
+(20, 'ODI', 'Sri Lanka', 'Away', 17, 34, 10, 0, 4, 2),
+(20, 'T20', 'Sri Lanka', 'Neutral', 14, 28, 6, 0, 3, 1);
+
+INSERT INTO FieldingCareer (PlayerID, MatchType, Opponent, LocationType, Matches, Innings, Catches, Stumpings, RunOuts, DirectHits) VALUES
+-- India
+(27, 'Test', 'India', 'Home', 15, 30, 9, 0, 4, 2),
+(27, 'ODI', 'India', 'Away', 22, 44, 14, 0, 5, 3),
+(27, 'T20', 'India', 'Neutral', 18, 36, 8, 0, 4, 2),
+
+-- Zimbabwe
+(27, 'Test', 'Zimbabwe', 'Home', 12, 24, 7, 0, 3, 2),
+(27, 'ODI', 'Zimbabwe', 'Away', 18, 36, 11, 0, 4, 2),
+(27, 'T20', 'Zimbabwe', 'Neutral', 14, 28, 7, 0, 3, 1),
+
+-- Pakistan
+(27, 'Test', 'Pakistan', 'Home', 14, 28, 8, 0, 4, 2),
+(27, 'ODI', 'Pakistan', 'Away', 21, 42, 13, 0, 5, 3),
+(27, 'T20', 'Pakistan', 'Neutral', 17, 34, 8, 0, 4, 2),
+
+-- Australia
+(27, 'Test', 'Australia', 'Home', 16, 32, 9, 0, 4, 2),
+(27, 'ODI', 'Australia', 'Away', 24, 48, 15, 0, 6, 3),
+(27, 'T20', 'Australia', 'Neutral', 19, 38, 9, 0, 4, 2),
+
+-- Sri Lanka
+(27, 'Test', 'Sri Lanka', 'Home', 13, 26, 8, 0, 3, 2),
+(27, 'ODI', 'Sri Lanka', 'Away', 20, 40, 12, 0, 5, 3),
+(27, 'T20', 'Sri Lanka', 'Neutral', 16, 32, 8, 0, 4, 2);
+
+INSERT INTO FieldingCareer (PlayerID, MatchType, Opponent, LocationType, Matches, Innings, Catches, Stumpings, RunOuts, DirectHits) VALUES
+-- India
+(35, 'Test', 'India', 'Home', 10, 20, 6, 0, 3, 1),
+(35, 'ODI', 'India', 'Away', 15, 30, 9, 0, 4, 2),
+(35, 'T20', 'India', 'Neutral', 12, 24, 5, 0, 2, 1),
+
+-- Zimbabwe
+(35, 'Test', 'Zimbabwe', 'Home', 8, 16, 5, 0, 2, 1),
+(35, 'ODI', 'Zimbabwe', 'Away', 12, 24, 7, 0, 3, 1),
+(35, 'T20', 'Zimbabwe', 'Neutral', 9, 18, 4, 0, 2, 1),
+
+-- Pakistan
+(35, 'Test', 'Pakistan', 'Home', 9, 18, 5, 0, 3, 1),
+(35, 'ODI', 'Pakistan', 'Away', 14, 28, 8, 0, 4, 2),
+(35, 'T20', 'Pakistan', 'Neutral', 11, 22, 5, 0, 3, 1),
+
+-- Australia
+(35, 'Test', 'Australia', 'Home', 11, 22, 6, 0, 3, 1),
+(35, 'ODI', 'Australia', 'Away', 17, 34, 10, 0, 5, 2),
+(35, 'T20', 'Australia', 'Neutral', 13, 26, 6, 0, 3, 1),
+
+-- Sri Lanka
+(35, 'Test', 'Sri Lanka', 'Home', 8, 16, 5, 0, 2, 1),
+(35, 'ODI', 'Sri Lanka', 'Away', 13, 26, 8, 0, 4, 2),
+(35, 'T20', 'Sri Lanka', 'Neutral', 10, 20, 5, 0, 3, 1);
 
 
 INSERT INTO FieldingCareer (PlayerID, MatchType, Opponent, LocationType, Matches, Innings, Catches, Stumpings, RunOuts, DirectHits) VALUES 
@@ -1513,6 +2419,27 @@ VALUES
 (30, 'Zimbabwe', 'Test', 'Home', 6, 8, 100, 320, 28, 10.71, 31.25, 0, 0, 11, 2, 2, 2),
 (30, 'Sri Lanka', 'Test', 'Away', 7, 9, 115, 340, 29, 11.50, 32.35, 0, 0, 12, 3, 2, 2),
 (33, 'Sri Lanka', 'Test', 'Home', 11, 19, 900, 1800, 150, 32.14, 50.00, 2, 5, 100, 20, 1, 4),
+
+-----------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------
 (33, 'Sri Lanka', 'ODI', 'Away', 14, 14, 700, 800, 110, 35.00, 87.50, 1, 4, 75, 22, 1, 3),
 (33, 'Sri Lanka', 'T20', 'Neutral', 9, 9, 420, 280, 85, 42.00, 150.00, 0, 3, 45, 25, 0, 3),
 (33, 'Pakistan', 'Test', 'Away', 10, 16, 850, 1700, 140, 31.48, 50.00, 1, 4, 100, 18, 1, 3),

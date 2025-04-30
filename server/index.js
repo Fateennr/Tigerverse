@@ -23,6 +23,7 @@ app.use('/gallery',  galleryRoutes);
 app.use('/hall', require('./routes/hall.routes'));
 app.use('/matches', matchesRoutes);
 app.use('/mysquad', mysquadRoutes);
+app.use('/h2h',      h2hRoutes); 
 
 
 const PORT = process.env.PORT || 8080;
