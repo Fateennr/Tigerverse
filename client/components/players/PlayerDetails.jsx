@@ -67,10 +67,8 @@ export default function PlayerDetails({ player, onClose }) {
             <div className="container p-6 flex flex-col md:flex-row items-end md:items-center">
               <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-white shadow-xl mr-4 -mb-12 md:mb-0">
                 <Image
-                  src={
-                    `/players/${player.Name}.png`
-                    || '/placeholder.jpg'
-                  }
+                  
+                  src={`/players/${player.Name.toLowerCase().replace(/\./g, '').replace(/\s+/g, '_')}.png`}
                   alt={player.Name}
                   fill
                   sizes="(max-width: 640px) 100vw, 320px"

@@ -4,6 +4,8 @@ import Image from "next/image"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import Link from "next/link"
 import { useEffect, useRef } from "react"
+import { Home } from "lucide-react"
+import Hero from "@/components/home/Hero"
 
 export default function BangladeshCricketTeam() {
   const welcomeRef = useRef(null)
@@ -38,6 +40,9 @@ export default function BangladeshCricketTeam() {
 
   return (
     <div className="min-h-screen bg-[#1c1c1c] font-lexend">
+       <Hero/>
+        
+      
       <style jsx global>{`
         .bg-bangladesh-gradient {
           background: linear-gradient(to bottom, #006a4e 0%, #181f18 60%, #293325 100%, #1c1c1c 100%);
@@ -151,6 +156,7 @@ export default function BangladeshCricketTeam() {
           background-color: rgba(24, 31, 24, 0.9);
         }
       `}</style>
+     
 
       {/* Welcome Section */}
       <section className="py-14 bg-bangladesh-gradient-reverse opacity-1 relative overflow-hidden" ref={welcomeRef}>

@@ -24,8 +24,8 @@ export default function PlayerSlot({ player, onRemove, onDragStart, onDrop, onDr
 
       <div className="relative h-[120px] overflow-hidden">
       <Image
-  src={`/players/${player.name.toLowerCase().replace(/\./g, '').replace(/\s+/g, '_')}.png`}
-  alt={player.name}
+  src={`/players/${player.Name.toLowerCase().replace(/\./g, '').replace(/\s+/g, '_')}.png`}
+  alt={player.Name}
   onError={(e) => {
     e.target.onerror = null;
     e.target.src = "/placeholder.svg?height=300&width=300";

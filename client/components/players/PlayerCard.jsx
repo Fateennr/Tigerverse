@@ -50,10 +50,7 @@ export default function PlayerCard({ player, onClick }) {
     >
       <div className="relative h-48 overflow-hidden">
         <Image
-          src={
-              `/players/${player.Name}.png`
-              || '/placeholder.jpg'
-          }
+          src={`/players/${player.Name.toLowerCase().replace(/\./g, '').replace(/\s+/g, '_')}.png`}
           alt={player.Name}
           fill
           sizes="(max-width: 640px) 100vw, 320px"

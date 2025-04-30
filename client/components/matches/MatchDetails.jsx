@@ -140,7 +140,7 @@ export default function MatchDetails({ match, onClose }) {
 
           <div className="absolute inset-0">
             <Image
-              src={match.image || "/placeholder.svg?height=500&width=1000"}
+              src={`/players/${player.name.toLowerCase().replace(/\./g, '').replace(/\s+/g, '_')}.png` || '/placeholder.jpg'}
               alt={`Bangladesh vs ${match.opponent}`}
               fill
               className="object-cover opacity-40"

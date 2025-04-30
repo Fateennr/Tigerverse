@@ -133,7 +133,7 @@ export default function PlayerStats({ player, onClose }) {
             <div className="container p-6 flex flex-col md:flex-row items-end md:items-center">
               <div className="relative w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-xl mr-4 -mb-12 md:mb-0">
                 <Image
-                  src={player.image || "/placeholder.svg?height=300&width=300"}
+                  src={`/players/${player.Name.toLowerCase().replace(/\./g, '').replace(/\s+/g, '_')}.png`}
                   alt={player.name}
                   fill
                   className="object-cover"

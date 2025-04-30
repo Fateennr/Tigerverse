@@ -174,7 +174,7 @@ export default function MySquadPage() {
           index: index  // This is the player index (1-based)
         }))
     };
-    console.log(payload)
+    
   
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/mysquad/create`, {
@@ -189,6 +189,7 @@ export default function MySquadPage() {
         // Handle successful response
         const data = await response.json();
         console.log('Squad saved successfully:', data);
+        fetchSavedSquads()
       } else {
         // Handle errors (if any)
         const error = await response.json();
