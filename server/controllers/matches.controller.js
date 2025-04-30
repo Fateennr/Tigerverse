@@ -22,6 +22,17 @@ class matchesController {
       res.status(500).json({ error: 'Failed to fetch matches' });
     }
   }
+
+  async getTopScorer(req, res) {
+    try {
+      const { match_id } = req.params.match_id;
+      const players = await MatchesServices.getTopScorer({ match_id });
+      res.json(players);
+    } catch (err) {
+      console.error('Error fetching matches:', err);
+      res.status(500).json({ error: 'Failed to fetch matches' });
+    }
+  }
 }
 
 module.exports = new matchesController();

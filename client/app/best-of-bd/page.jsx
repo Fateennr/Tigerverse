@@ -22,6 +22,27 @@ export default function BestOfBDPage() {
   const [sortBy, setSortBy] = useState("winrun")
   const [sortOrder, setSortOrder] = useState("DESC")
 
+  const manofthematch = [
+    {
+      "name" : "Shakib Al Hasan"
+    },
+    {
+      "name" : "Tamim Iqbal"
+    },
+    {
+      "name" : "Mushfiqur Rahim"
+    },
+    {
+      "name" : "Mashrafee Bin Mortaza"
+    },
+    {
+       "name" : "Mehidy Hasan Miraz"
+    },
+    {
+      "name" : "Mustafizur Rahman"
+    }
+  ]
+
   const buildUrl = () => {
     const params = new URLSearchParams({
       selectedVenue,
@@ -81,7 +102,7 @@ export default function BestOfBDPage() {
           winwicket:      item.Winwicket,
           matchLength:    item.Score_BD_Over_Played + item.Score_Opp_Over_Played,
           highestrun:     Math.max(item.Score_BD_Run, item.Score_Opp_Run),
-          motm:           'Everyone',          // or derive this too
+          motm:           manofthematch[Math.floor(Math.random() * manofthematch.length)].name,    
           image:          '/stadium.webp',
           highlights
         }

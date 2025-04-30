@@ -20,7 +20,7 @@ export default function MatchDetails({ match, onClose }) {
       setLoading(true)
 
       // In a real app, this would be an actual API call
-      const response = await fetch(`${process.env.BACKEND_URI}/matches/${match.id}`)
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/matches/stats/${match.id}`)
       const data = await response.json()
 
       // Mock data for squad
@@ -103,16 +103,17 @@ export default function MatchDetails({ match, onClose }) {
       //     stats: { wickets: 1, overs: 6, economy: 4.8 },
       //   },
       // ]
+      const [{ squadStats }] = data;  
 
-      const stats = data.map((item, idx) => ({
+      const stats = squadStats.map((item, idx) => ({
         id: item.id,
         name: item.name,
         role: item.role,
-        image: '/placeholder.jpg',
+        image: `/players/${encodeURIComponent(item.name)}.png`,
         stats: item.stats
       }))
 
-      setSquad(data)
+      setSquad(stats)
       setLoading(false)
     } catch (err) {
       console.error("Failed to fetch squad data", err)

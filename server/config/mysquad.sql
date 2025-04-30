@@ -107,5 +107,106 @@ END $$
 DELIMITER ;
 
 
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS GetAllPlayers $$
+
+CREATE PROCEDURE GetAllPlayers(
+  IN in_status    VARCHAR(10),  -- 'playing','retired','ALL'
+  IN in_format    VARCHAR(10),  -- 'ODI','Test','T20','ALL'
+  IN in_role      VARCHAR(20),  -- 'Batsman','Bowler','Wicketkeeper','ALL'
+  IN in_sortBy    VARCHAR(20),  -- 'runs','wickets','ranking','matches','dismissals','none'
+  IN in_sortOrder VARCHAR(4)    -- 'ASC','DESC'
+)
+BEGIN
+  DECLARE where_clause TEXT DEFAULT '';
+  DECLARE sort_col     VARCHAR(50) DEFAULT 'p.ID';
+  DECLARE sort_dir     VARCHAR(4)  DEFAULT 'ASC';
+  DECLARE fmt_q        VARCHAR(20);
+
+  -- 1) Status filter
+  IF in_status = 'playing' THEN
+    SET where_clause = CONCAT(where_clause, ' AND p.Retired IS NULL ');
+  ELSEIF in_status = 'retired' THEN
+    SET where_clause = CONCAT(where_clause, ' AND p.Retired IS NOT NULL ');
+  -- if 'ALL', no filter needed
+  END IF;
+
+  -- 2) Role filter
+  IF in_role <> 'ALL' THEN
+    SET where_clause = CONCAT(
+      where_clause,
+      ' AND p.PlayerRole = ''',
+      in_role,
+      ''' '
+    );
+  END IF;
+
+  -- 3) Format filter (must have played that type)
+  SET fmt_q = QUOTE(in_format);  -- safely quote e.g. 'ODI'
+  IF in_format <> 'ALL' THEN
+    SET where_clause = CONCAT(
+      where_clause,
+      ' AND EXISTS (',
+        'SELECT 1 FROM BattingCareerAgainst b ',
+        'WHERE b.PlayerID = p.ID AND b.MatchType = ',
+        fmt_q,
+      ') '
+    );
+  END IF;
+
+  -- 4) Determine sort column
+  IF in_sortBy = 'runs' THEN
+    SET sort_col = 'TotalRuns';
+  ELSEIF in_sortBy = 'wickets' THEN
+    SET sort_col = 'TotalWickets';
+  ELSEIF in_sortBy = 'ranking' THEN
+    SET sort_col = 'p.RANKING';
+  ELSEIF in_sortBy = 'matches' THEN
+    SET sort_col = 'TotalMatches';
+  ELSEIF in_sortBy = 'dismissals' THEN
+    SET sort_col = 'TotalDismissals';
+  ELSE
+    SET sort_col = 'p.ID'; -- Default sort
+  END IF;
+
+  -- 5) Determine sort direction
+  IF UPPER(in_sortOrder) = 'DESC' THEN
+    SET sort_dir = 'DESC';
+  ELSE
+    SET sort_dir = 'ASC';
+  END IF;
+
+  -- 6) Build and run dynamic SQL
+  SET @sql_text = CONCAT(
+    'SELECT ',
+      'p.*, ',
+      'COALESCE((SELECT SUM(Runs) FROM BattingCareerAgainst ',
+               'WHERE PlayerID = p.ID ',
+                 'AND (MatchType = ', fmt_q, ' OR ', fmt_q, ' = ''ALL'')), 0) AS TotalRuns, ',
+      'COALESCE((SELECT SUM(Wickets) FROM BowlingCareerAgainst ',
+               'WHERE PlayerID = p.ID ',
+                 'AND (MatchType = ', fmt_q, ' OR ', fmt_q, ' = ''ALL'')), 0) AS TotalWickets, ',
+      'COALESCE((SELECT SUM(Matches) FROM BattingCareerAgainst ',
+               'WHERE PlayerID = p.ID ',
+                 'AND (MatchType = ', fmt_q, ' OR ', fmt_q, ' = ''ALL'')), 0) AS TotalMatches, ',
+      'COALESCE((SELECT SUM(Catches+Stumpings+RunOuts+DirectHits) ',
+               'FROM FieldingCareer ',
+               'WHERE PlayerID = p.ID ',
+                 'AND (MatchType = ', fmt_q, ' OR ', fmt_q, ' = ''ALL'')), 0) AS TotalDismissals ',
+    'FROM Players p ',
+    'WHERE 1=1 ',
+      where_clause,
+    ' ORDER BY ', sort_col, ' ', sort_dir
+  );
+
+  PREPARE stmt FROM @sql_text;
+  EXECUTE stmt;
+  DEALLOCATE PREPARE stmt;
+END $$
+
+DELIMITER ;
+
+
 
 
