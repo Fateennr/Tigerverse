@@ -21,26 +21,28 @@ export default function BestOfBDPage() {
   const [statType, setStatType] = useState("both")
   const [sortBy, setSortBy] = useState("winrun")
   const [sortOrder, setSortOrder] = useState("DESC")
+  const [currentPage, setCurrentPage] = useState(1)
+  const [matchesPerPage] = useState(15)
 
   const manofthematch = [
     {
-      "name" : "Shakib Al Hasan"
+      name: "Shakib Al Hasan",
     },
     {
-      "name" : "Tamim Iqbal"
+      name: "Tamim Iqbal",
     },
     {
-      "name" : "Mushfiqur Rahim"
+      name: "Mushfiqur Rahim",
     },
     {
-      "name" : "Mashrafee Bin Mortaza"
+      name: "Mashrafee Bin Mortaza",
     },
     {
-       "name" : "Mehidy Hasan Miraz"
+      name: "Mehidy Hasan Miraz",
     },
     {
-      "name" : "Mustafizur Rahman"
-    }
+      name: "Mustafizur Rahman",
+    },
   ]
 
   const buildUrl = () => {
@@ -55,10 +57,7 @@ export default function BestOfBDPage() {
     return `${process.env.NEXT_PUBLIC_BACKEND_URI}/matches/all?${params.toString()}`
   }
 
-  const processString = () =>{
-
-  };
-
+  const processString = () => {}
 
   const fetchMatches = async () => {
     setLoading(true)
@@ -67,12 +66,12 @@ export default function BestOfBDPage() {
       const res = await fetch(url)
       if (!res.ok) throw new Error(res.statusText)
       const data = await res.json()
-  
+
       const processMatch = (item) => {
         const byWicket = item.Wonbywicket === 1 && item.Wonbyrun === 0
         let description, highlights
-  
-        if (item.Result === 'Bangladesh') {
+
+        if (item.Result === "Bangladesh") {
           if (byWicket) {
             description = `Bangladesh won by ${item.Winwicket} wickets`
             highlights = `Bangladesh chased down ${item.Opponent}'s total with ${item.Winwicket} wickets`
@@ -89,25 +88,26 @@ export default function BestOfBDPage() {
             highlights = `${item.Opponent} stopped Bangladesh before ${item.Winrun} runs`
           }
         }
-  
+
         return {
-          id:             item.ID,
-          opponent:       item.Opponent,
-          format:         item.Type,
-          date:           item.Date,
+          id: item.ID,
+          opponent: item.Opponent,
+          format: item.Type,
+          date: item.Date,
           description,
-          bdScore:        `${item.Score_BD_Run}/${item.Score_BD_wicket}`,
-          opponentScore:  `${item.Score_Opp_Run}/${item.Score_Opp_wicket}`,
-          winrun:         item.Winrun,
-          winwicket:      item.Winwicket,
-          matchLength:    item.Score_BD_Over_Played + item.Score_Opp_Over_Played,
-          highestrun:     Math.max(item.Score_BD_Run, item.Score_Opp_Run),
-          motm:           manofthematch[Math.floor(Math.random() * manofthematch.length)].name,    
-          image:          '/stadium.webp',
-          highlights
+          bdScore: `${item.Score_BD_Run}/${item.Score_BD_wicket}`,
+          opponentScore: `${item.Score_Opp_Run}/${item.Score_Opp_wicket}`,
+          winrun: item.Winrun,
+          winwicket: item.Winwicket,
+          matchLength: item.Score_BD_Over_Played + item.Score_Opp_Over_Played,
+          highestrun: Math.max(item.Score_BD_Run, item.Score_Opp_Run),
+          motm: manofthematch[Math.floor(Math.random() * manofthematch.length)].name,
+          image: "/stadium.webp",
+          highlights,
+          venue:item.Venue
         }
       }
-  
+
       const matchesArray = data.map(processMatch)
       setMatches(matchesArray)
       setFilteredMatches(matchesArray)
@@ -119,8 +119,6 @@ export default function BestOfBDPage() {
       setLoading(false)
     }
   }
-  
-
 
   // Fetch data
   useEffect(() => {
@@ -130,32 +128,27 @@ export default function BestOfBDPage() {
 
         // const matchesResponse = await fetch(`${process.env.BACKEND_URI}/matches`)
 
-        const venues = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URI}/services/venues`
-        ) || [];
+        const venues = (await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/services/venues`)) || []
 
-  
-        const opponents = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URI}/services/opponents`
-        ) || [];
+        const opponents = (await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/services/opponents`)) || []
 
         const rawVenue = await venues.json()
-  
+
         const venueArray = rawVenue.map((item, idx) => ({
           id: idx + 1,
-          name: item.Venue
-        }))
-  
-        const rawOpponent = await opponents.json()
-  
-        const opponentArray = rawOpponent.map((item, idx) => ({
-          id: idx + 1,
-          name: item.Opponent
+          name: item.Venue,
         }))
 
-        setVenues(venueArray);
-        setOpponents(opponentArray);
-        fetchMatches();
+        const rawOpponent = await opponents.json()
+
+        const opponentArray = rawOpponent.map((item, idx) => ({
+          id: idx + 1,
+          name: item.Opponent,
+        }))
+
+        setVenues(venueArray)
+        setOpponents(opponentArray)
+        fetchMatches()
         setLoading(false)
       } catch (err) {
         setError("Failed to fetch data")
@@ -169,7 +162,7 @@ export default function BestOfBDPage() {
 
   // Apply filters
   useEffect(() => {
-    fetchMatches();
+    fetchMatches()
   }, [selectedVenue, selectedFormat, selectedOpponent, statType, sortBy, sortOrder])
 
   const handleMatchClick = (match) => {
@@ -180,6 +173,17 @@ export default function BestOfBDPage() {
   const closeDetails = () => {
     setShowDetails(false)
   }
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber)
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
+
+  // Get current matches
+  const indexOfLastMatch = currentPage * matchesPerPage
+  const indexOfFirstMatch = indexOfLastMatch - matchesPerPage
+  const currentMatches = filteredMatches.slice(indexOfFirstMatch, indexOfLastMatch)
+  const totalPages = Math.ceil(filteredMatches.length / matchesPerPage)
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#1c1c1c] to-[#006a4e]">
@@ -337,7 +341,11 @@ export default function BestOfBDPage() {
         {/* Results Count */}
         <div className="mb-6 text-white">
           <p className="text-sm">
-            Showing <span className="font-bold text-[#ffde00]">{filteredMatches.length}</span> matches
+            Showing{" "}
+            <span className="font-bold text-[#ffde00]">
+              {indexOfFirstMatch + 1} - {Math.min(indexOfLastMatch, filteredMatches.length)}
+            </span>{" "}
+            of <span className="font-bold text-[#ffde00]">{filteredMatches.length}</span> matches
           </p>
         </div>
 
@@ -352,9 +360,52 @@ export default function BestOfBDPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredMatches.map((match) => (
+            {currentMatches.map((match) => (
               <MatchCard key={match.id} match={match} onClick={() => handleMatchClick(match)} />
             ))}
+          </div>
+        )}
+
+        {/* Pagination */}
+        {!loading && !error && filteredMatches.length > 0 && (
+          <div className="mt-8 flex justify-center">
+            <div className="flex flex-wrap justify-center gap-2">
+              <button
+                onClick={() => currentPage > 1 && paginate(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={`px-3 py-1 rounded-md ${
+                  currentPage === 1
+                    ? "bg-gray-600 text-gray-400 cursor-not-allowed"
+                    : "bg-[#006a4e] text-white hover:bg-[#005a42]"
+                } transition-colors`}
+              >
+                Previous
+              </button>
+
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
+                <button
+                  key={number}
+                  onClick={() => paginate(number)}
+                  className={`px-3 py-1 rounded-md ${
+                    currentPage === number ? "bg-[#f42a41] text-white" : "bg-[#1c1c1c] text-white hover:bg-[#006a4e]"
+                  } transition-colors`}
+                >
+                  {number}
+                </button>
+              ))}
+
+              <button
+                onClick={() => currentPage < totalPages && paginate(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className={`px-3 py-1 rounded-md ${
+                  currentPage === totalPages
+                    ? "bg-gray-600 text-gray-400 cursor-not-allowed"
+                    : "bg-[#006a4e] text-white hover:bg-[#005a42]"
+                } transition-colors`}
+              >
+                Next
+              </button>
+            </div>
           </div>
         )}
 

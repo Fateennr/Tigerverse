@@ -7,6 +7,9 @@ const servicesRoutes = require('./routes/services.routes');
 const galleryRoutes  = require('./routes/gallery.routes');
 const matchesRoutes  = require('./routes/matches.routes');
 const mysquadRoutes  = require('./routes/mysquad.routes');
+const h2hRoutes = require('./routes/h2h.routes');
+const hallRoutes = require('./routes/hall.routes');
+
 
 const app = express();
 
@@ -20,7 +23,7 @@ app.use('/players',  playerRoutes);
 app.use('/squad',    squadRoutes);
 app.use('/services', servicesRoutes);
 app.use('/gallery',  galleryRoutes);
-app.use('/hall', require('./routes/hall.routes'));
+app.use('/hall', hallRoutes);
 app.use('/matches', matchesRoutes);
 app.use('/mysquad', mysquadRoutes);
 app.use('/h2h',      h2hRoutes); 

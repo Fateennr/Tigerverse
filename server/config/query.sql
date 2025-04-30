@@ -350,6 +350,44 @@ INSERT INTO Squads (CoachID, CaptainID, Span, MatchType) VALUES
 (11, 9, '2024-2025', 'T20'),
 (10, 25, '2024-2025', 'T20');
 
+INSERT INTO Squads (CoachID, CaptainID, Span, MatchType)
+VALUES
+  (13, 19, '2024-2025', 'Test'),
+  (14, 2,  '2024-2025', 'Test');
+
+INSERT INTO Squads (CoachID, CaptainID, Span, MatchType)
+VALUES
+  (1, 18, '2019-2020', 'T20'),
+  (2, 14, '2019-2020', 'T20'),
+  (3, 7,  '2020-2021', 'T20'),
+  (4, 15, '2020-2021', 'T20'),
+  (5, 18, '2021-2022', 'T20'),
+  (6, 13, '2021-2022', 'T20'),
+  (2, 19, '2022-2023', 'T20'),
+  (6, 25, '2022-2023', 'T20'),
+  (13, 19,'2023-2024', 'T20'),
+  (3, 18, '2023-2024', 'T20'),
+  (11, 9, '2024-2025', 'T20'),
+  (10,25, '2024-2025', 'T20');
+
+-- Additional ODI entries
+INSERT INTO Squads (CoachID, CaptainID, Span, MatchType) VALUES
+  (16, 17, '2019-2020', 'ODI'),
+  (17, 18, '2022-2023', 'ODI'),
+  (18, 20, '2024-2025', 'ODI');
+
+-- Additional Test entries
+INSERT INTO Squads (CoachID, CaptainID, Span, MatchType) VALUES
+  (15, 20, '2020-2021', 'Test'),
+  (16, 21, '2023-2024', 'Test'),
+  (17, 23, '2024-2025', 'Test');
+
+-- Additional T20 entries
+INSERT INTO Squads (CoachID, CaptainID, Span, MatchType) VALUES
+  (7, 24, '2021-2022', 'T20'),
+  (8, 23, '2022-2023', 'T20'),
+  (9, 22, '2024-2025', 'T20');
+
 
 
 

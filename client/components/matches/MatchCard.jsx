@@ -60,7 +60,8 @@ export default function MatchCard({ match, onClick }) {
     >
       <div className="relative h-48 overflow-hidden">
         <Image
-          src={match.image || "/placeholder.svg?height=300&width=500"}
+         
+          src={`/${match.opponent.toLowerCase().replace(/\./g, '').replace(/\s+/g, '_')}.jpg` || '/stadium.webp'}
           alt={`Bangladesh vs ${match.opponent}`}
           fill
           className="object-cover transition-transform duration-500 hover:scale-110"
