@@ -101,39 +101,6 @@ export default function Head2Head() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-800 via-emerald-900 to-black">
-      <header className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center">
-            <h1 className="text-3xl font-bold">
-              <span className="text-white">Tiger</span>
-              <span className="text-red-500">Ver</span>
-              <span className="text-yellow-400">se</span>
-            </h1>
-          </Link>
-
-          <nav className="hidden md:flex space-x-8">
-            <Link href="/" className="text-white hover:text-gray-200">
-              Home
-            </Link>
-            <Link href="/squad" className="text-white hover:text-gray-200">
-              Squad
-            </Link>
-            <Link href="/h2h" className="text-white hover:text-gray-200 font-bold">
-              Head2Head
-            </Link>
-            <Link href="/best-of-bd" className="text-white hover:text-gray-200">
-              Best of BD
-            </Link>
-            <Link href="/hall-of-fame" className="text-white hover:text-gray-200">
-              Hall of Fame
-            </Link>
-            <Link href="/gallery" className="text-white hover:text-gray-200">
-              Gallery
-            </Link>
-          </nav>
-        </div>
-      </header>
-
       <main className="container mx-auto px-4 py-8">
         {/* Hero Section */}
         <div className="relative rounded-xl overflow-hidden mb-10">
