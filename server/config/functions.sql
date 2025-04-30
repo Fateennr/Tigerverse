@@ -66,10 +66,10 @@ BEGIN
 END $$
 
 -- Reset delimiter
-DELIMITER ;
+DELIMITER //
 
--- 1) Most Wickets in a Single Innings (Best Figures)
 DROP PROCEDURE IF EXISTS get_highest_single_innings_wickets;
+//
 CREATE PROCEDURE get_highest_single_innings_wickets(
   IN in_opponent      VARCHAR(100),
   IN in_matchtype     ENUM('Test','ODI','T20'),
@@ -103,8 +103,10 @@ BEGIN
 END;
 //
 
+
 -- 2) Best (Lowest) Bowling Average – requires at least min_wkts
 DROP PROCEDURE IF EXISTS get_best_bowling_average;
+//
 CREATE PROCEDURE get_best_bowling_average(
   IN in_opponent      VARCHAR(100),
   IN in_matchtype     ENUM('Test','ODI','T20'),
@@ -140,6 +142,8 @@ END;
 
 -- 3) Best Bowling Figures (alias of #1)
 DROP PROCEDURE IF EXISTS get_best_bowling_figures;
+//
+
 CREATE PROCEDURE get_best_bowling_figures(
   IN in_opponent      VARCHAR(100),
   IN in_matchtype     ENUM('Test','ODI','T20'),
@@ -185,6 +189,7 @@ END;
 
 -- 5) Most 5-Wicket Hauls
 DROP PROCEDURE IF EXISTS get_most_five_wicket_hauls;
+//
 CREATE PROCEDURE get_most_five_wicket_hauls(
   IN in_opponent      VARCHAR(100),
   IN in_matchtype     ENUM('Test','ODI','T20'),
@@ -219,6 +224,7 @@ END;
 
 -- 6) Most 10-Wicket Matches
 DROP PROCEDURE IF EXISTS get_most_ten_wicket_hauls;
+//
 CREATE PROCEDURE get_most_ten_wicket_hauls(
   IN in_opponent      VARCHAR(100),
   IN in_matchtype     ENUM('Test','ODI','T20'),
