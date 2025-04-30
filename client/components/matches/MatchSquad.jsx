@@ -78,7 +78,7 @@ const PlayerCard = ({ player, onClick }) => {
     >
       <div className="relative h-40 overflow-hidden">
         <Image
-          src={player.image || "/placeholder.svg?height=300&width=300"}
+          src={`/players/${player.name.toLowerCase().replace(/\./g, '').replace(/\s+/g, '_')}.png` || '/placeholder.jpg'}
           alt={player.name}
           fill
           className="object-cover transition-transform duration-500 hover:scale-110"

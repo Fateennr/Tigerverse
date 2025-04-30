@@ -64,7 +64,7 @@ export default function NavigationBar() {
             Hall of Fame
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#f42a41] transition-all duration-300 group-hover:w-full"></span>
           </Link>
-          <Link href="/gallery" className="text-white hover:text-[#ffde00] transition-colors relative group">
+          <Link href="/gallary" className="text-white hover:text-[#ffde00] transition-colors relative group">
             Gallery
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#f42a41] transition-all duration-300 group-hover:w-full"></span>
           </Link>
@@ -117,7 +117,7 @@ export default function NavigationBar() {
                 Hall of Fame
               </Link>
               <Link
-                href="/gallery"
+                href="/gallary"
                 className="text-white hover:text-[#ffde00] transition-colors py-2 px-4 border-l-2 border-[#f42a41]"
                 onClick={() => setIsMenuOpen(false)}
               >

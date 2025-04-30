@@ -302,13 +302,11 @@ export default function OverallStats({ battingStats, bowlingStats, fieldingStats
       </div>
 
       <div className="mt-6 p-4 bg-[#006a4e]/20 rounded-lg border-l-2 border-[#006a4e]">
-        <h4 className="text-lg font-bold text-white mb-2">Player Summary</h4>
+        <h4 className="text-lg font-bold text-white mb-2"></h4>
         <p className="text-gray-300">
-          {player.Name || player.name} is a {(player.Role || player.role || "").toLowerCase()} who has represented
-          Bangladesh in
+          {player.Name || player.name} is a {(player.Role || player.role || "").toLowerCase()} 
           {player.formats ? player.formats.join(", ") : (player.Specialist || "").split(",").join(", ")} formats. With{" "}
-          {totalRuns} runs and {totalWickets} wickets in international cricket, {player.Name || player.name} has been a
-          valuable asset to the Bangladesh cricket team since their debut.
+          {totalRuns}{totalWickets}  {player.Name || player.name} 
         </p>
       </div>
     </div>

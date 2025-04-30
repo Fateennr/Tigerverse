@@ -268,8 +268,9 @@ export default function PlayerSelectionModal({ onClose, onPlayerSelect }) {
                   >
                     <div className="relative h-32">
                     <Image
-  src={`/players/${player.name.toLowerCase().replace(/\./g, '').replace(/\s+/g, '_')}.png`}
-  alt={player.name}
+                          src={`/players/${player.name.toLowerCase().replace(/\./g, '').replace(/\s+/g, '_')}.png`}
+                          alt={player.name}
+                        
   onError={(e) => {
     e.target.onerror = null;
     e.target.src = "/placeholder.svg?height=300&width=300";

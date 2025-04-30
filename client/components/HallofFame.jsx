@@ -38,7 +38,7 @@ export default function HallOfFamePage() {
         <div className="relative rounded-xl overflow-hidden mb-10">
           <div className="h-64 md:h-80">
             <Image
-              src="/placeholder.svg?height=400&width=1200"
+              src={`/players/${player.name.toLowerCase().replace(/\./g, '').replace(/\s+/g, '_')}.png`}
               alt="Bangladesh Cricket Team"
               fill
               className="object-cover"

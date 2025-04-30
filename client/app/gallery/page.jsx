@@ -1,20 +1,73 @@
 "use client"
 
-import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
+import { useState, useEffect } from "react"
 import { Calendar, MapPin, Trophy } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
+
+function transformMatchDataArray(dataArray) {
+  const formatDate = (isoDate) => {
+    const date = new Date(isoDate);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  return dataArray.map(match => {
+    const result = match.Winwicket > 0
+      ? `${match.Result} won by ${match.Winwicket} wicket${match.Winwicket > 1 ? 's' : ''}`
+      : `${match.Result} won by ${match.Winrun} run${match.Winrun > 1 ? 's' : ''}`;
+
+    return {
+      imageUrl: match.ImageURL,
+      title: `Bangladesh vs ${match.Opponent}`,
+      date: formatDate(match.MatchDate),
+      venue: match.Venue,
+      matchStats: {
+        opponent: match.Opponent,
+        bangladeshScore: `${match.ScoreBDRun}/${match.ScoreBDWickets} (${match.ScoreBDOvers} overs)`,
+        opponentScore: `${match.ScoreOppRun}/${match.ScoreOppWickets} (${match.ScoreOppOvers} overs)`,
+        result: result,
+        topBatsmen: [],
+        topBowlers: [],
+      }
+    };
+  });
+}
+
+ 
+
 export default function GalleryPage() {
   const [selectedImage, setSelectedImage] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [galleryImages, setGalleryImages] = useState([]);
+
+  useEffect(() => {
+    const fetchGallery = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/gallery?category=match`);;
+        const data = await response.json();
+        setGalleryImages((transformMatchDataArray(data)));
+        console.log(galleryImages) // replace static array if using dynamic data
+      } catch (err) {
+        console.error("Failed to fetch gallery data:", err);
+      }
+    };
+    fetchGallery();
+    
+  }, []);
 
   const openModal = (image) => {
     setSelectedImage(image)
     setIsModalOpen(true)
   }
+
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-800 via-emerald-900 to-black">
@@ -31,14 +84,15 @@ export default function GalleryPage() {
               className="relative overflow-hidden rounded-lg group cursor-pointer"
               onClick={() => openModal(image)}
             >
-              <div className="aspect-[4/3] relative">
-                <Image
-                  src={image.imageUrl || "/placeholder.svg"}
-                  alt={image.title}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-110"
-                />
-              </div>
+              <div className="w-full h-full">
+  <Image
+    src={"/taskin_home.png"}
+    alt={image.title}
+    width={400}
+    height={300}
+    className="object-cover"
+  />
+</div>
               <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-all duration-300 flex items-end">
                 <div className="p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                   <h3 className="text-white font-bold text-lg">{image.title}</h3>
@@ -96,7 +150,7 @@ export default function GalleryPage() {
                 </div>
               </div>
 
-              <Tabs defaultValue="batting" className="w-full">
+              {/* <Tabs defaultValue="batting" className="w-full">
                 <TabsList className="grid w-full grid-cols-2 bg-emerald-950">
                   <TabsTrigger value="batting">Batting</TabsTrigger>
                   <TabsTrigger value="bowling">Bowling</TabsTrigger>
@@ -145,7 +199,7 @@ export default function GalleryPage() {
                     </tbody>
                   </table>
                 </TabsContent>
-              </Tabs>
+              </Tabs> */}
             </div>
           </div>
         </DialogContent>
