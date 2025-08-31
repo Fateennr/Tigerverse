@@ -85,12 +85,30 @@ Follow these steps to set up and run **TigerVerse** locally.
 ---
 
 ## Project Structure
+```plaintext
 tigerverse/
 ├── client/        # Frontend files
 ├── server/        # Backend logic
 ├── assets/        # Images, screenshots, static resources
 ├── index.js       # Entry point for backend
 └── README.md      # Project documentation
+```
+
+## Contribution
+```markdown
+Contributions are welcome!  
+
+If you’d like to improve **TigerVerse**, please follow these steps:
+
+1. Fork the repository  
+2. Create a new branch (`git checkout -b feature/your-feature-name`)  
+3. Make your changes and commit (`git commit -m 'Add some feature'`)  
+4. Push to the branch (`git push origin feature/your-feature-name`)  
+5. Open a Pull Request  
+
+Together, we can make TigerVerse even better for fans 
+```
+
 
 
 
