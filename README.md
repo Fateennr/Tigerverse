@@ -1,4 +1,4 @@
-![TigerVerse Logo](screenshots/Screenshot 2025-08-31 072307.png)
+<img src="./screenshots/Screenshot 2025-08-31 072307.png" alt="Logo" width="600"/> 
 
 ---
 
