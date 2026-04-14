@@ -1,51 +1,140 @@
-
 services:
   nginx:
-    image: nginx:latest
+    image: nginx:1.28-alpine
     ports:
       - "80:80"
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:
-      - auth-service
-      - player-service
+      auth-service:
+        condition: service_healthy
+      player-service:
+        condition: service_healthy
     restart: unless-stopped
+    networks:
+      - backend
 
   auth-service:
     build: ./auth-service
     container_name: auth-service
     env_file:
-      - ./.env
+      - ./auth-service/.env
+    environment:
+      PORT: 3001
+      DB_HOST: auth-mysql
+      DB_PORT: 3306
+      DB_NAME: auth_db
+      DB_USER: auth_user
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     depends_on:
-      - redis
+      auth-mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     restart: unless-stopped
+    expose:
+      - "3001"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3001/"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+    networks:
+      - backend
 
   player-service:
     build: ./player-service
     container_name: player-service
     env_file:
-      - ./.env
+      - ./player-service/.env
+    environment:
+      PORT: 3002
+      DB_HOST: mysql-player
+      DB_PORT: 3306
+      DB_NAME: player_db
+      DB_USER: player_user
+      AUTH_SERVICE_URL: http://auth-service:3001
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     depends_on:
-      - redis
-      - auth-service
+      mysql-player:
+        condition: service_healthy
+      auth-service:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     restart: unless-stopped
+    expose:
+      - "3002"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3002/"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+    networks:
+      - backend
 
   redis:
     image: redis:7-alpine
     container_name: redis
-    ports:
-      - "6379:6379"
     restart: unless-stopped
+    expose:
+      - "6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - backend
 
-  mysql:
+  auth-mysql:
     image: mysql:8.4
+    container_name: auth-mysql
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
-    ports:
-      - "3306:3306"
+      MYSQL_ROOT_PASSWORD: auth_root_password
+      MYSQL_DATABASE: auth_db
+      MYSQL_USER: auth_user
+      MYSQL_PASSWORD: password123
     volumes:
-      - mysql_data:/var/lib/mysql
+      - auth_mysql_data:/var/lib/mysql
+    expose:
+      - "3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pauth_root_password"]
+      interval: 20s
+      timeout: 5s
+      retries: 10
+    networks:
+      - backend
+
+  mysql-player:
+    image: mysql:8.4
+    container_name: mysql-player
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: player_root_password
+      MYSQL_DATABASE: player_db
+      MYSQL_USER: player_user
+      MYSQL_PASSWORD: password123
+    volumes:
+      - player_mysql_data:/var/lib/mysql
+    expose:
+      - "3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pplayer_root_password"]
+      interval: 20s
+      timeout: 5s
+      retries: 10
+    networks:
+      - backend
 
 volumes:
-  mysql_data:
+  auth_mysql_data:
+  player_mysql_data:
+
+networks:
+  backend:
+    driver: bridge
