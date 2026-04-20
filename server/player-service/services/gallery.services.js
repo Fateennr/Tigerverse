@@ -18,7 +18,7 @@ class GalleryService {
           ImageURL
         FROM Picture
       `
-      const [allRows] = await db.promise().query(sqlAll)
+      const [allRows] = await db.query(sqlAll)
       return allRows
     }
 
@@ -66,7 +66,7 @@ class GalleryService {
       FROM Picture
       WHERE LOWER(Category) = ?
     `
-    const [catRows] = await db.promise().query(sqlCat, [cat])
+    const [catRows] = await db.query(sqlCat, [cat])
     return catRows
   }
 }

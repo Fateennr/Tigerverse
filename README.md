@@ -1,114 +1,148 @@
-<img src="./screenshots/Screenshot 2025-08-31 072307.png" alt="Logo" width="600"/> 
+# 🏏 TigerVerse — Portfolio Project
+
+## Demo
+
+<video src="./assets/demo.mp4" controls width="800"></video>
 
 ---
 
-***Note:** This repository hosts the official fan project for Bangladesh's national cricket team, showcasing its enriched history, players, and legendary moments.*
+## Overview
 
-## Introduction
+TigerVerse is a **data-driven full-stack application** built to handle, process, and visualize large volumes of structured sports data.
 
-**TigerVerse** is a dedicated cricket fan website built for supporters of Bangladesh’s national cricket team.  
+The platform focuses on Bangladesh cricket and delivers a fast, intuitive experience for exploring:
+- player statistics
+- match history
+- squad compositions
+- performance insights
 
-It provides fans with a **comprehensive experience** of exploring Bangladesh cricket — from historic matches to modern-day squads, legendary players, and fan-driven features like custom squad creation.  
-
-With its simple UI and powerful filtering options, TigerVerse ensures fans can relive their favorite moments and stay engaged with the team’s journey.  
+This project is designed not just as a UI application, but as a **backend-heavy system optimized for data storage, querying, and visualization**.
 
 ---
 
-## Features & Functionality
+## Core Focus
 
-*   **History Archive**: Explore Bangladesh cricket’s journey through different eras.  
-*   **Current Squad Viewer**: View current squads and filter by **year, match type, and venue**.  
-*   **Match Details Explorer**: Access rich match data with filtering by **year, opponent, venue, and format**.  
-*   **Player Profiles**: Detailed pages of players with stats, career highlights, and achievements.  
-*   **Squad Builder**: Create your own custom squad of Bangladesh players.  
-*   **Hall of Fame**: A tribute to the greatest Tigers who shaped Bangladesh cricket.  
-*   **Best of BD**: Handpicked collection of the most iconic matches and unforgettable player moments.  
+TigerVerse is built around three key pillars:
+
+### 1. Data Storage
+- Structured cricket datasets (players, matches, squads, images)
+- Relational modeling using MySQL
+- Separation of concerns across services
+
+### 2. Data Processing
+- Complex queries via stored procedures
+- Match filtering (year, opponent, venue, format)
+- Squad generation and manipulation logic
+- Aggregations for insights (H2H, performance stats)
+
+### 3. Data Visualization
+- Clean UI for exploring datasets
+- Dynamic filtering for fast exploration
+- Structured presentation of player and match data
+- Optimized responses using caching (Redis)
+
+---
+
+## Key Highlights
+
+- Microservice-inspired backend (Auth + Player services)
+- Reverse proxy architecture using Nginx
+- MySQL (separated per service)
+- Redis caching for performance optimization
+- Dockerized deployment for consistency
+- Data-heavy backend with optimized querying
+- Interactive frontend for sports data exploration
+
+---
+
+## Architecture
+
+![System Architecture](./assets/mermaid-diagram.png)
+
+---
+
+## Backend Design
+
+### Auth Service
+Handles:
+- Authentication
+- Token/session management
+- User validation
+
+---
+
+### Player Service
+Core data engine of the system.
+
+Handles:
+- Player datasets
+- Match datasets
+- Squad building logic
+- Filtering and querying
+- Stored procedure execution
+
+---
+
+### Redis
+- Caching layer for frequent queries
+- Reduces database load
+- Improves response time
+
+---
+
+### MySQL
+- Primary data store
+- Stores large structured sports datasets
+- Uses stored procedures for complex logic
+
+---
+
+### Nginx
+- Entry point to the system
+- Routes traffic between services
+- Enables scalable architecture
+
+---
+
+## Request Flow
+
+Client → Nginx → Service → Redis / MySQL → Response
+
+---
+
+## Data & Visualization
+
+TigerVerse emphasizes **efficient data handling and intuitive visualization**.
+
+### Application Screens
+
+| Home Page | Home Page |
+| :---------------------------: | :---------------------------: |
+| <img src="./screenshots/Screenshot 2025-08-31 071150.png" width="500"/> | <img src="./screenshots/Screenshot 2025-08-31 071202.png" width="500"/> |
+
+| Match Details | Player Profile |
+| :---------------------------: | :---------------------------: |
+| <img src="./screenshots/Screenshot 2025-08-31 071434.png" width="500"/> | <img src="./screenshots/Screenshot 2025-08-31 071301.png" width="500"/> |
+
+| Squad View | Player Profile |
+| :---------------------------: | :---------------------------: |
+| <img src="./screenshots/Screenshot 2025-08-31 071237.png" width="500"/> | <img src="./screenshots/Screenshot 2025-08-31 071313.png" width="500"/> |
 
 ---
 
 ## Tech Stack
 
-### Frontend
-*   **Languages**: JavaScript, CSS  
-*   **Package Manager**: npm  
-
-### Backend
-*   **Runtime**: Node.js  
-*   **Entry Point**: `index.js`  
+Frontend: JavaScript, CSS  
+Backend: Node.js, Express  
+Database: MySQL  
+Cache: Redis  
+Infra: Docker, Nginx  
 
 ---
 
-## How to Run
+## Run Project
 
-Follow these steps to set up and run **TigerVerse** locally.
+### Docker (Recommended)
 
-### Prerequisites
-1.  **Node.js & npm**: Install [Node.js](https://nodejs.org/) (includes npm).
-2.  **Git**: Install [Git](https://git-scm.com/downloads).
-
-### Setup
-
-1. **Clone the Repository**:
-    ```bash
-    git clone https://github.com/yourusername/tigerverse.git
-    cd tigerverse
-    ```
-
-2. **Install Dependencies**:
-    ```bash
-    npm install
-    ```
-
-3. **Run the Client**:
-    ```bash
-    npm run dev
-    ```
-    Client will be available at: `http://localhost:3000/` (default).
-
-4. **Run the Server** (in a separate terminal):
-    ```bash
-    node index.js
-    ```
-    Server will run at: `http://localhost:8080/` (or your configured port).
-
----
-
-## Screenshots
-
-| Home Page | Home Page |
-| :---------------------------: | :---------------------------: |
-| <img src="./screenshots/Screenshot 2025-08-31 071150.png" alt="Home Page" width="600"/> | <img src="./screenshots/Screenshot 2025-08-31 071202.png" alt="Home page 2" width="600"/> |
-| Match Details | Player Profile |
-| <img src="./screenshots/Screenshot 2025-08-31 071434.png" alt="Match Details" width="600"/> | <img src="./screenshots/Screenshot 2025-08-31 071301.png" alt="Player Profile" width="600"/> |
-| Squad Details | Player Profile |
-| <img src="./screenshots/Screenshot 2025-08-31 071237.png" alt="Match Details" width="600"/> | <img src="./screenshots/Screenshot 2025-08-31 071313.png" alt="Player Profile" width="600"/> |
----
-
-## Project Structure
-```plaintext
-tigerverse/
-├── client/        # Frontend files
-├── server/        # Backend logic
-├── assets/        # Images, screenshots, static resources
-├── index.js       # Entry point for backend
-└── README.md      # Project documentation
-```
-
-## Contribution
-```markdown
-Contributions are welcome!  
-
-If you’d like to improve **TigerVerse**, please follow these steps:
-
-1. Fork the repository  
-2. Create a new branch (`git checkout -b feature/your-feature-name`)  
-3. Make your changes and commit (`git commit -m 'Add some feature'`)  
-4. Push to the branch (`git push origin feature/your-feature-name`)  
-5. Open a Pull Request  
-
-Together, we can make TigerVerse even better for fans 
-```
-
-
-
-
+```bash
+docker compose up --build -d

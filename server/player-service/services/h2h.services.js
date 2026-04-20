@@ -15,7 +15,7 @@ class H2HService {
   async getOpponentStats({ opponent = null, matchType = null, venueName = null } = {}) {
     const sql    = 'SELECT GetOpponentStats(?, ?, ?) AS stats';
     const params = [opponent, matchType, venueName];
-    const [rows] = await db.promise().query(sql, params);
+    const [rows] = await db.query(sql, params);
     return rows[0]?.stats ?? null;
   }
 
@@ -31,7 +31,7 @@ class H2HService {
   async getHighestSingleInningsWickets({ opponent = null, matchType = null, locationType = null } = {}) {
     const sql    = 'CALL get_highest_single_innings_wickets(?, ?, ?)';
     const params = [opponent, matchType, locationType];
-    const [resultSets] = await db.promise().query(sql, params);
+    const [resultSets] = await db.query(sql, params);
     // Stored procs return an array of result‐sets; pick the first row
     return resultSets[0] || null;
   }

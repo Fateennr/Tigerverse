@@ -10,7 +10,7 @@ class MatchesServices{
         //  -- 'ASC' or 'DESC'
         const sql = 'CALL GetMatchesList(?, ?, ?, ?, ?, ?)';
         const params = [venue, format, opponents, wintype, sortby, sortOrder];
-        const [rows] = await db.promise().query(sql, params);
+        const [rows] = await db.query(sql, params);
         return rows[0] || [];
     }
 
@@ -18,7 +18,7 @@ class MatchesServices{
         // -- put match id to generate all the summaries of 11 players
         const sql = 'CALL GetMatchPlayerStats(?)';
         const params = [id];
-        const [rows] = await db.promise().query(sql, params);
+        const [rows] = await db.query(sql, params);
         return rows[0] || [];
     }
 
@@ -26,7 +26,7 @@ class MatchesServices{
         // -- put match id to generate all the summaries of 11 players
         const sql = 'CALL GetMatchTopScorerName(?)';
         const params = [match_id];
-        const [rows] = await db.promise().query(sql, params);
+        const [rows] = await db.query(sql, params);
         return rows[0] || [];
     }
 };
