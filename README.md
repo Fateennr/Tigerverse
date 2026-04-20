@@ -66,7 +66,24 @@ TigerVerse is built around three key pillars:
 
 ---
 
-## 🔧 Backend Design
+### Application Screens
+
+
+| Match Details | Player Profile |
+| :---------------------------: | :---------------------------: |
+| <img src="./screenshots/Screenshot 2025-08-31 071434.png" width="500"/> | <img src="./screenshots/Screenshot 2025-08-31 071301.png" width="500"/> |
+
+| Squad View | Player Profile |
+| :---------------------------: | :---------------------------: |
+| <img src="./screenshots/intro.png" width="500"/> | <img src="./screenshots/Screenshot 2025-08-31 071313.png" width="500"/> |
+
+| Home Page | Home Page |
+| :---------------------------: | :---------------------------: |
+| <img src="./screenshots/Screenshot 2025-08-31 071150.png" width="500"/> | <img src="./screenshots/Screenshot 2025-08-31 071202.png" width="500"/> |
+
+---
+
+## Backend Design
 
 ### Auth Service
 Handles:
@@ -119,19 +136,7 @@ Client → Nginx → Service → Redis / MySQL → Response
 
 TigerVerse emphasizes **efficient data handling and intuitive visualization**.
 
-### Application Screens
 
-| Home Page | Home Page |
-| :---------------------------: | :---------------------------: |
-| <img src="./screenshots/Screenshot 2025-08-31 071150.png" width="500"/> | <img src="./screenshots/Screenshot 2025-08-31 071202.png" width="500"/> |
-
-| Match Details | Player Profile |
-| :---------------------------: | :---------------------------: |
-| <img src="./screenshots/Screenshot 2025-08-31 071434.png" width="500"/> | <img src="./screenshots/Screenshot 2025-08-31 071301.png" width="500"/> |
-
-| Squad View | Player Profile |
-| :---------------------------: | :---------------------------: |
-| <img src="./screenshots/Screenshot 2025-08-31 071237.png" width="500"/> | <img src="./screenshots/Screenshot 2025-08-31 071313.png" width="500"/> |
 
 ---
 
