@@ -2,7 +2,12 @@
 
 ## Demo
 
-<video src="./assets/demo.mp4" controls width="800"></video>
+<video width="100%" controls>
+  <source src="./assets/demo.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+Or [download the demo video](./assets/demo.mp4)
 
 ---
 
@@ -61,6 +66,23 @@ TigerVerse is built around three key pillars:
 
 ---
 
+### Application Screens
+
+
+| Match Details | Player Profile |
+| :---------------------------: | :---------------------------: |
+| <img src="./screenshots/Screenshot 2025-08-31 071434.png" width="500"/> | <img src="./screenshots/Screenshot 2025-08-31 071301.png" width="500"/> |
+
+| Squad View | Player Profile |
+| :---------------------------: | :---------------------------: |
+| <img src="./screenshots/intro.png" width="500"/> | <img src="./screenshots/Screenshot 2025-08-31 071313.png" width="500"/> |
+
+| Home Page | Home Page |
+| :---------------------------: | :---------------------------: |
+| <img src="./screenshots/Screenshot 2025-08-31 071150.png" width="500"/> | <img src="./screenshots/Screenshot 2025-08-31 071202.png" width="500"/> |
+
+---
+
 ## Backend Design
 
 ### Auth Service
@@ -114,19 +136,7 @@ Client → Nginx → Service → Redis / MySQL → Response
 
 TigerVerse emphasizes **efficient data handling and intuitive visualization**.
 
-### Application Screens
 
-| Home Page | Home Page |
-| :---------------------------: | :---------------------------: |
-| <img src="./screenshots/Screenshot 2025-08-31 071150.png" width="500"/> | <img src="./screenshots/Screenshot 2025-08-31 071202.png" width="500"/> |
-
-| Match Details | Player Profile |
-| :---------------------------: | :---------------------------: |
-| <img src="./screenshots/Screenshot 2025-08-31 071434.png" width="500"/> | <img src="./screenshots/Screenshot 2025-08-31 071301.png" width="500"/> |
-
-| Squad View | Player Profile |
-| :---------------------------: | :---------------------------: |
-| <img src="./screenshots/Screenshot 2025-08-31 071237.png" width="500"/> | <img src="./screenshots/Screenshot 2025-08-31 071313.png" width="500"/> |
 
 ---
 
