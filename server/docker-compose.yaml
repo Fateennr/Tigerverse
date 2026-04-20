@@ -114,11 +114,12 @@ services:
     image: mysql:8.4
     container_name: mysql-player
     restart: unless-stopped
+    command: --log-bin-trust-function-creators=1
     environment:
       MYSQL_ROOT_PASSWORD: player_root_password
       MYSQL_DATABASE: player_db
       MYSQL_USER: player_user
-      MYSQL_PASSWORD: password123
+      MYSQL_PASSWORD: player123
     volumes:
       - player_mysql_data:/var/lib/mysql
     expose:
