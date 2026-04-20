@@ -61,7 +61,7 @@ TigerVerse is built around three key pillars:
 
 ---
 
-## Backend Design
+## 🔧 Backend Design
 
 ### Auth Service
 Handles:
