@@ -47,7 +47,7 @@ export default function Head2Head() {
         if (matchType !== "all") params.append("matchType", matchType)
         if (location !== "all") params.append("location", location)
 
-        const url = `http://localhost:8080/h2h?${params.toString()}`
+        const url = `${process.env.NEXT_PUBLIC_BACKEND_URI}/h2h?${params.toString()}`
         const res = await fetch(url)
         if (!res.ok) {
           const text = await res.text()
