@@ -1,4 +1,4 @@
-# 🏏 TigerVerse — Portfolio Project
+# TigerVerse
 
 ## Demo
 
