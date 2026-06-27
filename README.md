@@ -25,29 +25,6 @@ This project is designed not just as a UI application, but as a **backend-heavy 
 
 ---
 
-## Core Focus
-
-TigerVerse is built around three key pillars:
-
-### 1. Data Storage
-- Structured cricket datasets (players, matches, squads, images)
-- Relational modeling using MySQL
-- Separation of concerns across services
-
-### 2. Data Processing
-- Complex queries via stored procedures
-- Match filtering (year, opponent, venue, format)
-- Squad generation and manipulation logic
-- Aggregations for insights (H2H, performance stats)
-
-### 3. Data Visualization
-- Clean UI for exploring datasets
-- Dynamic filtering for fast exploration
-- Structured presentation of player and match data
-- Optimized responses using caching (Redis)
-
----
-
 ## Key Highlights
 
 - Microservice-inspired backend (Auth + Player services)
@@ -80,6 +57,29 @@ TigerVerse is built around three key pillars:
 | Home Page | Home Page |
 | :---------------------------: | :---------------------------: |
 | <img src="./screenshots/Screenshot 2025-08-31 071150.png" width="500"/> | <img src="./screenshots/Screenshot 2025-08-31 071202.png" width="500"/> |
+
+---
+
+## Core Focus
+
+TigerVerse is built around three key pillars:
+
+### 1. Data Storage
+- Structured cricket datasets (players, matches, squads, images)
+- Relational modeling using MySQL
+- Separation of concerns across services
+
+### 2. Data Processing
+- Complex queries via stored procedures
+- Match filtering (year, opponent, venue, format)
+- Squad generation and manipulation logic
+- Aggregations for insights (H2H, performance stats)
+
+### 3. Data Visualization
+- Clean UI for exploring datasets
+- Dynamic filtering for fast exploration
+- Structured presentation of player and match data
+- Optimized responses using caching (Redis)
 
 ---
 
